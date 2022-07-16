@@ -37,8 +37,8 @@ jobs:
           path: |
             ${{ steps.cache-paths.outputs.go-cache }}
             ${{ steps.cache-paths.outputs.go-mod-cache }}
-          key: ${{ runner.os }}-go-${{ runner.go-version }}-${{ hashFiles('**/go.sum') }}
-          restore-keys: ${{ runner.os }}-go-${{ runner.go-version }}
+          key: go-${{ matrix.os }}-${{ matrix.go-version }}-${{ hashFiles('**/go.sum') }}
+          restore-keys: go-${{ matrix.os }}-${{ matrix.go-version }}
 
       - name: Running test
         run: go test ./...

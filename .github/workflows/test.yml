@@ -24,5 +24,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Get values for cache paths to be used in later steps
+      - name: Cache path
+        id: cache-paths
+        run: |
+          echo "::set-output name=go-cache::$(go env GOCACHE)"
+          echo "::set-output name=go-mod-cache::$(go env GOMODCACHE)"
+
+      - name: Cache go modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ steps.cache-paths.outputs.go-cache }}
+            ${{ steps.cache-paths.outputs.go-mod-cache }}
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: ${{ runner.os }}-go-
+
+      - name: Ensure go generate produces a zero diff
+        shell: bash
+        run: go generate -x ./... && git diff --exit-code; code=$?; git checkout -- .; (exit $code)
+
       - name: Running test
         run: go test ./...

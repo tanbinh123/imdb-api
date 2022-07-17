@@ -7,6 +7,11 @@
 [![License](https://img.shields.io/github/license/Scrip7/imdb-api?color=orange)](https://github.com/Scrip7/imdb-api/blob/main/LICENSE)
 [![Contribute](https://img.shields.io/badge/PRs-welcome-blue.svg?color=d9ecde)](https://github.com/Scrip7/imdb-api/pulls)
 
+<a href="https://github.com/Scrip7/imdb-api">
+  <img align="right" src="https://ia.media-imdb.com/images/M/MV5BMTk3ODA4Mjc0NF5BMl5BcG5nXkFtZTgwNDc1MzQ2OTE@._V1_.png" width="110" />
+  <img align="right" src="https://go.dev/images/go-logo-blue.svg" width="140" />
+</a>
+
 A cross-platform [Go](https://go.dev) microservice application to scrap the [IMDb](https://imdb.com) website.
 
 It's supposed to run as an internal process in your backend architecture beside the other applications you're trying to develop.
@@ -30,7 +35,7 @@ It's supposed to run as an internal process in your backend architecture beside 
 
 ## Routes coverage
 
-In any stage of development Pull Request are more than welcome 😊.
+In any stage of development, Pull Requests are more than welcome. 😊
 
 > ✅ Done
 >
@@ -83,8 +88,10 @@ Pull Requests are always welcome.
 
 > The "[IMDb-API](https://github.com/Scrip7/imdb-api)" repository is not affiliated, authorized, maintained, or endorsed by the [IMDb](https://en.wikipedia.org/wiki/IMDb) or any of its affiliates or subsidiaries (including [Amazon](<https://en.wikipedia.org/wiki/Amazon_(company)>)).
 >
-> This unofficial independent project is published as it is. Therefore, use it at your own risk and respect the copyrights of their content.
+> This unofficial independent project is published as it is.
+> 
+> Therefore, use it at your own risk and respect the copyrights of their content.
 
 ## License
 
-See the `LICENSE` file for more information.
+See the [`LICENSE`](https://github.com/Scrip7/imdb-api/blob/main/LICENSE) file for more information.

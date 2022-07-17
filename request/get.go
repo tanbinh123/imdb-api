@@ -9,7 +9,9 @@ import (
 
 func Get(url string) (*goquery.Document, error) {
 	req, _ := http.NewRequest("GET", url, nil)
+	// TODO: dynamic languages
 	req.Header.Add("accept-language", "en-US,en;q=0.9")
+	// TODO: dynamic user-agent
 	req.Header.Add("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36")
 	client := &http.Client{
 		// TODO: timeout options

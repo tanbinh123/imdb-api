@@ -46,7 +46,7 @@ I came from having six years of TypeScript experience to Golang, and this projec
 
 I chose it because it is more performant and efficient and can compile the packages and their dependencies into a single executable binary.
 
-I'm not confident about my coding approaches, maybe I'm stuck with Node.JS strategies in my head, but I'm excited about how it will end up.
+I'm not confident about my coding approaches, maybe I'm stuck with JS strategies in my head, but I'm excited about how it will end up.
 
 Feel free to join my journey by contributing to this project.
 

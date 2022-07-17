@@ -1,4 +1,4 @@
-package imdb
+package services
 
 import (
 	"encoding/json"
@@ -142,8 +142,8 @@ type TitleResponse struct {
 	Duration string `json:"duration"`
 }
 
-func Title(id string) (*TitleTransform, error) {
-	url := fmt.Sprintf("https://m.imdb.com/title/tt%v", utils.ExtractNumbers(id))
+func Title(id int) (*TitleTransform, error) {
+	url := fmt.Sprintf("https://m.imdb.com/title/tt%v", id)
 	doc, err := request.Get(url)
 	if err != nil {
 		return nil, err

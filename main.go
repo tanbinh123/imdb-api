@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"time"
 
 	"github.com/Scrip7/imdb-api/services/imdb"
@@ -33,8 +34,5 @@ func main() {
 	})
 
 	// TODO: load url from config
-	err := app.Listen("127.0.0.1:3000")
-	if err != nil {
-		panic(err)
-	}
+	log.Fatal(app.Listen("127.0.0.1:3000"))
 }

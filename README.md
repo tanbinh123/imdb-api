@@ -14,24 +14,52 @@
 
 A cross-platform [Go](https://go.dev) microservice application to scrap the [IMDb](https://imdb.com) website.
 
-It's supposed to run as an internal process in your backend architecture beside the other applications you're trying to develop.
-
 > **Warning**
 >
 > Keep in mind this app does **not** have a rate-limiting middleware or authentication/authorization guards to protect itself against online spam threads.
 >
-> The public end-users should not have direct access to its interface unless you know what you're doing.
+> The public end-users should **not** have direct access to its interface unless you know what you're doing.
+
+## Motivation
+
+My teacher signed me on a project when I was a junior programmer.
+
+I had to make a Social platform bot (like Telegram or Discord bots) where users could search for Movies and TV Series, look up their detail, create playlists, and share them with others.
+
+After smashing my head onto the keyboard for almost two weeks and a half, I finally found a free IMDb API, which stopped working after a while.
+
+Back in the day, I didn't know how to integrate my application to the IMDb website properly, so sadly, I had to abandon the project.
+
+But now, when I look back at it after many years, I can imagine how hard it could be if someone tries to develop an application sightly or even heavily dependent on the IMDb website.
+
+There are so many reverse-engineered, untrustworthy platforms out there that would take your money in exchange for providing an unstable API.
+
+So I thought of developing a microservice that developers could use in the software they're trying to create.
+
+I didn't profoundly plan how I would create such an application.
+
+But because I was motivated, I created its repository and will slowly work on building small chunks of it, starting from the documentation and overall expectations.
+
+Side note:
+
+I came from having six years of TypeScript experience to Golang, and this project is one of my early projects using this language.
+
+I chose it because it is more performant and efficient and can compile the packages and their dependencies into a single executable binary.
+
+I'm not confident about my coding approaches, maybe I'm stuck with Node.JS strategies in my head, but I'm excited about how it will end up.
+
+Feel free to join my journey by contributing to this project.
+
+Pull requests are more than welcome.
 
 ## Features
 
 - [ ] Proxy support
 - [ ] Swagger documentation
+- [ ] [Slug](https://en.wikipedia.org/wiki/Slug) generator
+- [ ] In-memory caching
+- [ ] CLI tool
 - [ ] Docker Hub image
-- [ ] In-memory response caching
-- [ ] Full resolution poster images
-- [ ] [Slug](https://en.wikipedia.org/wiki/Slug) generation
-- [ ] Extract videos (trailers)
-- [ ] Casts list
 
 ## Routes coverage
 
@@ -41,34 +69,63 @@ In any stage of development, Pull Requests are more than welcome. 😊
 >
 > 🚧 Under development
 >
+> 💭 The route is known, but haven't fully thought how to implement it, yet!
+>
 > ❌ Failed to implement _(PRs are more than welcome)_
 
-| URL                                                 | Title                                    | Status |
-| --------------------------------------------------- | ---------------------------------------- | :----: |
-| `https://imdb.com/title/:id`                        | Title Single                             |   🚧   |
-| `https://imdb.com/search/title`                     | Advanced Search                          |   🚧   |
-| `https://imdb.com/search/name`                      | Advanced Name Search                     |   🚧   |
-| `https://imdb.com/search/common`                    | Collaborations Search                    |   🚧   |
-| `https://imdb.com/news/top`                         | Top News                                 |   🚧   |
-| `https://imdb.com/news/movie`                       | Movie News                               |   🚧   |
-| `https://imdb.com/news/tv`                          | TV News                                  |   🚧   |
-| `https://imdb.com/news/celebrity`                   | Celebrity News                           |   🚧   |
-| `https://imdb.com/news/indie`                       | Indie News                               |   🚧   |
-| `https://imdb.com/calendar`                         | Upcoming Releases                        |   🚧   |
-| `https://imdb.com/chart/boxoffice`                  | Top Box Office (US)                      |   🚧   |
-| `https://imdb.com/chart/moviemeter`                 | Most Popular Movies                      |   🚧   |
-| `https://imdb.com/chart/top`                        | Top 250 Movies                           |   🚧   |
-| `https://imdb.com/chart/top-english-movies`         | Top Rated English Movies                 |   🚧   |
-| `https://imdb.com/chart/toptv`                      | Top Rated TV Shows                       |   🚧   |
-| `https://imdb.com/chart/bottom`                     | Lowest Rated Movies                      |   🚧   |
-| `https://imdb.com/india/upcoming`                   | Most Anticipated New Indian Movies/Shows |   🚧   |
-| `https://imdb.com/india/top-rated-indian-movies`    | Top Rated Indian Movies                  |   🚧   |
-| `https://imdb.com/india/top-rated-malayalam-movies` | Top Rated Malayalam Movies               |   🚧   |
-| `https://imdb.com/india/top-rated-tamil-movies`     | Top Rated Tamil Movies                   |   🚧   |
-| `https://imdb.com/india/top-rated-telugu-movies`    | Top Rated Telugu Movies                  |   🚧   |
-| `https://imdb.com/india/tamil`                      | Trending Tamil Movies                    |   🚧   |
-| `https://imdb.com/india/telugu`                     | Trending Telugu Movies                   |   🚧   |
-| `https://imdb.com/event/all`                        | All Events Alphabetically                |   🚧   |
+| URL                                         | Page Title                                   | Implementation | Tests |
+| ------------------------------------------- | -------------------------------------------- | :------------: | :---: |
+| `imdb.com/calendar`                         | Upcoming Releases                            |       💭       |   -   |
+| `imdb.com/title/:id`                        | Title                                        |       🚧       |   -   |
+| `imdb.com/title/:id/mediaindex`             | Title -> Photo Gallery                       |       💭       |   -   |
+| `imdb.com/title/:id/videogallery`           | Title -> Video Gallery                       |       💭       |   -   |
+| `imdb.com/title/:id/fullcredits`            | Title -> Details -> Full Cast & Crew         |       💭       |   -   |
+| `imdb.com/title/:id/releaseinfo`            | Title -> Details -> Release Info (Dates)     |       💭       |   -   |
+| `imdb.com/title/:id/externalsites`          | Title -> Details -> External Sites           |       💭       |   -   |
+| `imdb.com/title/:id/companycredits`         | Title -> Details -> Company Credits          |       💭       |   -   |
+| `imdb.com/title/:id/locations`              | Title -> Details -> Filming & Production     |       💭       |   -   |
+| `imdb.com/title/:id/technical`              | Title -> Details -> Technical Specifications |       💭       |   -   |
+| `imdb.com/title/:id/taglines`               | Title -> Storyline -> Taglines               |       💭       |   -   |
+| `imdb.com/title/:id/plotsummary`            | Title -> Storyline -> Plot Summary           |       💭       |   -   |
+| `imdb.com/title/:id/keywords`               | Title -> Storyline -> Plot Keywords          |       💭       |   -   |
+| `imdb.com/title/:id/parentalguide`          | Title -> Storyline -> Parents Guide          |       💭       |   -   |
+| `imdb.com/title/:id/trivia`                 | Title -> Did You Know? -> Trivia             |       💭       |   -   |
+| `imdb.com/title/:id/trgoofsivia`            | Title -> Did You Know? -> Goofs              |       💭       |   -   |
+| `imdb.com/title/:id/crazycredits`           | Title -> Did You Know? -> Crazy Credits      |       💭       |   -   |
+| `imdb.com/title/:id/quotes`                 | Title -> Did You Know? -> Quotes             |       💭       |   -   |
+| `imdb.com/title/:id/alternateversions`      | Title -> Did You Know? -> Alternate Versions |       💭       |   -   |
+| `imdb.com/title/:id/movieconnections`       | Title -> Did You Know? -> Connections        |       💭       |   -   |
+| `imdb.com/title/:id/soundtrack`             | Title -> Did You Know? -> Soundtracks        |       💭       |   -   |
+| `imdb.com/title/:id/awards`                 | Title -> Opinion -> Awards                   |       💭       |   -   |
+| `imdb.com/title/:id/faq`                    | Title -> Opinion -> FAQ                      |       💭       |   -   |
+| `imdb.com/title/:id/reviews`                | Title -> Opinion -> User Reviews             |       💭       |   -   |
+| `imdb.com/title/:id/ratings`                | Title -> Opinion -> User Ratings             |       💭       |   -   |
+| `imdb.com/title/:id/externalreviews`        | Title -> Opinion -> External Reviews         |       💭       |   -   |
+| `imdb.com/title/:id/episodes`               | Title -> TV -> Episode List                  |       💭       |   -   |
+| `imdb.com/title/:id/tvschedule`             | Title -> TV -> Schedule                      |       💭       |   -   |
+| `imdb.com/title/:id/news`                   | Title -> News                                |       💭       |   -   |
+| `imdb.com/search/title`                     | Search -> Title                              |       💭       |   -   |
+| `imdb.com/search/name`                      | Search -> Name                               |       💭       |   -   |
+| `imdb.com/search/common`                    | Search -> Collaborations                     |       💭       |   -   |
+| `imdb.com/chart/boxoffice`                  | Chart -> Box Office                          |       💭       |   -   |
+| `imdb.com/chart/moviemeter`                 | Chart -> Most Popular Movies                 |       💭       |   -   |
+| `imdb.com/chart/top`                        | Chart -> Top 250 Movies                      |       💭       |   -   |
+| `imdb.com/chart/top-english-movies`         | Chart -> Top Rated English Movies            |       💭       |   -   |
+| `imdb.com/chart/toptv`                      | Chart -> Top Rated TV Shows                  |       💭       |   -   |
+| `imdb.com/chart/bottom`                     | Chart -> Lowest Rated Movies                 |       💭       |   -   |
+| `imdb.com/news/top`                         | News -> Top                                  |       💭       |   -   |
+| `imdb.com/news/movie`                       | News -> Movie                                |       💭       |   -   |
+| `imdb.com/news/tv`                          | News -> TV                                   |       💭       |   -   |
+| `imdb.com/news/celebrity`                   | News -> Celebrity                            |       💭       |   -   |
+| `imdb.com/news/indie`                       | News -> Indie                                |       💭       |   -   |
+| `imdb.com/india/upcoming`                   | Indian -> Most Anticipated New Movies/Shows  |       💭       |   -   |
+| `imdb.com/india/top-rated-indian-movies`    | Indian -> Top Rated Movies                   |       💭       |   -   |
+| `imdb.com/india/top-rated-malayalam-movies` | Indian -> Top Rated Malayalam Movies         |       💭       |   -   |
+| `imdb.com/india/top-rated-tamil-movies`     | Indian -> Top Rated Tamil Movies             |       💭       |   -   |
+| `imdb.com/india/top-rated-telugu-movies`    | Indian -> Top Rated Telugu Movies            |       💭       |   -   |
+| `imdb.com/india/tamil`                      | Indian -> Trending Tamil Movies              |       💭       |   -   |
+| `imdb.com/india/telugu`                     | Indian -> Trending Telugu Movies             |       💭       |   -   |
+| `imdb.com/event/all`                        | Event -> All Events Alphabetically           |       💭       |   -   |
 
 Is a route missing? Feel free to [open a new issue](https://github.com/Scrip7/imdb-api/issues) to let us know!
 
@@ -89,7 +146,7 @@ Pull Requests are always welcome.
 > The "[IMDb-API](https://github.com/Scrip7/imdb-api)" repository is not affiliated, authorized, maintained, or endorsed by the [IMDb](https://en.wikipedia.org/wiki/IMDb) or any of its affiliates or subsidiaries (including [Amazon](<https://en.wikipedia.org/wiki/Amazon_(company)>)).
 >
 > This unofficial independent project is published as it is.
-> 
+>
 > Therefore, use it at your own risk and respect the copyrights of their content.
 
 ## License

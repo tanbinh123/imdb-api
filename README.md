@@ -15,7 +15,7 @@
 A cross-platform [Go](https://go.dev) microservice application to scrap the [IMDb](https://imdb.com) website.
 
 > **Warning**  
-> Keep in mind this app does **not** have rate-limiting or authentication features to protect itself against spam threads.  
+> Keep in mind this app does **not** have rate-limiting or authentication features to protect itself against spams.   
 > The end-users should **not** have direct access to its interface unless you understand what you're doing.
 
 ## Features
@@ -41,7 +41,7 @@ Because this is a reverse-engineered project, things might break unexpectedly! T
 
 Feel free to revisit it in the future.
 
-> ✅ Done
+> ✅ Done.
 >
 > 🚧 Under development.
 >

@@ -13,6 +13,7 @@ type IndexTransform struct {
 	Series          series     `json:"series"`
 	Reviews         reviews    `json:"reviews"`
 	FAQ             faq        `json:"faq"`
+	Trivia          trivia     `json:"trivia"`
 	Keywords        keyword    `json:"keywords"`
 }
 
@@ -149,6 +150,11 @@ type faq struct {
 type faqItem struct {
 	ID       string `json:"id"`
 	Question string `json:"question"`
+}
+
+type trivia struct {
+	Total int64    `json:"total"`
+	Items []string `json:"items"`
 }
 
 type keyword struct {

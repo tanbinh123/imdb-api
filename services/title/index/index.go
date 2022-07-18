@@ -109,6 +109,10 @@ func Index(id string) (*IndexTransform, error) {
 			Total: nextData.Props.PageProps.MainColumnData.FaqsTotal.Total,
 			Items: getFaqItems(nextData.Props.PageProps.MainColumnData.Faqs.Edges),
 		},
+		Trivia: trivia{
+			Total: nextData.Props.PageProps.MainColumnData.TriviaTotal.Total,
+			Items: getTriviaItems(nextData.Props.PageProps.MainColumnData.Trivia.Edges),
+		},
 		Keywords: keyword{
 			Total: nextData.Props.PageProps.AboveTheFoldData.Keywords.Total,
 			Items: strings.Split(data.Keywords, ","),
@@ -151,7 +155,7 @@ func getRankingDifference(input RankChange) int64 {
 	return input.Difference
 }
 
-func getImageItems(edges []TitleMainImagesEdge) []imageItem {
+func getImageItems(edges []titleMainImagesEdge) []imageItem {
 	var items []imageItem
 
 	for _, v := range edges {
@@ -234,6 +238,16 @@ func getFaqItems(edges []faqEdge) []faqItem {
 			ID:       v.Node.ID,
 			Question: v.Node.Question.PlainText,
 		})
+	}
+
+	return items
+}
+
+func getTriviaItems(edges []triviaEdge) []string {
+	var items []string
+
+	for _, v := range edges {
+		items = append(items, utils.ParseHTMLToString(v.Node.Text.PlaidHTML))
 	}
 
 	return items

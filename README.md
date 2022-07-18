@@ -35,11 +35,9 @@ Placeholder.
 
 ## Coverage
 
-We have listed the IMDb website paths that can potentially use in our application to collect data.
-
-Because this is a reverse-engineered project, things might break unexpectedly! Therefore, we keep this list updated along with the new features we introduce or when we encounter a new bug to visualize our extensive coverage.
-
-Feel free to revisit it in the future.
+We have listed the IMDb website paths that can potentially use in our application to collect data.   
+Because this is a reverse-engineered project, things might break unexpectedly!   
+Therefore, we keep this list updated along with the new features we introduce or when we encounter new bugs to visualize our extensive coverage.
 
 > ✅ Done.
 >

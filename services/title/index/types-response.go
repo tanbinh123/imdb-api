@@ -306,7 +306,7 @@ type MainColumnData struct {
 	IsAdult                 bool                            `json:"isAdult"`
 	MoreLikeThisTitles      MoreLikeThisTitles              `json:"moreLikeThisTitles"`
 	TriviaTotal             Total                           `json:"triviaTotal"`
-	Trivia                  Trivia                          `json:"trivia"`
+	Trivia                  titleTrivia                     `json:"trivia"`
 	GoofsTotal              Total                           `json:"goofsTotal"`
 	Goofs                   FeaturedReviews                 `json:"goofs"`
 	QuotesTotal             Total                           `json:"quotesTotal"`
@@ -582,22 +582,22 @@ type SpokenLanguages struct {
 
 type TitleMainImages struct {
 	Total int64                 `json:"total"`
-	Edges []TitleMainImagesEdge `json:"edges"`
+	Edges []titleMainImagesEdge `json:"edges"`
 }
 
-type TitleMainImagesEdge struct {
+type titleMainImagesEdge struct {
 	Node NodeClass `json:"node"`
 }
 
-type Trivia struct {
-	Edges []TriviaEdge `json:"edges"`
+type titleTrivia struct {
+	Edges []triviaEdge `json:"edges"`
 }
 
-type TriviaEdge struct {
-	Node MischievousNode `json:"node"`
+type triviaEdge struct {
+	Node triviaNode `json:"node"`
 }
 
-type MischievousNode struct {
+type triviaNode struct {
 	Text         TextElement `json:"text"`
 	Trademark    interface{} `json:"trademark"`
 	RelatedNames interface{} `json:"relatedNames"`

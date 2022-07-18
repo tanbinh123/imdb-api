@@ -57,10 +57,6 @@ type withText struct {
 	Text string `json:"text"`
 }
 
-type aboveTheFoldDataCountriesOfOrigin struct {
-	Countries []IDWrapper `json:"countries"`
-}
-
 type IDWrapper struct {
 	ID string `json:"id"`
 }
@@ -274,20 +270,6 @@ type aboveTheFoldDataReleaseYear struct {
 
 type aboveTheFoldDataRuntime struct {
 	Seconds int64 `json:"seconds"`
-}
-
-type titleType struct {
-	Text      string `json:"text"`
-	ID        string `json:"id"`
-	IsSeries  bool   `json:"isSeries"`
-	IsEpisode bool   `json:"isEpisode"`
-}
-
-type imageModel struct {
-	URL       string `json:"url"`
-	Caption   string `json:"caption"`
-	MaxHeight int64  `json:"maxHeight"`
-	MaxWidth  int64  `json:"maxWidth"`
 }
 
 type mainColumnData struct {
@@ -599,8 +581,4 @@ type triviaEdge struct {
 
 type triviaNode struct {
 	Text textElement `json:"text"`
-}
-
-type fluffyContentType struct {
-	DisplayName DisplayNameClass `json:"displayName"`
 }

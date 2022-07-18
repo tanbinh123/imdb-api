@@ -141,7 +141,9 @@ I'm not confident about my coding approaches, maybe I'm stuck with JS strategies
 
 Feel free to join my journey by contributing to this project.
 
-## Contributing
+## FAQ
+
+**Can I contribute to make IMDb-API better?**
 
 [Please do!](https://github.com/Scrip7/imdb-api/blob/main/CONTRIBUTING.md) We are looking for any kind of contribution to improve IMDb-API's core functionality and documentation. When in doubt, make a PR!
 

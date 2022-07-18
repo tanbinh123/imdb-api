@@ -1,4 +1,4 @@
-package request
+package client
 
 import (
 	"fmt"
@@ -40,8 +40,12 @@ func Get(url string) (*io.ReadCloser, error) {
 		return nil, fmt.Errorf("failed to fetch url(%v): %v", url, err)
 	}
 
+	if res.StatusCode == http.StatusNotFound {
+		return nil, fmt.Errorf("Not found")
+	}
+
 	if res.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("request to url(%v) failed with status %v %v", url, res.StatusCode, res.Status)
+		return nil, fmt.Errorf("request to url(%v) failed with status %v", url, res.Status)
 	}
 
 	return &res.Body, nil

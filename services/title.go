@@ -10,8 +10,8 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/gosimple/slug"
 
+	"github.com/Scrip7/imdb-api/client"
 	"github.com/Scrip7/imdb-api/constants"
-	"github.com/Scrip7/imdb-api/request"
 	"github.com/Scrip7/imdb-api/utils"
 )
 
@@ -122,7 +122,7 @@ type titleResponse struct {
 
 func Title(id int) (*titleTransform, error) {
 	url := fmt.Sprintf(constants.TITLE_INDEX, id)
-	res, err := request.Get(url)
+	res, err := client.Get(url)
 	if err != nil {
 		return nil, err
 	}

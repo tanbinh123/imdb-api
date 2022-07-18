@@ -6,6 +6,7 @@ import (
 
 	"github.com/goccy/go-json"
 	"github.com/gosimple/slug"
+	"github.com/iancoleman/strcase"
 
 	"github.com/Scrip7/imdb-api/client"
 	"github.com/Scrip7/imdb-api/constants"
@@ -60,16 +61,15 @@ func Index(id string) (*IndexTransform, error) {
 	//
 	// Begin Transformation
 	//
+	titleType := strcase.ToLowerCamel(nextData.Props.PageProps.MainColumnData.TitleType.ID)
 	transform := IndexTransform{
 		ID: nextData.Props.PageProps.MainColumnData.ID,
 		Validate: validate{
-			Type: slug.Make(nextData.Props.PageProps.MainColumnData.TitleType.ID),
-			// TODO: calculate
-			IsMovie: false,
-			// TODO: calculate
-			IsSeries: false,
-			// TODO: calculate
-			IsEpisode: false,
+			Type: titleType,
+			// TODO: refactor types to const
+			IsMovie:   titleType == "movie",
+			IsSeries:  titleType == "tvSeries" || titleType == "tvEpisode",
+			IsEpisode: titleType == "tvEpisode",
 			IsAdult:   nextData.Props.PageProps.MainColumnData.IsAdult,
 		},
 		Title: title{

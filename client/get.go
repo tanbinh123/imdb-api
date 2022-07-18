@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gojek/heimdall"
+	"github.com/gojek/heimdall/v7"
 	"github.com/gojek/heimdall/v7/httpclient"
 )
 

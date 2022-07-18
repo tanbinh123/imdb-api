@@ -59,7 +59,6 @@ type videoItem struct {
 type series struct {
 	ID                string        `json:"id"`
 	Title             seriesTitle   `json:"title"`
-	Type              string        `json:"type"` // in most cases its "tvseries"
 	Current           seriesCurrent `json:"current"`
 	NextEpisodeID     string        `json:"nextEpisodeId"`
 	PreviousEpisodeID string        `json:"previousEpisodeId"`

@@ -122,7 +122,12 @@ type titleResponse struct {
 
 func Title(id int) (*titleTransform, error) {
 	url := fmt.Sprintf(constants.TITLE_INDEX, id)
-	doc, err := request.Get(url)
+	res, err := request.Get(url)
+	if err != nil {
+		return nil, err
+	}
+
+	doc, err := utils.ParseHTML(*res)
 	if err != nil {
 		return nil, err
 	}

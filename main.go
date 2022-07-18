@@ -35,7 +35,7 @@ func main() {
 			return c.Query("refresh") == "true"
 		},
 		// TODO: load from config
-		Expiration: 1 * time.Second,
+		Expiration: 5 * time.Second,
 		// CacheControl: true,
 	}))
 

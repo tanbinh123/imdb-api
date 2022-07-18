@@ -41,7 +41,7 @@ func Get(url string) (*io.ReadCloser, error) {
 	}
 
 	if res.StatusCode == http.StatusNotFound {
-		return nil, fmt.Errorf("Not found")
+		return nil, fmt.Errorf("not found")
 	}
 
 	if res.StatusCode != http.StatusOK {

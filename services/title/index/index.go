@@ -13,7 +13,7 @@ import (
 	"github.com/Scrip7/imdb-api/utils"
 )
 
-func Debug(id string) (*PageProps, error) {
+func Debug(id string) (*pageProps, error) {
 	url := fmt.Sprintf(constants.TITLE_INDEX, id)
 	res, err := client.Get(url)
 	if err != nil {
@@ -26,7 +26,7 @@ func Debug(id string) (*PageProps, error) {
 	}
 
 	nextDataJSON := doc.Find("script[type=\"application/json\"][id=\"__NEXT_DATA__\"]").First()
-	var nextData TitleIndex
+	var nextData titleIndex
 	if err := json.Unmarshal([]byte(nextDataJSON.Text()), &nextData); err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func Index(id string) (*IndexTransform, error) {
 	}
 
 	nextDataJSON := doc.Find("script[type=\"application/json\"][id=\"__NEXT_DATA__\"]").First()
-	var nextData TitleIndex
+	var nextData titleIndex
 	if err := json.Unmarshal([]byte(nextDataJSON.Text()), &nextData); err != nil {
 		return nil, err
 	}
@@ -62,24 +62,26 @@ func Index(id string) (*IndexTransform, error) {
 	// Begin Transformation
 	//
 	titleType := strcase.ToLowerCamel(nextData.Props.PageProps.MainColumnData.TitleType.ID)
+
 	transform := IndexTransform{
 		ID: nextData.Props.PageProps.MainColumnData.ID,
 		Validate: validate{
 			Type: titleType,
 			// TODO: refactor types to const
-			IsMovie:   titleType == "movie",
-			IsSeries:  titleType == "tvSeries" || titleType == "tvEpisode",
-			IsEpisode: titleType == "tvEpisode",
-			IsAdult:   nextData.Props.PageProps.MainColumnData.IsAdult,
+			IsMovie:         titleType == "movie",
+			IsSeries:        titleType == "tvSeries" || titleType == "tvEpisode",
+			IsEpisode:       titleType == "tvEpisode",
+			IsAdult:         nextData.Props.PageProps.MainColumnData.IsAdult,
+			CanHaveEpisodes: nextData.Props.PageProps.MainColumnData.CanHaveEpisodes,
 		},
 		Title: title{
 			Text:     nextData.Props.PageProps.MainColumnData.TitleText.Text,
 			Original: nextData.Props.PageProps.MainColumnData.OriginalTitleText.Text,
+			Slug:     slug.Make(nextData.Props.PageProps.MainColumnData.OriginalTitleText.Text),
 			AKA:      getTitleAKA(nextData.Props.PageProps.MainColumnData.Akas.Edges),
 		},
-		Genres:          getGenres(nextData.Props.PageProps.AboveTheFoldData.Genres.Genres),
-		Plot:            nextData.Props.PageProps.AboveTheFoldData.Plot.PlotText.PlainText,
-		CanHaveEpisodes: nextData.Props.PageProps.MainColumnData.CanHaveEpisodes,
+		Genres: getGenres(nextData.Props.PageProps.AboveTheFoldData.Genres.Genres),
+		Plot:   nextData.Props.PageProps.AboveTheFoldData.Plot.PlotText.PlainText,
 		Popularity: popularity{
 			Rank:       nextData.Props.PageProps.AboveTheFoldData.MeterRanking.CurrentRank,
 			Difference: getRankingDifference(nextData.Props.PageProps.AboveTheFoldData.MeterRanking.RankChange),
@@ -125,7 +127,7 @@ func Index(id string) (*IndexTransform, error) {
 	return &transform, nil
 }
 
-func getTitleAKA(edges []AKAEdge) []string {
+func getTitleAKA(edges []akaEdge) []string {
 	var items []string
 
 	for _, v := range edges {
@@ -148,14 +150,14 @@ func getGenres(genres []withTextAndID) []genre {
 	return items
 }
 
-func getRankingDifference(input RankChange) int64 {
+func getRankingDifference(input rankChange) int64 {
 	if strings.ToLower(input.ChangeDirection) == "down" {
 		return -(input.Difference)
 	}
 	return input.Difference
 }
 
-func getImageItems(edges []titleMainImagesEdge) []imageItem {
+func getImageItems(edges []imageEdge) []imageItem {
 	var items []imageItem
 
 	for _, v := range edges {
@@ -171,7 +173,7 @@ func getImageItems(edges []titleMainImagesEdge) []imageItem {
 	return items
 }
 
-func getVideoItems(edges []PrimaryVideosEdge) []videoItem {
+func getVideoItems(edges []primaryVideosEdge) []videoItem {
 	var items []videoItem
 
 	for _, v := range edges {
@@ -194,7 +196,7 @@ func getVideoItems(edges []PrimaryVideosEdge) []videoItem {
 	return items
 }
 
-func getVideoPlaybackItems(urls []URL) []playbackItem {
+func getVideoPlaybackItems(urls []urlWrapper) []playbackItem {
 	var items []playbackItem
 
 	for _, v := range urls {

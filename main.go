@@ -17,8 +17,9 @@ func main() {
 		JSONDecoder: json.Unmarshal,
 		ErrorHandler: func(c *fiber.Ctx, err error) error {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"ok":    false,
-				"error": err.Error(),
+				"ok":      false,
+				"message": err.Error(),
+				"error":   err,
 			})
 		},
 	})

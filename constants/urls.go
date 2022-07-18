@@ -1,5 +1,5 @@
 package constants
 
 const (
-	TITLE_INDEX = "https://m.imdb.com/title/tt%v"
+	TITLE_INDEX = "https://m.imdb.com/title/%v"
 )

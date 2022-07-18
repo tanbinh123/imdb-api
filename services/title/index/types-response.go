@@ -1,5 +1,10 @@
 package index
 
+type scriptResponse struct {
+	Keywords string `json:"keywords"` // list of keywords as a string joined by the "," character
+	Image    string `json:"image"`    // poster image URL
+}
+
 type TitleIndex struct {
 	Props Props `json:"props"`
 }
@@ -48,10 +53,10 @@ type NodeElement struct {
 }
 
 type PurpleName struct {
-	NameText TitleText `json:"nameText"`
+	NameText withText `json:"nameText"`
 }
 
-type TitleText struct {
+type withText struct {
 	Text string `json:"text"`
 }
 
@@ -113,12 +118,7 @@ type CurrentProductionStage struct {
 }
 
 type Keywords struct {
-	Total int64          `json:"total"`
-	Edges []KeywordsEdge `json:"edges"`
-}
-
-type KeywordsEdge struct {
-	Node TitleText `json:"node"`
+	Total int64 `json:"total"`
 }
 
 type Meta struct {
@@ -137,8 +137,7 @@ type RankChange struct {
 }
 
 type Plot struct {
-	PlotText PlotText            `json:"plotText"`
-	Language PrimaryImageElement `json:"language"`
+	PlotText PlotText `json:"plotText"`
 }
 
 type Link struct {
@@ -146,7 +145,7 @@ type Link struct {
 }
 
 type NodeClass struct {
-	ID      *string   `json:"id,omitempty"`
+	ID      string    `json:"id"`
 	Width   int64     `json:"width"`
 	Height  int64     `json:"height"`
 	URL     string    `json:"url"`
@@ -174,7 +173,6 @@ type FluffyNode struct {
 }
 
 type PurpleContentType struct {
-	ID          string           `json:"id"`
 	DisplayName DisplayNameClass `json:"displayName"`
 }
 
@@ -215,7 +213,7 @@ type Credit struct {
 }
 
 type FluffyName struct {
-	NameText     TitleText  `json:"nameText"`
+	NameText     withText   `json:"nameText"`
 	ID           string     `json:"id"`
 	PrimaryImage *Thumbnail `json:"primaryImage"`
 }
@@ -233,8 +231,8 @@ type TentacledNode struct {
 }
 
 type Company struct {
-	ID          string    `json:"id"`
-	CompanyText TitleText `json:"companyText"`
+	ID          string   `json:"id"`
+	CompanyText withText `json:"companyText"`
 }
 
 type ProductionStatus struct {
@@ -288,7 +286,6 @@ type MainColumnData struct {
 	Nominations             Total                           `json:"nominations"`
 	RatingsSummary          MainColumnDataRatingsSummary    `json:"ratingsSummary"`
 	Videos                  Total                           `json:"videos"`
-	VideoStrip              VideoStrip                      `json:"videoStrip"`
 	TitleMainImages         TitleMainImages                 `json:"titleMainImages"`
 	ProductionStatus        ProductionStatus                `json:"productionStatus"`
 	PrimaryImage            PrimaryImageElement             `json:"primaryImage"`
@@ -308,8 +305,8 @@ type MainColumnData struct {
 	AlternateVersions       Keywords                        `json:"alternateVersions"`
 	Connections             Connections                     `json:"connections"`
 	Soundtrack              Soundtrack                      `json:"soundtrack"`
-	TitleText               TitleText                       `json:"titleText"`
-	OriginalTitleText       TitleText                       `json:"originalTitleText"`
+	TitleText               withText                        `json:"titleText"`
+	OriginalTitleText       withText                        `json:"originalTitleText"`
 	ReleaseYear             AssociatedTitleReleaseYear      `json:"releaseYear"`
 	Reviews                 Total                           `json:"reviews"`
 	FeaturedReviews         PurpleFeaturedReviews           `json:"featuredReviews"`
@@ -338,7 +335,11 @@ type MainColumnData struct {
 }
 
 type Akas struct {
-	Edges []KeywordsEdge `json:"edges"`
+	Edges []akaNode `json:"edges"`
+}
+
+type akaNode struct {
+	Node withText `json:"node"`
 }
 
 type CastClass struct {
@@ -351,7 +352,7 @@ type CastEdge struct {
 
 type StickyNode struct {
 	Name           FluffyName      `json:"name"`
-	Attributes     []TitleText     `json:"attributes"`
+	Attributes     []withText      `json:"attributes"`
 	Characters     []NodeCharacter `json:"characters"`
 	EpisodeCredits EpisodeCredits  `json:"episodeCredits"`
 }
@@ -375,14 +376,14 @@ type ConnectionsEdge struct {
 
 type IndigoNode struct {
 	AssociatedTitle AssociatedTitle `json:"associatedTitle"`
-	Category        TitleText       `json:"category"`
+	Category        withText        `json:"category"`
 }
 
 type AssociatedTitle struct {
 	ID                string                     `json:"id"`
 	ReleaseYear       AssociatedTitleReleaseYear `json:"releaseYear"`
-	TitleText         TitleText                  `json:"titleText"`
-	OriginalTitleText TitleText                  `json:"originalTitleText"`
+	TitleText         withText                   `json:"titleText"`
+	OriginalTitleText withText                   `json:"originalTitleText"`
 	Series            AssociatedTitleSeries      `json:"series"`
 }
 
@@ -395,8 +396,8 @@ type AssociatedTitleSeries struct {
 }
 
 type SeriesSeries struct {
-	TitleText         TitleText `json:"titleText"`
-	OriginalTitleText TitleText `json:"originalTitleText"`
+	TitleText         withText `json:"titleText"`
+	OriginalTitleText withText `json:"originalTitleText"`
 }
 
 type MainColumnDataCountriesOfOrigin struct {
@@ -419,9 +420,9 @@ type HilariousNode struct {
 }
 
 type Director struct {
-	TotalCredits int64     `json:"totalCredits"`
-	Category     TitleText `json:"category"`
-	Credits      []Credit  `json:"credits"`
+	TotalCredits int64    `json:"totalCredits"`
+	Category     withText `json:"category"`
+	Credits      []Credit `json:"credits"`
 }
 
 type PurpleFeaturedReviews struct {
@@ -470,9 +471,9 @@ type MoreLikeThisTitlesEdge struct {
 
 type CunningNode struct {
 	ID                 string                         `json:"id"`
-	TitleText          TitleText                      `json:"titleText"`
+	TitleText          withText                       `json:"titleText"`
+	OriginalTitleText  withText                       `json:"originalTitleText"`
 	TitleType          CurrentProductionStage         `json:"titleType"`
-	OriginalTitleText  TitleText                      `json:"originalTitleText"`
 	PrimaryImage       NodeClass                      `json:"primaryImage"`
 	ReleaseYear        AboveTheFoldDataReleaseYear    `json:"releaseYear"`
 	RatingsSummary     AboveTheFoldDataRatingsSummary `json:"ratingsSummary"`
@@ -493,7 +494,7 @@ type PrimaryWatchOption struct {
 }
 
 type TitleCardGenres struct {
-	Genres []TitleText `json:"genres"`
+	Genres []withText `json:"genres"`
 }
 
 type Quotes struct {
@@ -561,22 +562,6 @@ type MischievousNode struct {
 	Text         TextElement `json:"text"`
 	Trademark    interface{} `json:"trademark"`
 	RelatedNames interface{} `json:"relatedNames"`
-}
-
-type VideoStrip struct {
-	Edges []VideoStripEdge `json:"edges"`
-}
-
-type VideoStripEdge struct {
-	Node BraggadociousNode `json:"node"`
-}
-
-type BraggadociousNode struct {
-	ID          string            `json:"id"`
-	ContentType FluffyContentType `json:"contentType"`
-	Name        DisplayNameClass  `json:"name"`
-	Runtime     PurpleRuntime     `json:"runtime"`
-	Thumbnail   Thumbnail         `json:"thumbnail"`
 }
 
 type FluffyContentType struct {

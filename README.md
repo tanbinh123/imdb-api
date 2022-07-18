@@ -14,10 +14,8 @@
 
 A cross-platform [Go](https://go.dev) microservice application to scrap the [IMDb](https://imdb.com) website.
 
-> **Warning**
->
-> Keep in mind this app does **not** have rate-limiting or authentication features to protect itself against spam threads.
->
+> **Warning**  
+> Keep in mind this app does **not** have rate-limiting or authentication features to protect itself against spam threads.  
 > The end-users should **not** have direct access to its interface unless you understand what you're doing.
 
 ## Features
@@ -45,11 +43,13 @@ Feel free to revisit it in the future.
 
 > ✅ Done
 >
-> 🚧 Under development
+> 🚧 Under development.
+> 
+> 💭 The route is known, but we haven't thoroughly thought about how to implement it yet!
 >
-> 💭 The route is known, but haven't fully thought how to implement it, yet!
+> 😱 It broke! _(IMDb changed its response structure, it needs minor changes or re-implementation)_
 >
-> ❌ Failed to implement
+> ❌ Failed to implement.
 
 | URL (prefix: `imdb.com`)            | Scope           | Module                            | Status | Tests |
 | ----------------------------------- | --------------- | --------------------------------- | :----: | :---: |
@@ -107,9 +107,7 @@ Feel free to revisit it in the future.
 
 Is a route missing? Feel free to [open a new issue](https://github.com/Scrip7/imdb-api/issues) to let us know!
 
-> **Note**
->
-> To prevent duplication, please search to see if an issue exists for your request.
+> **Note** To prevent duplication, please search to see if an issue exists for your request.
 
 ## Docker usage
 
@@ -117,33 +115,24 @@ Placeholder.
 
 ## Motivation
 
-My teacher signed me on a project when I was a junior programmer.
-
+My teacher signed me on a project when I was a junior programmer.  
 I had to make a Social platform bot (like Telegram or Discord bots) where users could search for Movies and TV Series, look up their detail, create playlists, and share them with others.
 
 After smashing my head onto the keyboard for almost two weeks and a half, I finally found a free IMDb API, which stopped working after a while.
 
-Back in the day, I didn't know how to integrate my application to the IMDb website properly, so sadly, I had to abandon the project.
-
+Back in the day, I didn't know how to integrate my application to the IMDb website properly, so sadly, I had to abandon the project.  
 But now, when I look back at it after many years, I can imagine how hard it could be if someone tries to develop an application sightly or even heavily dependent on the IMDb website.
 
 There are so many reverse-engineered, untrustworthy platforms out there that would take your money in exchange for providing an unstable API.
-
 So I thought of developing a microservice that developers could use in the software they're trying to create.
 
-I didn't profoundly plan how I would create such an application.
-
+I didn't profoundly plan how I would create such an application.  
 But because I was motivated, I created its repository and will slowly work on building small chunks of it, starting from the documentation and overall expectations.
 
-Side note:
-
-I came from having six years of TypeScript experience to Golang, and this project is one of my early projects using this language.
-
-I chose it because it is more performant and efficient and can compile the packages and their dependencies into a single executable binary.
-
+Side note:  
+I came from having six years of TypeScript experience to Golang, and this project is one of my early projects using this language.  
+I chose it because it is more performant and efficient and can compile the packages and their dependencies into a single executable binary.  
 I'm not confident about my coding approaches, maybe I'm stuck with JS strategies in my head, but I'm excited about how it will end up.
-
-Feel free to join my journey by contributing to this project.
 
 ## FAQ
 
@@ -153,10 +142,8 @@ Feel free to join my journey by contributing to this project.
 
 ## Disclaimer
 
-> The "[IMDb-API](https://github.com/Scrip7/imdb-api)" repository is not affiliated, authorized, maintained, or endorsed by the [IMDb](https://en.wikipedia.org/wiki/IMDb) or any of its affiliates or subsidiaries (including [Amazon](<https://en.wikipedia.org/wiki/Amazon_(company)>)).
->
-> This unofficial independent project is published as it is.
->
+> The "[IMDb-API](https://github.com/Scrip7/imdb-api)" repository is not affiliated, authorized, maintained, or endorsed by the [IMDb](https://en.wikipedia.org/wiki/IMDb) or any of its affiliates or subsidiaries (including [Amazon](<https://en.wikipedia.org/wiki/Amazon_(company)>)).  
+> This unofficial independent project is published as it is.  
 > Therefore, use it at your own risk and respect the copyrights of their content.
 
 ## License

@@ -1,19 +1,21 @@
 package services
 
 import (
-	"encoding/json"
 	"fmt"
 	"html"
 	"strconv"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/goccy/go-json"
+	"github.com/gosimple/slug"
+
+	"github.com/Scrip7/imdb-api/constants"
 	"github.com/Scrip7/imdb-api/request"
 	"github.com/Scrip7/imdb-api/utils"
-	"github.com/gosimple/slug"
 )
 
-type TitleRating struct {
+type titleRating struct {
 	Count int `json:"count"`
 	// Best    int     `json:"best"`
 	// Worst   int     `json:"worst"`
@@ -21,36 +23,12 @@ type TitleRating struct {
 	Content string  `json:"content"`
 }
 
-type TitleGenre struct {
+type titleGenre struct {
 	Name string `json:"name"`
 	Slug string `json:"slug"`
 }
 
-type TitleActor struct {
-	ID   string `json:"id"`
-	Type string `json:"type"`
-	// URL  string `json:"url"`
-	Name string `json:"name"`
-	Slug string `json:"slug"`
-}
-
-type TitleDirector struct {
-	ID   string `json:"id"`
-	Type string `json:"type"`
-	// URL  string `json:"url"`
-	Name string `json:"name"`
-	Slug string `json:"slug"`
-}
-
-type TitleCreator struct {
-	ID   string `json:"id"`
-	Type string `json:"type"`
-	// URL  string `json:"url"`
-	Name string `json:"name"`
-	Slug string `json:"slug"`
-}
-
-type TitleRelatedItem struct {
+type titleRelatedItem struct {
 	ID     string  `json:"id"`
 	URL    string  `json:"url"`
 	Slug   string  `json:"slug"`
@@ -59,17 +37,17 @@ type TitleRelatedItem struct {
 	Rating float64 `json:"rating"`
 }
 
-type TitleCountry struct {
+type titleCountry struct {
 	Name string `json:"name"`
 	Slug string `json:"slug"`
 }
 
-type TitleLanguage struct {
+type titleLanguage struct {
 	Name string `json:"name"`
 	Slug string `json:"slug"`
 }
 
-type TitleTransform struct {
+type titleTransform struct {
 	IsSeries      bool               `json:"isSeries"`
 	ID            string             `json:"id"`
 	URL           string             `json:"url"`
@@ -79,16 +57,16 @@ type TitleTransform struct {
 	Poster        string             `json:"poster"`
 	Description   string             `json:"description"`
 	Duration      float64            `json:"duration"`
-	Rating        TitleRating        `json:"rating"`
+	Rating        titleRating        `json:"rating"`
 	PublishDate   string             `json:"publishDate"`
-	Genres        []TitleGenre       `json:"genres"`
+	Genres        []titleGenre       `json:"genres"`
 	Keywords      []string           `json:"keywords"`
-	Languages     []TitleLanguage    `json:"languages"`
-	Countries     []TitleCountry     `json:"countries"`
-	Related       []TitleRelatedItem `json:"relatedTitles"`
+	Languages     []titleLanguage    `json:"languages"`
+	Countries     []titleCountry     `json:"countries"`
+	Related       []titleRelatedItem `json:"relatedTitles"`
 }
 
-type TitleResponse struct {
+type titleResponse struct {
 	Context       string `json:"@context"`
 	Type          string `json:"@type"`
 	URL           string `json:"url"`
@@ -142,21 +120,21 @@ type TitleResponse struct {
 	Duration string `json:"duration"`
 }
 
-func Title(id int) (*TitleTransform, error) {
-	url := fmt.Sprintf("https://m.imdb.com/title/tt%v", id)
+func Title(id int) (*titleTransform, error) {
+	url := fmt.Sprintf(constants.TITLE_INDEX, id)
 	doc, err := request.Get(url)
 	if err != nil {
 		return nil, err
 	}
 
 	script := doc.Find("script[type=\"application/ld+json\"]").First()
-	var data TitleResponse
+	var data titleResponse
 	if err := json.Unmarshal([]byte(script.Text()), &data); err != nil {
 		return nil, err
 	}
 
 	// Start transforming
-	transform := TitleTransform{
+	transform := titleTransform{
 		IsSeries:      strings.ToLower(data.Type) == "tvseries",
 		ID:            utils.ExtractNumbers(data.URL),
 		URL:           data.URL,
@@ -165,7 +143,7 @@ func Title(id int) (*TitleTransform, error) {
 		AlternateName: data.AlternateName,
 		Poster:        data.Image,
 		Description:   strings.TrimSpace(html.UnescapeString(data.Description)),
-		Rating: TitleRating{
+		Rating: titleRating{
 			Count:   data.AggregateRating.RatingCount,
 			Rating:  data.AggregateRating.RatingValue,
 			Content: data.ContentRating,
@@ -185,7 +163,7 @@ func Title(id int) (*TitleTransform, error) {
 	}
 
 	for _, v := range data.Genre {
-		transform.Genres = append(transform.Genres, TitleGenre{
+		transform.Genres = append(transform.Genres, titleGenre{
 			Name: v,
 			Slug: slug.Make(v),
 		})
@@ -194,7 +172,7 @@ func Title(id int) (*TitleTransform, error) {
 	// Languages
 	languageLinks := doc.Find("li[data-testid=\"title-details-languages\"] ul li a")
 	languageLinks.Each(func(i int, s *goquery.Selection) {
-		transform.Languages = append(transform.Languages, TitleLanguage{
+		transform.Languages = append(transform.Languages, titleLanguage{
 			Name: s.Text(),
 			Slug: slug.Make(s.Text()),
 		})
@@ -202,7 +180,7 @@ func Title(id int) (*TitleTransform, error) {
 
 	// Countries
 	doc.Find("li[data-testid=\"title-details-origin\"] ul li a").Each(func(i int, s *goquery.Selection) {
-		transform.Countries = append(transform.Countries, TitleCountry{
+		transform.Countries = append(transform.Countries, titleCountry{
 			Name: s.Text(),
 			Slug: slug.Make(s.Text()),
 		})
@@ -221,7 +199,7 @@ func Title(id int) (*TitleTransform, error) {
 		rating := strings.TrimSpace(s.Find("span.ipc-rating-star").Text())
 		rate, _ := strconv.ParseFloat(rating, 64)
 
-		transform.Related = append(transform.Related, TitleRelatedItem{
+		transform.Related = append(transform.Related, titleRelatedItem{
 			ID:     utils.ExtractNumbers(url),
 			URL:    url,
 			Name:   name,

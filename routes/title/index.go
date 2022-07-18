@@ -3,7 +3,7 @@ package title
 import (
 	"errors"
 
-	"github.com/Scrip7/imdb-api/services"
+	"github.com/Scrip7/imdb-api/services/title/index"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -14,10 +14,10 @@ func Index(c *fiber.Ctx) error {
 		return errors.New("title id should be numerical, without 'tt' at the beginning")
 	}
 
-	res, err := services.Title(id)
+	res, err := index.Title(id)
 	if err != nil {
-		// TODO: global error handling middleware
 		return err
 	}
+
 	return c.JSON(res)
 }

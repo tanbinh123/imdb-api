@@ -97,6 +97,10 @@ func Index(id string) (*IndexTransform, error) {
 				Total: nextData.Props.PageProps.AboveTheFoldData.CriticReviewsTotal.Total,
 			},
 		},
+		FAQ: faq{
+			Total: nextData.Props.PageProps.MainColumnData.FaqsTotal.Total,
+			Items: getFaqItems(nextData.Props.PageProps.MainColumnData.Faqs.Edges),
+		},
 		Keywords: keyword{
 			Total: nextData.Props.PageProps.AboveTheFoldData.Keywords.Total,
 			Items: strings.Split(data.Keywords, ","),
@@ -207,6 +211,19 @@ func getFeaturedReviews(edges []featuredReviewEdge) []featuredReviewItem {
 			Likes:     v.Node.Helpfulness.UpVotes,
 			Dislikes:  v.Node.Helpfulness.DownVotes,
 			CreatedAt: v.Node.SubmissionDate,
+		})
+	}
+
+	return items
+}
+
+func getFaqItems(edges []faqEdge) []faqItem {
+	var items []faqItem
+
+	for _, v := range edges {
+		items = append(items, faqItem{
+			ID:       v.Node.ID,
+			Question: v.Node.Question.PlainText,
 		})
 	}
 

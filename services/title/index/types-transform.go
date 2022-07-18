@@ -12,6 +12,7 @@ type IndexTransform struct {
 	Images          images     `json:"images"`
 	Videos          videos     `json:"videos"`
 	Reviews         reviews    `json:"reviews"`
+	FAQ             faq        `json:"faq"`
 	Keywords        keyword    `json:"keywords"`
 }
 
@@ -106,6 +107,16 @@ type usersReviews struct {
 
 type externalReviews struct {
 	Total int64 `json:"total"`
+}
+
+type faq struct {
+	Total int64     `json:"total"`
+	Items []faqItem `json:"items"`
+}
+
+type faqItem struct {
+	ID       string `json:"id"`
+	Question string `json:"question"`
 }
 
 type keyword struct {

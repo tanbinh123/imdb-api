@@ -242,6 +242,23 @@ type AboveTheFoldDataRatingsSummary struct {
 	VoteCount       int64   `json:"voteCount"`
 }
 
+type faqEdges struct {
+	Edges []faqEdge `json:"edges"`
+}
+
+type faqEdge struct {
+	Node faqNode `json:"node"`
+}
+
+type faqNode struct {
+	ID       string      `json:"id"`
+	Question faqQuestion `json:"question"`
+}
+
+type faqQuestion struct {
+	PlainText string `json:"plainText"`
+}
+
 type ReleaseDate struct {
 	Day     int64          `json:"day"`
 	Month   int64          `json:"month"`
@@ -303,7 +320,7 @@ type MainColumnData struct {
 	Reviews                 Total                           `json:"reviews"` // total number of users reviews
 	FeaturedReviews         PurpleFeaturedReviews           `json:"featuredReviews"`
 	FaqsTotal               Total                           `json:"faqsTotal"`
-	Faqs                    Akas                            `json:"faqs"`
+	Faqs                    faqEdges                        `json:"faqs"`
 	ReleaseDate             ReleaseDate                     `json:"releaseDate"`
 	CountriesOfOrigin       MainColumnDataCountriesOfOrigin `json:"countriesOfOrigin"`
 	DetailsExternalLinks    DetailsExternalLinks            `json:"detailsExternalLinks"`

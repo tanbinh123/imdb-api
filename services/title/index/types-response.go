@@ -325,10 +325,10 @@ type MainColumnData struct {
 }
 
 type Akas struct {
-	Edges []akaNode `json:"edges"`
+	Edges []AKAEdge `json:"edges"`
 }
 
-type akaNode struct {
+type AKAEdge struct {
 	Node withText `json:"node"`
 }
 

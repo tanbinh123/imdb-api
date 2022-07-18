@@ -12,7 +12,28 @@ import (
 	"github.com/Scrip7/imdb-api/utils"
 )
 
-func Title(id string) (*IndexTransform, error) {
+func Debug(id string) (*PageProps, error) {
+	url := fmt.Sprintf(constants.TITLE_INDEX, id)
+	res, err := client.Get(url)
+	if err != nil {
+		return nil, err
+	}
+
+	doc, err := utils.ParseHTML(*res)
+	if err != nil {
+		return nil, err
+	}
+
+	nextDataJSON := doc.Find("script[type=\"application/json\"][id=\"__NEXT_DATA__\"]").First()
+	var nextData TitleIndex
+	if err := json.Unmarshal([]byte(nextDataJSON.Text()), &nextData); err != nil {
+		return nil, err
+	}
+
+	return &nextData.Props.PageProps, nil
+}
+
+func Index(id string) (*IndexTransform, error) {
 	url := fmt.Sprintf(constants.TITLE_INDEX, id)
 	res, err := client.Get(url)
 	if err != nil {
@@ -42,7 +63,14 @@ func Title(id string) (*IndexTransform, error) {
 	transform := IndexTransform{
 		ID:   nextData.Props.PageProps.MainColumnData.ID,
 		Type: slug.Make(nextData.Props.PageProps.MainColumnData.TitleType.ID),
-		Plot: nextData.Props.PageProps.AboveTheFoldData.Plot.PlotText.PlainText,
+		Title: title{
+			Text:     nextData.Props.PageProps.MainColumnData.TitleText.Text,
+			Original: nextData.Props.PageProps.MainColumnData.OriginalTitleText.Text,
+			AKA:      getTitleAKA(nextData.Props.PageProps.MainColumnData.Akas.Edges),
+		},
+		Plot:            nextData.Props.PageProps.AboveTheFoldData.Plot.PlotText.PlainText,
+		IsAdult:         nextData.Props.PageProps.MainColumnData.IsAdult,
+		CanHaveEpisodes: nextData.Props.PageProps.MainColumnData.CanHaveEpisodes,
 		Popularity: popularity{
 			Rank:       nextData.Props.PageProps.AboveTheFoldData.MeterRanking.CurrentRank,
 			Difference: getRankingDifference(nextData.Props.PageProps.AboveTheFoldData.MeterRanking.RankChange),
@@ -72,9 +100,21 @@ func Title(id string) (*IndexTransform, error) {
 			Total: nextData.Props.PageProps.AboveTheFoldData.Keywords.Total,
 			Items: strings.Split(data.Keywords, ","),
 		},
+
+		// TODO: episodes
 	}
 
 	return &transform, nil
+}
+
+func getTitleAKA(edges []AKAEdge) []string {
+	var items []string
+
+	for _, v := range edges {
+		items = append(items, v.Node.Text)
+	}
+
+	return items
 }
 
 func getRankingDifference(input RankChange) int64 {

@@ -6,7 +6,16 @@ import (
 )
 
 func Index(c *fiber.Ctx) error {
-	res, err := index.Title(c.Params("id"))
+	res, err := index.Index(c.Params("id"))
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(res)
+}
+
+func IndexDebug(c *fiber.Ctx) error {
+	res, err := index.Debug(c.Params("id"))
 	if err != nil {
 		return err
 	}

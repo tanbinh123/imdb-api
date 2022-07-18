@@ -1,14 +1,23 @@
 package index
 
 type IndexTransform struct {
-	ID         string     `json:"id"`
-	Type       string     `json:"type"`
-	Plot       string     `json:"plot"`
-	Popularity popularity `json:"popularity"`
-	Images     images     `json:"images"`
-	Videos     videos     `json:"videos"`
-	Reviews    reviews    `json:"reviews"`
-	Keywords   keyword    `json:"keywords"`
+	ID              string     `json:"id"`
+	Type            string     `json:"type"`
+	Title           title      `json:"title"`
+	Plot            string     `json:"plot"`
+	IsAdult         bool       `json:"isAdult"`
+	CanHaveEpisodes bool       `json:"canHaveEpisodes"`
+	Popularity      popularity `json:"popularity"`
+	Images          images     `json:"images"`
+	Videos          videos     `json:"videos"`
+	Reviews         reviews    `json:"reviews"`
+	Keywords        keyword    `json:"keywords"`
+}
+
+type title struct {
+	Text     string   `json:"text"`
+	Original string   `json:"original"`
+	AKA      []string `json:"aka"`
 }
 
 type popularity struct {

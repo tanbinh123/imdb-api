@@ -41,6 +41,7 @@ func main() {
 
 	t := app.Group("/title/:id")
 	t.Get("/", title.Index)
+	t.Get("/debug", title.IndexDebug)
 
 	// TODO: load url from config
 	log.Fatal(app.Listen("127.0.0.1:3000"))

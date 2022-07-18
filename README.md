@@ -44,7 +44,7 @@ Feel free to revisit it in the future.
 > ✅ Done
 >
 > 🚧 Under development.
-> 
+>
 > 💭 The route is known, but we haven't thoroughly thought about how to implement it yet!
 >
 > 😱 It broke! _(IMDb changed its response structure, it needs minor changes or re-implementation)_
@@ -74,11 +74,11 @@ Feel free to revisit it in the future.
 | `/title/:id/alternateversions`      | Title → Inform  | Alternate Versions                |   💭   |   -   |
 | `/title/:id/movieconnections`       | Title → Inform  | Connections                       |   💭   |   -   |
 | `/title/:id/soundtrack`             | Title → Inform  | Soundtracks                       |   💭   |   -   |
-| `/title/:id/awards`                 | Title → Opinion | Awards                            |   💭   |   -   |
-| `/title/:id/faq`                    | Title → Opinion | FAQ                               |   💭   |   -   |
-| `/title/:id/reviews`                | Title → Opinion | User Reviews                      |   💭   |   -   |
-| `/title/:id/ratings`                | Title → Opinion | User Ratings                      |   💭   |   -   |
-| `/title/:id/externalreviews`        | Title → Opinion | External Reviews                  |   💭   |   -   |
+| `/title/:id/awards`                 | Title → Review  | Awards                            |   💭   |   -   |
+| `/title/:id/faq`                    | Title → Review  | FAQ                               |   💭   |   -   |
+| `/title/:id/reviews`                | Title → Review  | User Reviews                      |   💭   |   -   |
+| `/title/:id/ratings`                | Title → Review  | User Ratings                      |   💭   |   -   |
+| `/title/:id/externalreviews`        | Title → Review  | External Reviews                  |   💭   |   -   |
 | `/title/:id/episodes`               | Title → TV      | Episode List                      |   💭   |   -   |
 | `/title/:id/tvschedule`             | Title → TV      | Schedule                          |   💭   |   -   |
 | `/search/title`                     | Search          | Title                             |   💭   |   -   |

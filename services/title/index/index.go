@@ -61,8 +61,17 @@ func Index(id string) (*IndexTransform, error) {
 	// Begin Transformation
 	//
 	transform := IndexTransform{
-		ID:   nextData.Props.PageProps.MainColumnData.ID,
-		Type: slug.Make(nextData.Props.PageProps.MainColumnData.TitleType.ID),
+		ID: nextData.Props.PageProps.MainColumnData.ID,
+		Validate: validate{
+			Type: slug.Make(nextData.Props.PageProps.MainColumnData.TitleType.ID),
+			// TODO: calculate
+			IsMovie: false,
+			// TODO: calculate
+			IsSeries: false,
+			// TODO: calculate
+			IsEpisode: false,
+			IsAdult:   nextData.Props.PageProps.MainColumnData.IsAdult,
+		},
 		Title: title{
 			Text:     nextData.Props.PageProps.MainColumnData.TitleText.Text,
 			Original: nextData.Props.PageProps.MainColumnData.OriginalTitleText.Text,
@@ -70,7 +79,6 @@ func Index(id string) (*IndexTransform, error) {
 		},
 		Genres:          getGenres(nextData.Props.PageProps.AboveTheFoldData.Genres.Genres),
 		Plot:            nextData.Props.PageProps.AboveTheFoldData.Plot.PlotText.PlainText,
-		IsAdult:         nextData.Props.PageProps.MainColumnData.IsAdult,
 		CanHaveEpisodes: nextData.Props.PageProps.MainColumnData.CanHaveEpisodes,
 		Popularity: popularity{
 			Rank:       nextData.Props.PageProps.AboveTheFoldData.MeterRanking.CurrentRank,
@@ -106,6 +114,7 @@ func Index(id string) (*IndexTransform, error) {
 			Items: strings.Split(data.Keywords, ","),
 		},
 
+		// TODO: series
 		// TODO: episodes
 	}
 

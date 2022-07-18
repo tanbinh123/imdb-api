@@ -34,6 +34,7 @@ type AboveTheFoldData struct {
 	Certificate        interface{}          `json:"certificate"`
 	Metacritic         interface{}          `json:"metacritic"`
 	CreatorsPageTitle  []interface{}        `json:"creatorsPageTitle"`
+	Series             titleSeries          `json:"series"`
 }
 
 type CastPageTitle struct {
@@ -334,11 +335,43 @@ type MainColumnData struct {
 	LifetimeGross           interface{}                     `json:"lifetimeGross"`
 	OpeningWeekendGross     interface{}                     `json:"openingWeekendGross"`
 	WorldwideGross          interface{}                     `json:"worldwideGross"`
-	Series                  interface{}                     `json:"series"`
 	PrestigiousAwardSummary interface{}                     `json:"prestigiousAwardSummary"`
 	Episodes                interface{}                     `json:"episodes"`
 	Creators                []interface{}                   `json:"creators"`
 	Writers                 []interface{}                   `json:"writers"`
+}
+
+type titleSeries struct {
+	EpisodeNumber   episodeNumber `json:"episodeNumber"`
+	NextEpisode     nextEpisode   `json:"nextEpisode"`
+	PreviousEpisode nextEpisode   `json:"previousEpisode"`
+	Series          seriesClass   `json:"series"`
+}
+
+type episodeNumber struct {
+	EpisodeNumber int64 `json:"episodeNumber"`
+	SeasonNumber  int64 `json:"seasonNumber"`
+}
+
+type nextEpisode struct {
+	ID string `json:"id"`
+}
+
+type seriesClass struct {
+	ID                string           `json:"id"`
+	TitleText         titleText        `json:"titleText"`
+	OriginalTitleText titleText        `json:"originalTitleText"`
+	TitleType         nextEpisode      `json:"titleType"`
+	ReleaseYear       titleReleaseYear `json:"releaseYear"`
+}
+
+type titleText struct {
+	Text string `json:"text"`
+}
+
+type titleReleaseYear struct {
+	Year    int64 `json:"year"`
+	EndYear int64 `json:"endYear"`
 }
 
 type Akas struct {

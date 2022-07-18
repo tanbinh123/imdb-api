@@ -2,18 +2,26 @@ package index
 
 type IndexTransform struct {
 	ID              string     `json:"id"`
-	Type            string     `json:"type"`
+	Validate        validate   `json:"validate"`
 	Title           title      `json:"title"`
 	Genres          []genre    `json:"genres"`
 	Plot            string     `json:"plot"`
-	IsAdult         bool       `json:"isAdult"`
 	CanHaveEpisodes bool       `json:"canHaveEpisodes"`
 	Popularity      popularity `json:"popularity"`
 	Images          images     `json:"images"`
 	Videos          videos     `json:"videos"`
+	Series          series     `json:"series"`
 	Reviews         reviews    `json:"reviews"`
 	FAQ             faq        `json:"faq"`
 	Keywords        keyword    `json:"keywords"`
+}
+
+type validate struct {
+	Type      string `json:"type"`
+	IsMovie   bool   `json:"isMovie"`
+	IsSeries  bool   `json:"isSeries"`
+	IsEpisode bool   `json:"isEpisode"`
+	IsAdult   bool   `json:"isAdult"`
 }
 
 type title struct {
@@ -46,6 +54,31 @@ type videoItem struct {
 	Thumbnail   thumbnail      `json:"thumbnail"`
 	Playback    []playbackItem `json:"playback"`
 	IsMature    bool           `json:"isMature"`
+}
+
+type series struct {
+	ID                string        `json:"id"`
+	Title             seriesTitle   `json:"title"`
+	Type              string        `json:"type"` // in most cases its "tvseries"
+	Current           seriesCurrent `json:"current"`
+	NextEpisodeID     string        `json:"nextEpisodeId"`
+	PreviousEpisodeID string        `json:"previousEpisodeId"`
+	ReleaseYear       releaseYear   `json:"releaseYear"`
+}
+
+type seriesTitle struct {
+	Text     string `json:"text"`
+	Original string `json:"original"`
+}
+
+type seriesCurrent struct {
+	Episode int64 `json:"episode"` // episode number (starts from 1)
+	Season  int64 `json:"season"`  // season number (starts from 1)
+}
+
+type releaseYear struct {
+	From int64 `json:"from"`
+	To   int64 `json:"to"`
 }
 
 type playbackItem struct {

@@ -16,9 +16,18 @@ A cross-platform [Go](https://go.dev) microservice application to scrap the [IMD
 
 > **Warning**
 >
-> Keep in mind this app does **not** have a rate-limiting middleware or authentication/authorization guards to protect itself against online spam threads.
+> Keep in mind this app does **not** have rate-limiting or authentication features to protect itself against spam threads.
 >
-> The public end-users should **not** have direct access to its interface unless you know what you're doing.
+> The end-users should **not** have direct access to its interface unless you understand what you're doing.
+
+## Features
+
+- [ ] Proxy support
+- [ ] Swagger documentation
+- [ ] [Slug](https://en.wikipedia.org/wiki/Slug) generator
+- [ ] In-memory caching
+- [ ] CLI tool
+- [ ] Docker Hub image
 
 ## Motivation
 
@@ -49,17 +58,6 @@ I chose it because it is more performant and efficient and can compile the packa
 I'm not confident about my coding approaches, maybe I'm stuck with JS strategies in my head, but I'm excited about how it will end up.
 
 Feel free to join my journey by contributing to this project.
-
-Pull requests are more than welcome.
-
-## Features
-
-- [ ] Proxy support
-- [ ] Swagger documentation
-- [ ] [Slug](https://en.wikipedia.org/wiki/Slug) generator
-- [ ] In-memory caching
-- [ ] CLI tool
-- [ ] Docker Hub image
 
 ## Routes coverage
 

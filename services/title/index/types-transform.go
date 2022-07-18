@@ -5,20 +5,15 @@ type IndexTransform struct {
 	Type       string     `json:"type"`
 	Plot       string     `json:"plot"`
 	Popularity popularity `json:"popularity"`
-	Videos     videos     `json:"videos"`
 	Images     images     `json:"images"`
+	Videos     videos     `json:"videos"`
 	Reviews    reviews    `json:"reviews"`
 	Keywords   keyword    `json:"keywords"`
 }
 
 type popularity struct {
-	Rank   int64            `json:"rank"`
-	Change popularityChange `json:"change"`
-}
-
-type popularityChange struct {
-	Direction  string `json:"direction"`
-	Difference int64  `json:"difference"`
+	Rank       int64 `json:"rank"`
+	Difference int64 `json:"difference"`
 }
 
 type videos struct {

@@ -39,12 +39,8 @@ func Title(id string) (*IndexTransform, error) {
 		Type: slug.Make(nextData.Props.PageProps.MainColumnData.TitleType.ID),
 		Plot: nextData.Props.PageProps.AboveTheFoldData.Plot.PlotText.PlainText,
 		Popularity: popularity{
-			Rank:   nextData.Props.PageProps.AboveTheFoldData.MeterRanking.CurrentRank,
-			Change: getRankingChange(nextData.Props.PageProps.AboveTheFoldData.MeterRanking.RankChange),
-		},
-		Videos: videos{
-			Total: nextData.Props.PageProps.MainColumnData.Videos.Total,
-			Items: getVideoItems(nextData.Props.PageProps.AboveTheFoldData.PrimaryVideos.Edges),
+			Rank:       nextData.Props.PageProps.AboveTheFoldData.MeterRanking.CurrentRank,
+			Difference: getRankingDifference(nextData.Props.PageProps.AboveTheFoldData.MeterRanking.RankChange),
 		},
 		Images: images{
 			Total: nextData.Props.PageProps.MainColumnData.TitleMainImages.Total,
@@ -53,6 +49,10 @@ func Title(id string) (*IndexTransform, error) {
 				URL: data.Image,
 			},
 			Items: getImageItems(nextData.Props.PageProps.MainColumnData.TitleMainImages.Edges),
+		},
+		Videos: videos{
+			Total: nextData.Props.PageProps.MainColumnData.Videos.Total,
+			Items: getVideoItems(nextData.Props.PageProps.AboveTheFoldData.PrimaryVideos.Edges),
 		},
 		Reviews: reviews{
 			Featured: getFeaturedReviews(nextData.Props.PageProps.MainColumnData.FeaturedReviews.Edges),
@@ -72,12 +72,27 @@ func Title(id string) (*IndexTransform, error) {
 	return &transform, nil
 }
 
-func getRankingChange(input RankChange) popularityChange {
-	return popularityChange{
-		Direction: strings.ToLower(input.ChangeDirection),
-		// TODO: make it a negative number when the direction is "down"
-		Difference: input.Difference,
+func getRankingDifference(input RankChange) int64 {
+	if strings.ToLower(input.ChangeDirection) == "down" {
+		return -(input.Difference)
 	}
+	return input.Difference
+}
+
+func getImageItems(edges []TitleMainImagesEdge) []imageItem {
+	var items []imageItem
+
+	for _, v := range edges {
+		items = append(items, imageItem{
+			ID:      v.Node.ID,
+			Width:   v.Node.Width,
+			Height:  v.Node.Height,
+			URL:     v.Node.URL,
+			Caption: v.Node.Caption.PlainText,
+		})
+	}
+
+	return items
 }
 
 func getVideoItems(edges []PrimaryVideosEdge) []videoItem {
@@ -111,22 +126,6 @@ func getVideoPlaybackItems(urls []URL) []playbackItem {
 			Quality:  v.DisplayName.Value,
 			MIMEType: v.MIMEType,
 			URL:      v.URL,
-		})
-	}
-
-	return items
-}
-
-func getImageItems(edges []TitleMainImagesEdge) []imageItem {
-	var items []imageItem
-
-	for _, v := range edges {
-		items = append(items, imageItem{
-			ID:      v.Node.ID,
-			Width:   v.Node.Width,
-			Height:  v.Node.Height,
-			URL:     v.Node.URL,
-			Caption: v.Node.Caption.PlainText,
 		})
 	}
 

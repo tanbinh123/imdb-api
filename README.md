@@ -71,7 +71,7 @@ In any stage of development, Pull Requests are more than welcome. 😊
 >
 > 💭 The route is known, but haven't fully thought how to implement it, yet!
 >
-> ❌ Failed to implement _(PRs are more than welcome)_
+> ❌ Failed to implement
 
 | URL                                         | Page Title                                   | Implementation | Tests |
 | ------------------------------------------- | -------------------------------------------- | :------------: | :---: |

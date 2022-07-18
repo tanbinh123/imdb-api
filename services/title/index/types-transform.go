@@ -7,6 +7,7 @@ type IndexTransform struct {
 	Popularity popularity `json:"popularity"`
 	Videos     videos     `json:"videos"`
 	Images     images     `json:"images"`
+	Reviews    reviews    `json:"reviews"`
 	Keywords   keyword    `json:"keywords"`
 }
 
@@ -65,6 +66,36 @@ type imageItem struct {
 	Width   int64  `json:"width"`
 	Height  int64  `json:"height"`
 	Caption string `json:"caption"`
+}
+
+type reviews struct {
+	Featured []featuredReviewItem `json:"featured"`
+	Users    usersReviews         `json:"users"`
+	External externalReviews      `json:"external"`
+}
+
+type featuredReviewItem struct {
+	ID        string       `json:"id"`
+	Author    reviewAuthor `json:"author"`
+	Summary   string       `json:"summary"`
+	Text      string       `json:"text"`
+	Likes     int64        `json:"likes"`
+	Dislikes  int64        `json:"dislikes"`
+	CreatedAt string       `json:"createdAt"`
+}
+
+type reviewAuthor struct {
+	ID       string `json:"id"`
+	Nickname string `json:"nickname"`
+	Rating   int64  `json:"rating"`
+}
+
+type usersReviews struct {
+	Total int64 `json:"total"`
+}
+
+type externalReviews struct {
+	Total int64 `json:"total"`
 }
 
 type keyword struct {

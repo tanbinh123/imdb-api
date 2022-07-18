@@ -9,6 +9,7 @@ import (
 
 	"github.com/Scrip7/imdb-api/constants"
 	"github.com/Scrip7/imdb-api/request"
+	"github.com/Scrip7/imdb-api/utils"
 )
 
 func Title(id string) (*IndexTransform, error) {
@@ -52,6 +53,15 @@ func Title(id string) (*IndexTransform, error) {
 				URL: data.Image,
 			},
 			Items: getImageItems(nextData.Props.PageProps.MainColumnData.TitleMainImages.Edges),
+		},
+		Reviews: reviews{
+			Featured: getFeaturedReviews(nextData.Props.PageProps.MainColumnData.FeaturedReviews.Edges),
+			Users: usersReviews{
+				Total: nextData.Props.PageProps.MainColumnData.Reviews.Total,
+			},
+			External: externalReviews{
+				Total: nextData.Props.PageProps.AboveTheFoldData.CriticReviewsTotal.Total,
+			},
 		},
 		Keywords: keyword{
 			Total: nextData.Props.PageProps.AboveTheFoldData.Keywords.Total,
@@ -117,6 +127,28 @@ func getImageItems(edges []TitleMainImagesEdge) []imageItem {
 			Height:  v.Node.Height,
 			URL:     v.Node.URL,
 			Caption: v.Node.Caption.PlainText,
+		})
+	}
+
+	return items
+}
+
+func getFeaturedReviews(edges []featuredReviewEdge) []featuredReviewItem {
+	var items []featuredReviewItem
+
+	for _, v := range edges {
+		items = append(items, featuredReviewItem{
+			ID: v.Node.ID,
+			Author: reviewAuthor{
+				ID:       v.Node.Author.UserID,
+				Nickname: v.Node.Author.NickName,
+				Rating:   v.Node.AuthorRating,
+			},
+			Summary:   v.Node.Summary.OriginalText,
+			Text:      utils.ParseHTMLToString(v.Node.Text.OriginalText.PlaidHTML),
+			Likes:     v.Node.Helpfulness.UpVotes,
+			Dislikes:  v.Node.Helpfulness.DownVotes,
+			CreatedAt: v.Node.SubmissionDate,
 		})
 	}
 

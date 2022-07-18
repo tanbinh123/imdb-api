@@ -27,17 +27,13 @@ type AboveTheFoldData struct {
 	Plot               Plot                 `json:"plot"`
 	Credits            Total                `json:"credits"`
 	PrincipalCredits   []PrincipalCredit    `json:"principalCredits"`
-	CriticReviewsTotal Total                `json:"criticReviewsTotal"`
+	CriticReviewsTotal Total                `json:"criticReviewsTotal"` // total number of external reviews
 	Meta               Meta                 `json:"meta"`
 	CastPageTitle      CastPageTitle        `json:"castPageTitle"`
 	DirectorsPageTitle []DirectorsPageTitle `json:"directorsPageTitle"`
 	Certificate        interface{}          `json:"certificate"`
 	Metacritic         interface{}          `json:"metacritic"`
 	CreatorsPageTitle  []interface{}        `json:"creatorsPageTitle"`
-}
-
-type CanRateBoolean struct {
-	IsRatable bool `json:"isRatable"`
 }
 
 type CastPageTitle struct {
@@ -138,10 +134,6 @@ type RankChange struct {
 
 type Plot struct {
 	PlotText PlotText `json:"plotText"`
-}
-
-type Link struct {
-	URL string `json:"url"`
 }
 
 type NodeClass struct {
@@ -308,10 +300,8 @@ type MainColumnData struct {
 	TitleText               withText                        `json:"titleText"`
 	OriginalTitleText       withText                        `json:"originalTitleText"`
 	ReleaseYear             AssociatedTitleReleaseYear      `json:"releaseYear"`
-	Reviews                 Total                           `json:"reviews"`
+	Reviews                 Total                           `json:"reviews"` // total number of users reviews
 	FeaturedReviews         PurpleFeaturedReviews           `json:"featuredReviews"`
-	CanRate                 CanRateBoolean                  `json:"canRate"`
-	IframeAddReviewLink     Link                            `json:"iframeAddReviewLink"`
 	FaqsTotal               Total                           `json:"faqsTotal"`
 	Faqs                    Akas                            `json:"faqs"`
 	ReleaseDate             ReleaseDate                     `json:"releaseDate"`
@@ -426,14 +416,14 @@ type Director struct {
 }
 
 type PurpleFeaturedReviews struct {
-	Edges []PurpleEdge `json:"edges"`
+	Edges []featuredReviewEdge `json:"edges"`
 }
 
-type PurpleEdge struct {
-	Node AmbitiousNode `json:"node"`
+type featuredReviewEdge struct {
+	Node featuredReviewNode `json:"node"`
 }
 
-type AmbitiousNode struct {
+type featuredReviewNode struct {
 	ID             string       `json:"id"`
 	Author         FluffyAuthor `json:"author"`
 	Summary        Summary      `json:"summary"`
@@ -479,7 +469,6 @@ type CunningNode struct {
 	RatingsSummary     AboveTheFoldDataRatingsSummary `json:"ratingsSummary"`
 	Runtime            *AboveTheFoldDataRuntime       `json:"runtime"`
 	Certificate        *Certificate                   `json:"certificate"`
-	CanRate            CanRateBoolean                 `json:"canRate"`
 	TitleCardGenres    TitleCardGenres                `json:"titleCardGenres"`
 	CanHaveEpisodes    bool                           `json:"canHaveEpisodes"`
 	PrimaryWatchOption *PrimaryWatchOption            `json:"primaryWatchOption"`

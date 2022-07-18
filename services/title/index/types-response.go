@@ -23,7 +23,7 @@ type AboveTheFoldData struct {
 	PrimaryVideos      PrimaryVideos        `json:"primaryVideos"`
 	ExternalLinks      Total                `json:"externalLinks"`
 	Keywords           Keywords             `json:"keywords"`
-	Genres             GenresClass          `json:"genres"`
+	Genres             GenresWrapper        `json:"genres"`
 	Plot               Plot                 `json:"plot"`
 	Credits            Total                `json:"credits"`
 	PrincipalCredits   []PrincipalCredit    `json:"principalCredits"`
@@ -104,11 +104,11 @@ type PlotText struct {
 	PlainText string `json:"plainText"`
 }
 
-type GenresClass struct {
-	Genres []CurrentProductionStage `json:"genres"`
+type GenresWrapper struct {
+	Genres []withTextAndID `json:"genres"`
 }
 
-type CurrentProductionStage struct {
+type withTextAndID struct {
 	Text string `json:"text"`
 	ID   string `json:"id"`
 }
@@ -194,9 +194,9 @@ type Thumbnail struct {
 }
 
 type PrincipalCredit struct {
-	TotalCredits int64                  `json:"totalCredits"`
-	Category     CurrentProductionStage `json:"category"`
-	Credits      []Credit               `json:"credits"`
+	TotalCredits int64         `json:"totalCredits"`
+	Category     withTextAndID `json:"category"`
+	Credits      []Credit      `json:"credits"`
 }
 
 type Credit struct {
@@ -228,13 +228,13 @@ type Company struct {
 }
 
 type ProductionStatus struct {
-	CurrentProductionStage  CurrentProductionStage    `json:"currentProductionStage"`
+	CurrentProductionStage  withTextAndID             `json:"currentProductionStage"`
 	ProductionStatusHistory []ProductionStatusHistory `json:"productionStatusHistory"`
 	Restriction             interface{}               `json:"restriction"`
 }
 
 type ProductionStatusHistory struct {
-	Status CurrentProductionStage `json:"status"`
+	Status withTextAndID `json:"status"`
 }
 
 type AboveTheFoldDataRatingsSummary struct {
@@ -243,10 +243,10 @@ type AboveTheFoldDataRatingsSummary struct {
 }
 
 type ReleaseDate struct {
-	Day     int64                   `json:"day"`
-	Month   int64                   `json:"month"`
-	Year    int64                   `json:"year"`
-	Country *CurrentProductionStage `json:"country,omitempty"`
+	Day     int64          `json:"day"`
+	Month   int64          `json:"month"`
+	Year    int64          `json:"year"`
+	Country *withTextAndID `json:"country,omitempty"`
 }
 
 type AboveTheFoldDataReleaseYear struct {
@@ -391,7 +391,7 @@ type SeriesSeries struct {
 }
 
 type MainColumnDataCountriesOfOrigin struct {
-	Countries []CurrentProductionStage `json:"countries"`
+	Countries []withTextAndID `json:"countries"`
 }
 
 type DetailsExternalLinks struct {
@@ -463,7 +463,7 @@ type CunningNode struct {
 	ID                 string                         `json:"id"`
 	TitleText          withText                       `json:"titleText"`
 	OriginalTitleText  withText                       `json:"originalTitleText"`
-	TitleType          CurrentProductionStage         `json:"titleType"`
+	TitleType          withTextAndID                  `json:"titleType"`
 	PrimaryImage       NodeClass                      `json:"primaryImage"`
 	ReleaseYear        AboveTheFoldDataReleaseYear    `json:"releaseYear"`
 	RatingsSummary     AboveTheFoldDataRatingsSummary `json:"ratingsSummary"`
@@ -527,7 +527,7 @@ type FriskyNode struct {
 }
 
 type SpokenLanguages struct {
-	SpokenLanguages []CurrentProductionStage `json:"spokenLanguages"`
+	SpokenLanguages []withTextAndID `json:"spokenLanguages"`
 }
 
 type TitleMainImages struct {

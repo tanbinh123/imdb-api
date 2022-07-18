@@ -68,6 +68,7 @@ func Index(id string) (*IndexTransform, error) {
 			Original: nextData.Props.PageProps.MainColumnData.OriginalTitleText.Text,
 			AKA:      getTitleAKA(nextData.Props.PageProps.MainColumnData.Akas.Edges),
 		},
+		Genres:          getGenres(nextData.Props.PageProps.AboveTheFoldData.Genres.Genres),
 		Plot:            nextData.Props.PageProps.AboveTheFoldData.Plot.PlotText.PlainText,
 		IsAdult:         nextData.Props.PageProps.MainColumnData.IsAdult,
 		CanHaveEpisodes: nextData.Props.PageProps.MainColumnData.CanHaveEpisodes,
@@ -112,6 +113,19 @@ func getTitleAKA(edges []AKAEdge) []string {
 
 	for _, v := range edges {
 		items = append(items, v.Node.Text)
+	}
+
+	return items
+}
+
+func getGenres(genres []withTextAndID) []genre {
+	var items []genre
+
+	for _, v := range genres {
+		items = append(items, genre{
+			Name: v.Text,
+			Slug: slug.Make(v.ID),
+		})
 	}
 
 	return items

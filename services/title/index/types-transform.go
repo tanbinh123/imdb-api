@@ -4,6 +4,7 @@ type IndexTransform struct {
 	ID              string     `json:"id"`
 	Type            string     `json:"type"`
 	Title           title      `json:"title"`
+	Genres          []genre    `json:"genres"`
 	Plot            string     `json:"plot"`
 	IsAdult         bool       `json:"isAdult"`
 	CanHaveEpisodes bool       `json:"canHaveEpisodes"`
@@ -18,6 +19,11 @@ type title struct {
 	Text     string   `json:"text"`
 	Original string   `json:"original"`
 	AKA      []string `json:"aka"`
+}
+
+type genre struct {
+	Name string `json:"name"`
+	Slug string `json:"slug"` // can directly be used in advances search feature
 }
 
 type popularity struct {

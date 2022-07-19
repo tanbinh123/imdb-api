@@ -13,8 +13,9 @@ import (
 	"github.com/Scrip7/imdb-api/utils"
 )
 
+// TODO: Remove this method after implementation
 func Debug(id string) (*pageProps, error) {
-	url := fmt.Sprintf(constants.TITLE_INDEX, id)
+	url := fmt.Sprintf(constants.URL_TITLE_INDEX, id)
 	res, err := client.Get(url)
 	if err != nil {
 		return nil, err
@@ -35,7 +36,7 @@ func Debug(id string) (*pageProps, error) {
 }
 
 func Index(id string) (*IndexTransform, error) {
-	url := fmt.Sprintf(constants.TITLE_INDEX, id)
+	url := fmt.Sprintf(constants.URL_TITLE_INDEX, id)
 	res, err := client.Get(url)
 	if err != nil {
 		return nil, err
@@ -46,12 +47,20 @@ func Index(id string) (*IndexTransform, error) {
 		return nil, err
 	}
 
+	// Extract the first JSON string, which is usually on top of the web page's source code
+	// this is manually generated based on "schema.org" schemas,
+	// and it's unlikely to change in the future.
 	scriptJSON := doc.Find("script[type=\"application/ld+json\"]").First()
 	var data scriptResponse
 	if err := json.Unmarshal([]byte(scriptJSON.Text()), &data); err != nil {
 		return nil, err
 	}
 
+	// Extract the second JSON string
+	// which is usually in the middle or bottom of the web page's source code
+	// the Next.JS framework automatically generates this.
+	// Most likely, the structure of this JSON object is going to change.
+	// But as long as they use the Next.JS framework, the approach remains the same.
 	nextDataJSON := doc.Find("script[type=\"application/json\"][id=\"__NEXT_DATA__\"]").First()
 	var nextData titleIndex
 	if err := json.Unmarshal([]byte(nextDataJSON.Text()), &nextData); err != nil {
@@ -61,83 +70,91 @@ func Index(id string) (*IndexTransform, error) {
 	//
 	// Begin Transformation
 	//
-	titleType := strcase.ToLowerCamel(nextData.Props.PageProps.MainColumnData.TitleType.ID)
 
+	// To improve code readability
+	above := &nextData.Props.PageProps.AboveTheFoldData
+	main := &nextData.Props.PageProps.MainColumnData
+
+	// The lowerCamelCase is the structure we follow based on constants
+	// to provide a consistent stable API
+	titleType := strcase.ToLowerCamel(main.TitleType.ID)
+
+	// Values are refactored with the Extract Method technique
+	// https://refactoring.guru/extract-method
 	transform := IndexTransform{
-		ID: nextData.Props.PageProps.MainColumnData.ID,
+		ID: main.ID,
 		Validate: validate{
-			Type: titleType,
-			// TODO: refactor types to const
-			IsMovie:         titleType == "movie",
-			IsSeries:        titleType == "tvSeries" || titleType == "tvEpisode",
-			IsEpisode:       titleType == "tvEpisode",
-			IsAdult:         nextData.Props.PageProps.MainColumnData.IsAdult,
-			CanHaveEpisodes: nextData.Props.PageProps.MainColumnData.CanHaveEpisodes,
+			Type:            titleType,
+			IsMovie:         titleType == constants.TITLE_TYPE_MOVIE,
+			IsSeries:        titleType == constants.TITLE_TYPE_SERIES || titleType == constants.TITLE_TYPE_EPISODE,
+			IsEpisode:       titleType == constants.TITLE_TYPE_EPISODE,
+			IsAdult:         main.IsAdult,
+			CanHaveEpisodes: main.CanHaveEpisodes,
 		},
 		Title: title{
-			Text:     nextData.Props.PageProps.MainColumnData.TitleText.Text,
-			Original: nextData.Props.PageProps.MainColumnData.OriginalTitleText.Text,
-			Slug:     slug.Make(nextData.Props.PageProps.MainColumnData.OriginalTitleText.Text),
-			AKA:      getTitleAKA(nextData.Props.PageProps.MainColumnData.Akas.Edges),
+			Text:     main.TitleText.Text,
+			Original: main.OriginalTitleText.Text,
+			Slug:     slug.Make(main.OriginalTitleText.Text),
+			AKA:      getTitleAKA(main.Akas.Edges),
 		},
-		Genres: getGenres(nextData.Props.PageProps.AboveTheFoldData.Genres.Genres),
-		Plot:   nextData.Props.PageProps.AboveTheFoldData.Plot.PlotText.PlainText,
+		Genres: getGenres(above.Genres.Genres),
+		Plot:   above.Plot.PlotText.PlainText,
 		Popularity: popularity{
-			Rank:       nextData.Props.PageProps.AboveTheFoldData.MeterRanking.CurrentRank,
-			Difference: getRankingDifference(nextData.Props.PageProps.AboveTheFoldData.MeterRanking.RankChange),
+			Rank:       above.MeterRanking.CurrentRank,
+			Difference: getRankingDifference(above.MeterRanking.RankChange),
 		},
 		Images: images{
-			Total: nextData.Props.PageProps.MainColumnData.TitleMainImages.Total,
+			Total: main.TitleMainImages.Total,
 			Primary: primaryImage{
-				ID:  nextData.Props.PageProps.MainColumnData.PrimaryImage.ID,
+				ID:  main.PrimaryImage.ID,
 				URL: data.Image,
 			},
-			Items: getImageItems(nextData.Props.PageProps.MainColumnData.TitleMainImages.Edges),
+			Items: getImageItems(main.TitleMainImages.Edges),
 		},
 		Videos: videos{
-			Total: nextData.Props.PageProps.MainColumnData.Videos.Total,
-			Items: getVideoItems(nextData.Props.PageProps.AboveTheFoldData.PrimaryVideos.Edges),
-		},
-		Series: series{
-			ID: seriesID{
-				Parent:          nextData.Props.PageProps.AboveTheFoldData.Series.Series.ID,
-				EpisodeNext:     nextData.Props.PageProps.AboveTheFoldData.Series.NextEpisode.ID,
-				EpisodePrevious: nextData.Props.PageProps.AboveTheFoldData.Series.PreviousEpisode.ID,
-			},
-			Title: seriesTitle{
-				Text:     nextData.Props.PageProps.AboveTheFoldData.Series.Series.TitleText.Text,
-				Original: nextData.Props.PageProps.AboveTheFoldData.Series.Series.OriginalTitleText.Text,
-				Slug:     slug.Make(nextData.Props.PageProps.AboveTheFoldData.Series.Series.OriginalTitleText.Text),
-			},
-			Current: seriesCurrent{
-				Episode: nextData.Props.PageProps.AboveTheFoldData.Series.EpisodeNumber.EpisodeNumber,
-				Season:  nextData.Props.PageProps.AboveTheFoldData.Series.EpisodeNumber.SeasonNumber,
-			},
-			ReleaseYear: releaseYear{
-				From: nextData.Props.PageProps.AboveTheFoldData.Series.Series.ReleaseYear.Year,
-				To:   nextData.Props.PageProps.AboveTheFoldData.Series.Series.ReleaseYear.EndYear,
-			},
+			Total: main.Videos.Total,
+			Items: getVideoItems(above.PrimaryVideos.Edges),
 		},
 		Reviews: reviews{
-			Featured: getFeaturedReviews(nextData.Props.PageProps.MainColumnData.FeaturedReviews.Edges),
+			Featured: getFeaturedReviews(main.FeaturedReviews.Edges),
 			Users: usersReviews{
-				Total: nextData.Props.PageProps.MainColumnData.Reviews.Total,
+				Total: main.Reviews.Total,
 			},
 			External: externalReviews{
-				Total: nextData.Props.PageProps.AboveTheFoldData.CriticReviewsTotal.Total,
+				Total: above.CriticReviewsTotal.Total,
 			},
 		},
 		FAQ: faq{
-			Total: nextData.Props.PageProps.MainColumnData.FaqsTotal.Total,
-			Items: getFaqItems(nextData.Props.PageProps.MainColumnData.Faqs.Edges),
+			Total: main.FaqsTotal.Total,
+			Items: getFaqItems(main.Faqs.Edges),
 		},
 		Trivia: trivia{
-			Total: nextData.Props.PageProps.MainColumnData.TriviaTotal.Total,
-			Items: getTriviaItems(nextData.Props.PageProps.MainColumnData.Trivia.Edges),
+			Total: main.TriviaTotal.Total,
+			Items: getTriviaItems(main.Trivia.Edges),
 		},
 		Keywords: keyword{
-			Total: nextData.Props.PageProps.AboveTheFoldData.Keywords.Total,
+			Total: above.Keywords.Total,
 			Items: strings.Split(data.Keywords, ","),
+		},
+		Series: series{
+			ID: seriesID{
+				Parent:          above.Series.Series.ID,
+				EpisodeNext:     above.Series.NextEpisode.ID,
+				EpisodePrevious: above.Series.PreviousEpisode.ID,
+			},
+			Title: seriesTitle{
+				Text:     above.Series.Series.TitleText.Text,
+				Original: above.Series.Series.OriginalTitleText.Text,
+				Slug:     slug.Make(above.Series.Series.OriginalTitleText.Text),
+			},
+			Current: seriesCurrent{
+				Episode: above.Series.EpisodeNumber.EpisodeNumber,
+				Season:  above.Series.EpisodeNumber.SeasonNumber,
+			},
+			ReleaseYear: releaseYear{
+				From: above.Series.Series.ReleaseYear.Year,
+				To:   above.Series.Series.ReleaseYear.EndYear,
+			},
 		},
 	}
 

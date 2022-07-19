@@ -9,11 +9,11 @@ type IndexTransform struct {
 	Popularity popularity `json:"popularity"`
 	Images     images     `json:"images"`
 	Videos     videos     `json:"videos"`
-	Series     series     `json:"series"` // only when viewing an episode of a series
 	Reviews    reviews    `json:"reviews"`
 	FAQ        faq        `json:"faq"`
 	Trivia     trivia     `json:"trivia"`
 	Keywords   keyword    `json:"keywords"`
+	Series     series     `json:"series"` // only when viewing an episode of a series
 }
 
 type validate struct {

@@ -34,7 +34,7 @@ type aboveTheFoldData struct {
 	Certificate        interface{}          `json:"certificate"`
 	Metacritic         interface{}          `json:"metacritic"`
 	CreatorsPageTitle  []interface{}        `json:"creatorsPageTitle"`
-	Series             titleSeries          `json:"series"`
+	Series             titleSeries          `json:"series"` // only when viewing an episode of a series
 }
 
 type castPageTitle struct {
@@ -318,9 +318,9 @@ type mainColumnData struct {
 	OpeningWeekendGross     interface{}                     `json:"openingWeekendGross"`
 	WorldwideGross          interface{}                     `json:"worldwideGross"`
 	PrestigiousAwardSummary interface{}                     `json:"prestigiousAwardSummary"`
-	Episodes                interface{}                     `json:"episodes"`
 	Creators                []interface{}                   `json:"creators"`
 	Writers                 []interface{}                   `json:"writers"`
+	Episodes                interface{}                     `json:"episodes"` // only when viewing the parent series ID
 }
 
 type titleSeries struct {

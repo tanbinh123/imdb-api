@@ -23,7 +23,9 @@ func main() {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 
 	// Set config defaults
+	viper.SetDefault("DEBUG", true)
 	viper.SetDefault("SERVER_ADDR", "127.0.0.1:3000")
+	viper.SetDefault("CACHE_DURATION", 0)
 
 	// Load config file
 	viper.SetConfigName(".env") // name of config file (without extension)
@@ -31,7 +33,7 @@ func main() {
 	viper.AddConfigPath(".")    // Look for config in the working directory
 	err := viper.ReadInConfig() // Find and read the config file
 	if err != nil {             // Handle errors reading the config file
-		log.Fatal().Msgf("fatal error config file: %v", err)
+		log.Fatal().Err(err).Msg("fatal error config file")
 	}
 
 	// Default level for this example is info, unless debug flag is present
@@ -47,10 +49,13 @@ func main() {
 	log.Info().Msg("Config loaded")
 
 	app := fiber.New(fiber.Config{
-		JSONEncoder: json.Marshal,
-		JSONDecoder: json.Unmarshal,
+		JSONEncoder:       json.Marshal,
+		JSONDecoder:       json.Unmarshal,
+		Prefork:           viper.GetBool("PREFORK"),
+		EnablePrintRoutes: viper.GetBool("PRINT_ROUTES"),
+		GETOnly:           true,
 		ErrorHandler: func(c *fiber.Ctx, err error) error {
-			log.Err(err)
+			log.Err(err).Send()
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"ok":      false,
 				"message": err.Error(),
@@ -65,12 +70,13 @@ func main() {
 	// Cache middleware
 	app.Use(cache.New(cache.Config{
 		Next: func(c *fiber.Ctx) bool {
-			// TODO: replace with header
-			return c.Query("refresh") == "true"
+			return c.Query("refresh") != "" && c.GetReqHeaders()["Refresh"] != ""
 		},
-		// TODO: load from config
-		Expiration: 5 * time.Second,
-		// CacheControl: true,
+		CacheHeader:          "X-Cache",
+		Expiration:           viper.GetDuration("CACHE_DURATION") * time.Millisecond,
+		StoreResponseHeaders: false,
+		CacheControl:         false,
+		MaxBytes:             0,
 	}))
 
 	t := app.Group("/title/:id")

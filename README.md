@@ -31,8 +31,20 @@ A cross-platform [Go][7] microservice application to scrap the [IMDb][8] website
 
 ## Installation
 
-```
-Placeholder.
+You can always download the latest binary version from the [releases page][15].
+
+If you're going to build the project on your own, here are the pre-requirements:
+
+- [Git][16]
+- [Go][17]
+
+Once you have installed and configured them _(if necessary)_, execute the following commands:
+
+```bash
+git clone https://github.com/Scrip7/imdb-api.git
+cd imdb-api
+cp .env.example .env
+go run main.go
 ```
 
 ## Coverage
@@ -164,3 +176,6 @@ See the [`LICENSE`][5] file for more information.
 [12]: https://github.com/Scrip7/imdb-api
 [13]: https://en.wikipedia.org/wiki/IMDb
 [14]: <https://en.wikipedia.org/wiki/Amazon_(company)>
+[15]: https://github.com/Scrip7/imdb-api/releases
+[16]: https://linode.com/docs/guides/how-to-install-git-on-linux-mac-and-windows
+[17]: https://go.dev/doc/install

@@ -40,5 +40,8 @@ jobs:
           key: go-${{ matrix.os }}-${{ matrix.go-version }}-${{ hashFiles('**/go.sum') }}
           restore-keys: go-${{ matrix.os }}-${{ matrix.go-version }}
 
+      - name: Copy .env file
+        run: cp .env.example .env
+
       - name: Running test
         run: go test -v ./...

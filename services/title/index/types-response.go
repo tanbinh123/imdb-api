@@ -31,10 +31,11 @@ type aboveTheFoldData struct {
 	Meta               meta                 `json:"meta"`
 	CastPageTitle      castPageTitle        `json:"castPageTitle"`
 	DirectorsPageTitle []directorsPageTitle `json:"directorsPageTitle"`
-	Certificate        interface{}          `json:"certificate"`
-	Metacritic         interface{}          `json:"metacritic"`
-	CreatorsPageTitle  []interface{}        `json:"creatorsPageTitle"`
 	Series             titleSeries          `json:"series"` // only when viewing an episode of a series
+	// TODO: improve typings
+	Certificate       interface{}   `json:"certificate"`
+	Metacritic        interface{}   `json:"metacritic"`
+	CreatorsPageTitle []interface{} `json:"creatorsPageTitle"`
 }
 
 type castPageTitle struct {
@@ -313,14 +314,48 @@ type mainColumnData struct {
 	Production              titleProduction                 `json:"production"`
 	Companies               totalWrapper                    `json:"companies"`
 	Runtime                 aboveTheFoldDataRuntime         `json:"runtime"`
-	ProductionBudget        interface{}                     `json:"productionBudget"`
-	LifetimeGross           interface{}                     `json:"lifetimeGross"`
-	OpeningWeekendGross     interface{}                     `json:"openingWeekendGross"`
-	WorldwideGross          interface{}                     `json:"worldwideGross"`
-	PrestigiousAwardSummary interface{}                     `json:"prestigiousAwardSummary"`
-	Creators                []interface{}                   `json:"creators"`
-	Writers                 []interface{}                   `json:"writers"`
-	Episodes                interface{}                     `json:"episodes"` // only when viewing the parent series ID
+	LifetimeGross           titleLifetimeGross              `json:"lifetimeGross"`
+	OpeningWeekendGross     titleOpeningWeekendGross        `json:"openingWeekendGross"`
+	WorldwideGross          titleWorldwideGross             `json:"worldwideGross"`
+	PrestigiousAwardSummary prestigiousAwardSummary         `json:"prestigiousAwardSummary"`
+	Creators                []titleCreator                  `json:"creators"`
+	Episodes                titleEpisodesWrapper            `json:"episodes"` // only when viewing the parent series ID
+	// TODO: improve typings
+	Writers          []interface{} `json:"writers"`
+	ProductionBudget interface{}   `json:"productionBudget"`
+}
+
+type titleLifetimeGross struct {
+	Total lifetimeGrossTotal `json:"total"`
+}
+
+type lifetimeGrossTotal struct {
+	Amount   int64  `json:"amount"`
+	Currency string `json:"currency"`
+}
+
+type titleOpeningWeekendGross struct {
+	Gross          titleGross `json:"gross"`
+	WeekendEndDate string     `json:"weekendEndDate"`
+}
+
+type titleGross struct {
+	Total grossTotal `json:"total"`
+}
+
+type grossTotal struct {
+	Typename string `json:"__typename"`
+	Amount   int64  `json:"amount"`
+	Currency string `json:"currency"`
+}
+
+type titleWorldwideGross struct {
+	Total worldwideGrossTotal `json:"total"`
+}
+
+type worldwideGrossTotal struct {
+	Amount   int64  `json:"amount"`
+	Currency string `json:"currency"`
 }
 
 type titleSeries struct {
@@ -328,6 +363,79 @@ type titleSeries struct {
 	NextEpisode     nextEpisode   `json:"nextEpisode"`
 	PreviousEpisode nextEpisode   `json:"previousEpisode"`
 	Series          seriesClass   `json:"series"`
+}
+
+type prestigiousAwardSummary struct {
+	Award       awardSummary `json:"award"`
+	Nominations int64        `json:"nominations"`
+	WINS        int64        `json:"wins"`
+}
+
+type awardSummary struct {
+	Event eventIDWrapper `json:"event"`
+	ID    string         `json:"id"`
+	Text  string         `json:"text"`
+}
+
+type eventIDWrapper struct {
+	ID string `json:"id"`
+}
+
+type titleCreator struct {
+	Category     creatorCategory `json:"category"`
+	Credits      []creatorCredit `json:"credits"`
+	TotalCredits int64           `json:"totalCredits"`
+}
+
+type creatorCategory struct {
+	Text string `json:"text"`
+}
+
+type creatorCredit struct {
+	Typename   string      `json:"__typename"`
+	Name       nameWrapper `json:"name"`
+	Attributes interface{} `json:"attributes"`
+}
+
+type nameWrapper struct {
+	ID       string          `json:"id"`
+	NameText creatorCategory `json:"nameText"`
+}
+
+type titleEpisodesWrapper struct {
+	Episodes      titleEpisodes      `json:"episodes"`
+	Seasons       []seasonNumWrapper `json:"seasons"`
+	TopRated      topRated           `json:"topRated"`
+	TotalEpisodes titleEpisodes      `json:"totalEpisodes"`
+	Years         []yearWrapper      `json:"years"`
+}
+
+type titleEpisodes struct {
+	Total int64 `json:"total"`
+}
+
+type seasonNumWrapper struct {
+	Number int64 `json:"number"`
+}
+
+type topRated struct {
+	Edges []ratingEdge `json:"edges"`
+}
+
+type ratingEdge struct {
+	Node ratingNode `json:"node"`
+}
+
+type ratingNode struct {
+	RatingsSummary ratingsSummary `json:"ratingsSummary"`
+}
+
+type ratingsSummary struct {
+	AggregateRating float64 `json:"aggregateRating"`
+}
+
+type yearWrapper struct {
+	Year int64 `json:"year"`
 }
 
 type episodeNumber struct {

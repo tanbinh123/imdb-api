@@ -1,19 +1,20 @@
 package index
 
 type IndexTransform struct {
-	ID         string     `json:"id"`
-	Validate   validate   `json:"validate"`
-	Title      title      `json:"title"`
-	Genres     []genre    `json:"genres"`
-	Plot       string     `json:"plot"`
-	Popularity popularity `json:"popularity"`
-	Images     images     `json:"images"`
-	Videos     videos     `json:"videos"`
-	Reviews    reviews    `json:"reviews"`
-	FAQ        faq        `json:"faq"`
-	Trivia     trivia     `json:"trivia"`
-	Keywords   keyword    `json:"keywords"`
-	Series     series     `json:"series"` // only when viewing an episode of a series
+	ID         string         `json:"id"`
+	Validate   validate       `json:"validate"`
+	Title      title          `json:"title"`
+	Genres     []genre        `json:"genres"`
+	Plot       string         `json:"plot"`
+	Popularity popularity     `json:"popularity"`
+	Images     images         `json:"images"`
+	Videos     videos         `json:"videos"`
+	Reviews    reviews        `json:"reviews"`
+	FAQ        faq            `json:"faq"`
+	Trivia     trivia         `json:"trivia"`
+	Keywords   keyword        `json:"keywords"`
+	Series     series         `json:"series"`  // only when viewing an episode of a series
+	Related    []relatedTitle `json:"related"` // list of related titles
 }
 
 type validate struct {
@@ -149,8 +150,8 @@ type externalReviews struct {
 }
 
 type faq struct {
-	Total int64     `json:"total"`
-	Items []faqItem `json:"items"`
+	Total int64     `json:"total"` // total number of keywords that are related to this title
+	Items []faqItem `json:"items"` // a short list of FAQs as preview
 }
 
 type faqItem struct {
@@ -164,6 +165,37 @@ type trivia struct {
 }
 
 type keyword struct {
-	Total int64    `json:"total"`
-	Items []string `json:"items"`
+	Total int64    `json:"total"` // total number of keywords that are related to this title
+	Items []string `json:"items"` // a short list of keywords as preview
+}
+
+type relatedTitle struct {
+	ID              string             `json:"id"`
+	Title           relatedTitleName   `json:"title"`
+	Type            string             `json:"type"`
+	CanHaveEpisodes bool               `json:"canHaveEpisodes"`
+	Poster          relatedTitlePoster `json:"poster"`
+	ReleaseYear     releaseYear        `json:"releaseYear"`
+	Rating          rating             `json:"rating"`
+	Duration        int64              `json:"duration"` // unit is seconds
+	Genres          []genre            `json:"genres"`
+}
+
+type relatedTitleName struct {
+	Text     string `json:"text"`
+	Original string `json:"original"`
+	Slug     string `json:"slug"`
+}
+
+type relatedTitlePoster struct {
+	ID     string `json:"id"`
+	Width  int64  `json:"width"`
+	Height int64  `json:"height"`
+	URL    string `json:"url"`
+}
+
+type rating struct {
+	Score       float64 `json:"score"`       // IMDb score from 0 to 10 (includes precision)
+	Count       int64   `json:"count"`       // Voters count
+	Certificate string  `json:"certificate"` // For example "TV-14"
 }

@@ -95,7 +95,7 @@ func Index(id string) (*IndexTransform, error) {
 			Text:     main.TitleText.Text,
 			Original: main.OriginalTitleText.Text,
 			Slug:     slug.Make(main.OriginalTitleText.Text),
-			AKA:      getTitleAKA(main.Akas.Edges),
+			AKA:      getTitleAKA(main.AKAs.Edges),
 		},
 		Genres: getGenres(above.Genres.Genres),
 		Plot:   above.Plot.PlotText.PlainText,
@@ -156,6 +156,7 @@ func Index(id string) (*IndexTransform, error) {
 				To:   above.Series.Series.ReleaseYear.EndYear,
 			},
 		},
+		Related: getRelatedTitles(main.MoreLikeThisTitles.Edges),
 	}
 
 	return &transform, nil
@@ -284,6 +285,55 @@ func getTriviaItems(edges []triviaEdge) []string {
 
 	for _, v := range edges {
 		items = append(items, utils.ParseHTMLToString(v.Node.Text.PlaidHTML))
+	}
+
+	return items
+}
+
+func getRelatedTitles(edges []moreLikeThisTitlesEdge) []relatedTitle {
+	var items []relatedTitle
+
+	for _, v := range edges {
+		items = append(items, relatedTitle{
+			ID: v.Node.ID,
+			Title: relatedTitleName{
+				Text:     v.Node.TitleText.Text,
+				Original: v.Node.OriginalTitleText.Text,
+				Slug:     slug.Make(v.Node.OriginalTitleText.Text),
+			},
+			Type:            strcase.ToLowerCamel(v.Node.TitleType.ID),
+			CanHaveEpisodes: v.Node.CanHaveEpisodes,
+			Poster: relatedTitlePoster{
+				ID:     v.Node.PrimaryImage.ID,
+				Width:  v.Node.PrimaryImage.Width,
+				Height: v.Node.PrimaryImage.Height,
+				URL:    v.Node.PrimaryImage.URL,
+			},
+			ReleaseYear: releaseYear{
+				From: v.Node.ReleaseYear.Year,
+				To:   v.Node.ReleaseYear.EndYear,
+			},
+			Rating: rating{
+				Score:       v.Node.RatingsSummary.AggregateRating,
+				Count:       v.Node.RatingsSummary.VoteCount,
+				Certificate: v.Node.Certificate.Rating,
+			},
+			Duration: v.Node.Runtime.Seconds,
+			Genres:   getRelatedTitleGenres(v.Node.TitleCardGenres.Genres),
+		})
+	}
+
+	return items
+}
+
+func getRelatedTitleGenres(genres []withText) []genre {
+	var items []genre
+
+	for _, v := range genres {
+		items = append(items, genre{
+			Name: v.Text,
+			Slug: slug.Make(v.Text),
+		})
 	}
 
 	return items

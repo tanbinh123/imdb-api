@@ -32,10 +32,13 @@ type aboveTheFoldData struct {
 	CastPageTitle      castPageTitle        `json:"castPageTitle"`
 	DirectorsPageTitle []directorsPageTitle `json:"directorsPageTitle"`
 	Series             titleSeries          `json:"series"` // only when viewing an episode of a series
+	Certificate        titleCertificate     `json:"certificate"`
 	// TODO: improve typings
-	Certificate       interface{}   `json:"certificate"`
-	Metacritic        interface{}   `json:"metacritic"`
-	CreatorsPageTitle []interface{} `json:"creatorsPageTitle"`
+	Metacritic interface{} `json:"metacritic"`
+}
+
+type titleCertificate struct {
+	Rating string `json:"rating"`
 }
 
 type castPageTitle struct {
@@ -265,8 +268,8 @@ type releaseDate struct {
 }
 
 type aboveTheFoldDataReleaseYear struct {
-	Year    int64       `json:"year"`
-	EndYear interface{} `json:"endYear"`
+	Year    int64 `json:"year"`
+	EndYear int64 `json:"endYear"`
 }
 
 type aboveTheFoldDataRuntime struct {
@@ -309,7 +312,7 @@ type mainColumnData struct {
 	CountriesOfOrigin       mainColumnDataCountriesOfOrigin `json:"countriesOfOrigin"`
 	DetailsExternalLinks    detailsExternalLinks            `json:"detailsExternalLinks"`
 	SpokenLanguages         spokenLanguagesWrapper          `json:"spokenLanguages"`
-	Akas                    akasWrapper                     `json:"akas"`
+	AKAs                    akasWrapper                     `json:"akas"`
 	FilmingLocations        titleKeywords                   `json:"filmingLocations"`
 	Production              titleProduction                 `json:"production"`
 	Companies               totalWrapper                    `json:"companies"`
@@ -344,7 +347,6 @@ type titleGross struct {
 }
 
 type grossTotal struct {
-	Typename string `json:"__typename"`
 	Amount   int64  `json:"amount"`
 	Currency string `json:"currency"`
 }
@@ -392,7 +394,6 @@ type creatorCategory struct {
 }
 
 type creatorCredit struct {
-	Typename   string      `json:"__typename"`
 	Name       nameWrapper `json:"name"`
 	Attributes interface{} `json:"attributes"`
 }
@@ -600,26 +601,21 @@ type moreLikeThisTitlesEdge struct {
 }
 
 type cunningNode struct {
-	ID                 string                         `json:"id"`
-	TitleText          withText                       `json:"titleText"`
-	OriginalTitleText  withText                       `json:"originalTitleText"`
-	TitleType          withTextAndID                  `json:"titleType"`
-	PrimaryImage       imageNode                      `json:"primaryImage"`
-	ReleaseYear        aboveTheFoldDataReleaseYear    `json:"releaseYear"`
-	RatingsSummary     aboveTheFoldDataRatingsSummary `json:"ratingsSummary"`
-	Runtime            *aboveTheFoldDataRuntime       `json:"runtime"`
-	Certificate        *certificate                   `json:"certificate"`
-	TitleCardGenres    titleCardGenres                `json:"titleCardGenres"`
-	CanHaveEpisodes    bool                           `json:"canHaveEpisodes"`
-	PrimaryWatchOption *primaryWatchOption            `json:"primaryWatchOption"`
+	ID                string                         `json:"id"`
+	TitleText         withText                       `json:"titleText"`
+	OriginalTitleText withText                       `json:"originalTitleText"`
+	TitleType         withTextAndID                  `json:"titleType"`
+	PrimaryImage      imageNode                      `json:"primaryImage"`
+	ReleaseYear       aboveTheFoldDataReleaseYear    `json:"releaseYear"`
+	RatingsSummary    aboveTheFoldDataRatingsSummary `json:"ratingsSummary"`
+	Runtime           *aboveTheFoldDataRuntime       `json:"runtime"`
+	Certificate       *certificate                   `json:"certificate"`
+	TitleCardGenres   titleCardGenres                `json:"titleCardGenres"`
+	CanHaveEpisodes   bool                           `json:"canHaveEpisodes"`
 }
 
 type certificate struct {
 	Rating string `json:"rating"`
-}
-
-type primaryWatchOption struct {
-	AdditionalWatchOptionsCount int64 `json:"additionalWatchOptionsCount"`
 }
 
 type titleCardGenres struct {

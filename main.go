@@ -31,7 +31,7 @@ func main() {
 	viper.AddConfigPath(".")    // Look for config in the working directory
 	err := viper.ReadInConfig() // Find and read the config file
 	if err != nil {             // Handle errors reading the config file
-		log.Fatal().Msgf("fatal error config file: %w", err)
+		log.Fatal().Msgf("fatal error config file: %v", err)
 	}
 
 	// Default level for this example is info, unless debug flag is present

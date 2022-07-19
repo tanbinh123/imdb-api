@@ -1,28 +1,30 @@
 # IMDb-API
 
-[![Go.Dev reference](https://img.shields.io/badge/go.dev-reference-blue?logo=go&logoColor=white)](https://pkg.go.dev/github.com/Scrip7/imdb-api)
-[![tests](https://github.com/Scrip7/imdb-api/actions/workflows/tests.yml/badge.svg)](https://github.com/Scrip7/imdb-api/actions/workflows/tests.yml)
-[![CodeFactor](https://www.codefactor.io/repository/github/scrip7/imdb-api/badge)](https://www.codefactor.io/repository/github/scrip7/imdb-api)
-[![Go Report Card](https://goreportcard.com/badge/github.com/Scrip7/imdb-api)](https://goreportcard.com/report/github.com/Scrip7/imdb-api)
-[![License](https://img.shields.io/github/license/Scrip7/imdb-api?color=orange)](https://github.com/Scrip7/imdb-api/blob/main/LICENSE)
-[![Contribute](https://img.shields.io/badge/PRs-welcome-blue.svg?color=d9ecde)](https://github.com/Scrip7/imdb-api/pulls)
+[![Go.Dev reference](https://img.shields.io/badge/go.dev-reference-blue?logo=go&logoColor=white)][1]
+[![tests](https://github.com/Scrip7/imdb-api/actions/workflows/tests.yml/badge.svg)][2]
+[![CodeFactor](https://www.codefactor.io/repository/github/scrip7/imdb-api/badge)][3]
+[![Go Report Card](https://goreportcard.com/badge/github.com/Scrip7/imdb-api)][4]
+[![License](https://img.shields.io/github/license/Scrip7/imdb-api?color=orange)][5]
+[![Contribute](https://img.shields.io/badge/PRs-welcome-blue.svg?color=d9ecde)][6]
 
-<a href="https://github.com/Scrip7/imdb-api">
+<a href="https://imdb.com" target="_blank">
   <img align="right" src="https://ia.media-imdb.com/images/M/MV5BMTk3ODA4Mjc0NF5BMl5BcG5nXkFtZTgwNDc1MzQ2OTE@._V1_.png" width="110" />
+</a>
+<a href="https://go.dev" target="_blank">
   <img align="right" src="https://go.dev/images/go-logo-blue.svg" width="140" />
 </a>
 
-A cross-platform [Go](https://go.dev) microservice application to scrap the [IMDb](https://imdb.com) website.
+A cross-platform [Go][7] microservice application to scrap the [IMDb][8] website.
 
 > **Warning**  
-> Keep in mind this app does **not** have rate-limiting or authentication features to protect itself against spams.   
+> Keep in mind this app does **not** have rate-limiting or authentication features to protect itself against spams.  
 > The end-users should **not** have direct access to its interface unless you understand what you're doing.
 
 ## Features
 
 - [ ] Proxy support
 - [ ] Swagger documentation
-- [ ] [Slug](https://en.wikipedia.org/wiki/Slug) generator
+- [ ] [Slug][9] generator
 - [ ] In-memory caching
 - [ ] CLI tool
 - [ ] Docker Hub image
@@ -35,8 +37,8 @@ Placeholder.
 
 ## Coverage
 
-We have listed the IMDb website paths that can potentially use in our application to collect data.   
-Because this is a reverse-engineered project, things might break unexpectedly!   
+We have listed the IMDb website paths that can potentially use in our application to collect data.  
+Because this is a reverse-engineered project, things might break unexpectedly!  
 Therefore, we keep this list updated along with the new features we introduce or when we encounter new bugs to visualize our extensive coverage.
 
 > ✅ Done.
@@ -103,9 +105,9 @@ Therefore, we keep this list updated along with the new features we introduce or
 | `/event/all`                        | Event  | -            | All Events Alphabetically         |   💭   |   -   |
 | `/calendar`                         | -      | -            | Upcoming Releases                 |   💭   |   -   |
 
-Is a route missing? Feel free to [open a new issue](https://github.com/Scrip7/imdb-api/issues) to let us know!
+Is a route missing? Feel free to [open a new issue][10] to let us know!
 
-> **Note** To prevent duplication, please search to see if an issue exists for your request.
+> **Note** Please check that the issue has not already been reported to prevent duplication.
 
 ## Docker usage
 
@@ -136,14 +138,29 @@ I'm not confident about my coding approaches, maybe I'm stuck with JS strategies
 
 **Can I contribute to make IMDb-API better?**
 
-[Please do!](https://github.com/Scrip7/imdb-api/blob/main/CONTRIBUTING.md) We are looking for any kind of contribution to improve IMDb-API's core functionality and documentation. When in doubt, make a PR!
+[Please do!][11] We are looking for any kind of contribution to improve IMDb-API's core functionality and documentation. When in doubt, make a PR!
 
 ## Disclaimer
 
-> The "[IMDb-API](https://github.com/Scrip7/imdb-api)" repository is not affiliated, authorized, maintained, or endorsed by the [IMDb](https://en.wikipedia.org/wiki/IMDb) or any of its affiliates or subsidiaries (including [Amazon](<https://en.wikipedia.org/wiki/Amazon_(company)>)).  
+> The "[IMDb-API][12]" repository is not affiliated, authorized, maintained, or endorsed by the [IMDb][13] or any of its affiliates or subsidiaries (including [Amazon][14]).  
 > This unofficial independent project is published as it is.  
 > Therefore, use it at your own risk and respect the copyrights of their content.
 
 ## License
 
-See the [`LICENSE`](https://github.com/Scrip7/imdb-api/blob/main/LICENSE) file for more information.
+See the [`LICENSE`][5] file for more information.
+
+[1]:  https://pkg.go.dev/github.com/Scrip7/imdb-api
+[2]:  https://github.com/Scrip7/imdb-api/actions/workflows/tests.yml
+[3]:  https://codefactor.io/repository/github/scrip7/imdb-api
+[4]:  https://goreportcard.com/report/github.com/Scrip7/imdb-api
+[5]:  https://github.com/Scrip7/imdb-api/blob/main/LICENSE
+[6]:  https://github.com/Scrip7/imdb-api/pulls
+[7]:  https://go.dev
+[8]:  https://imdb.com
+[9]:  https://en.wikipedia.org/wiki/Clean_URL#Slug
+[10]: https://github.com/Scrip7/imdb-api/issues
+[11]: https://github.com/Scrip7/imdb-api/blob/main/CONTRIBUTING.md
+[12]: https://github.com/Scrip7/imdb-api
+[13]: https://en.wikipedia.org/wiki/IMDb
+[14]: <https://en.wikipedia.org/wiki/Amazon_(company)>

@@ -9,7 +9,7 @@ type IndexTransform struct {
 	Popularity popularity `json:"popularity"`
 	Images     images     `json:"images"`
 	Videos     videos     `json:"videos"`
-	Series     series     `json:"series"`
+	Series     series     `json:"series"` // only when viewing an episode of a series
 	Reviews    reviews    `json:"reviews"`
 	FAQ        faq        `json:"faq"`
 	Trivia     trivia     `json:"trivia"`
@@ -59,17 +59,22 @@ type videoItem struct {
 }
 
 type series struct {
-	ID                string        `json:"id"`
-	Title             seriesTitle   `json:"title"`
-	Current           seriesCurrent `json:"current"`
-	NextEpisodeID     string        `json:"nextEpisodeId"`
-	PreviousEpisodeID string        `json:"previousEpisodeId"`
-	ReleaseYear       releaseYear   `json:"releaseYear"`
+	ID          seriesID      `json:"id"`
+	Title       seriesTitle   `json:"title"`
+	Current     seriesCurrent `json:"current"`
+	ReleaseYear releaseYear   `json:"releaseYear"`
+}
+
+type seriesID struct {
+	Parent          string `json:"parent"`
+	EpisodeNext     string `json:"episodeNext"`
+	EpisodePrevious string `json:"episodePrevious"`
 }
 
 type seriesTitle struct {
 	Text     string `json:"text"`
 	Original string `json:"original"`
+	Slug     string `json:"slug"`
 }
 
 type seriesCurrent struct {

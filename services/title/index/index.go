@@ -98,6 +98,26 @@ func Index(id string) (*IndexTransform, error) {
 			Total: nextData.Props.PageProps.MainColumnData.Videos.Total,
 			Items: getVideoItems(nextData.Props.PageProps.AboveTheFoldData.PrimaryVideos.Edges),
 		},
+		Series: series{
+			ID: seriesID{
+				Parent:          nextData.Props.PageProps.AboveTheFoldData.Series.Series.ID,
+				EpisodeNext:     nextData.Props.PageProps.AboveTheFoldData.Series.NextEpisode.ID,
+				EpisodePrevious: nextData.Props.PageProps.AboveTheFoldData.Series.PreviousEpisode.ID,
+			},
+			Title: seriesTitle{
+				Text:     nextData.Props.PageProps.AboveTheFoldData.Series.Series.TitleText.Text,
+				Original: nextData.Props.PageProps.AboveTheFoldData.Series.Series.OriginalTitleText.Text,
+				Slug:     slug.Make(nextData.Props.PageProps.AboveTheFoldData.Series.Series.OriginalTitleText.Text),
+			},
+			Current: seriesCurrent{
+				Episode: nextData.Props.PageProps.AboveTheFoldData.Series.EpisodeNumber.EpisodeNumber,
+				Season:  nextData.Props.PageProps.AboveTheFoldData.Series.EpisodeNumber.SeasonNumber,
+			},
+			ReleaseYear: releaseYear{
+				From: nextData.Props.PageProps.AboveTheFoldData.Series.Series.ReleaseYear.Year,
+				To:   nextData.Props.PageProps.AboveTheFoldData.Series.Series.ReleaseYear.EndYear,
+			},
+		},
 		Reviews: reviews{
 			Featured: getFeaturedReviews(nextData.Props.PageProps.MainColumnData.FeaturedReviews.Edges),
 			Users: usersReviews{
@@ -119,9 +139,6 @@ func Index(id string) (*IndexTransform, error) {
 			Total: nextData.Props.PageProps.AboveTheFoldData.Keywords.Total,
 			Items: strings.Split(data.Keywords, ","),
 		},
-
-		// TODO: series
-		// TODO: episodes
 	}
 
 	return &transform, nil

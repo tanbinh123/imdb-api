@@ -138,11 +138,11 @@ type plotWrapper struct {
 }
 
 type imageNode struct {
-	ID      string           `json:"id"`
-	Width   int64            `json:"width"`
-	Height  int64            `json:"height"`
-	URL     string           `json:"url"`
-	Caption *plotTextWrapper `json:"caption,omitempty"`
+	ID      string          `json:"id"`
+	Width   int64           `json:"width"`
+	Height  int64           `json:"height"`
+	URL     string          `json:"url"`
+	Caption plotTextWrapper `json:"caption,omitempty"`
 }
 
 type primaryVideos struct {
@@ -206,9 +206,9 @@ type credit struct {
 }
 
 type fluffyName struct {
-	ID           string          `json:"id"`
-	NameText     withText        `json:"nameText"`
-	PrimaryImage *titleThumbnail `json:"primaryImage"`
+	ID           string         `json:"id"`
+	NameText     withText       `json:"nameText"`
+	PrimaryImage titleThumbnail `json:"primaryImage"`
 }
 
 type titleProduction struct {
@@ -261,10 +261,10 @@ type faqQuestion struct {
 }
 
 type releaseDate struct {
-	Day     int64          `json:"day"`
-	Month   int64          `json:"month"`
-	Year    int64          `json:"year"`
-	Country *withTextAndID `json:"country,omitempty"`
+	Day     int64         `json:"day"`
+	Month   int64         `json:"month"`
+	Year    int64         `json:"year"`
+	Country withTextAndID `json:"country,omitempty"`
 }
 
 type aboveTheFoldDataReleaseYear struct {
@@ -608,8 +608,8 @@ type cunningNode struct {
 	PrimaryImage      imageNode                      `json:"primaryImage"`
 	ReleaseYear       aboveTheFoldDataReleaseYear    `json:"releaseYear"`
 	RatingsSummary    aboveTheFoldDataRatingsSummary `json:"ratingsSummary"`
-	Runtime           *aboveTheFoldDataRuntime       `json:"runtime"`
-	Certificate       *certificate                   `json:"certificate"`
+	Runtime           aboveTheFoldDataRuntime        `json:"runtime"`
+	Certificate       certificate                    `json:"certificate"`
 	TitleCardGenres   titleCardGenres                `json:"titleCardGenres"`
 	CanHaveEpisodes   bool                           `json:"canHaveEpisodes"`
 }

@@ -19,6 +19,7 @@ type pageProps struct {
 }
 
 type aboveTheFoldData struct {
+	PrimaryImage       titlePrimaryImage    `json:"primaryImage"`
 	MeterRanking       meterRanking         `json:"meterRanking"`
 	PrimaryVideos      primaryVideos        `json:"primaryVideos"`
 	ExternalLinks      totalWrapper         `json:"externalLinks"`
@@ -59,6 +60,18 @@ type nameTextWrapper struct {
 
 type withText struct {
 	Text string `json:"text"`
+}
+
+type titlePrimaryImage struct {
+	ID      string                     `json:"id"`
+	Width   int64                      `json:"width"`
+	Height  int64                      `json:"height"`
+	URL     string                     `json:"url"`
+	Caption primaryImageCaptionWrapper `json:"caption"`
+}
+
+type primaryImageCaptionWrapper struct {
+	PlainText string `json:"plainText"`
 }
 
 type IDWrapper struct {
@@ -284,7 +297,6 @@ type mainColumnData struct {
 	Videos                  totalWrapper                    `json:"videos"`
 	TitleMainImages         mainImages                      `json:"titleMainImages"`
 	ProductionStatus        productionStatus                `json:"productionStatus"`
-	PrimaryImage            IDWrapper                       `json:"primaryImage"`
 	TitleType               IDWrapper                       `json:"titleType"`
 	CanHaveEpisodes         bool                            `json:"canHaveEpisodes"`
 	Cast                    castClass                       `json:"cast"`

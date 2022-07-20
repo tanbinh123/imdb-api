@@ -12,7 +12,7 @@ type IndexTransform struct {
 	Reviews     reviews        `json:"reviews"`
 	FAQ         faq            `json:"faq"`
 	Trivia      trivia         `json:"trivia"`
-	Keywords    keyword        `json:"keywords"`
+	Keywords    keywords       `json:"keywords"`
 	Series      series         `json:"series"` // only when viewing an episode of a series
 	Soundtracks []soundtrack   `json:"soundtracks"`
 	Related     []relatedTitle `json:"related"` // list of related titles
@@ -108,9 +108,11 @@ type images struct {
 }
 
 type primaryImage struct {
-	ID  string `json:"id"`
-	URL string `json:"url"`
-	// TODO: can we add height and width to this?
+	ID         string                  `json:"id"`
+	URL        string                  `json:"url"`
+	Width      int64                   `json:"width"`
+	Height     int64                   `json:"height"`
+	Caption    string                  `json:"caption"`
 	Thumbnails []primaryImageThumbnail `json:"thumbnails"`
 }
 
@@ -172,7 +174,7 @@ type trivia struct {
 	Items []string `json:"items"`
 }
 
-type keyword struct {
+type keywords struct {
 	Total int64    `json:"total"` // total number of keywords that are related to this title
 	Items []string `json:"items"` // a short list of keywords as preview
 }
@@ -183,11 +185,16 @@ type soundtrack struct {
 }
 
 type soundtrackComment struct {
-	Headline string `json:"headline"` // Example: "Composed by", "Hummed by", or "Performed by"
-	Person   person `json:"person"`
+	Original string                  `json:"original"`
+	Parsed   soundTrackCommentParsed `json:"parsed"`
 }
 
-type person struct {
+type soundTrackCommentParsed struct {
+	Headline string      `json:"headline"` // Example: "Composed by", "Hummed by", or "Performed by"
+	Link     linkWrapper `json:"link"`
+}
+
+type linkWrapper struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }

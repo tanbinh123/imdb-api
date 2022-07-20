@@ -100,8 +100,12 @@ func Index(id string) (*IndexTransform, error) {
 		Images: images{
 			Total: main.TitleMainImages.Total,
 			Primary: primaryImage{
-				ID:         main.PrimaryImage.ID,
-				URL:        schemaData.Image,
+				ID: above.PrimaryImage.ID,
+				// URL:        schemaData.Image,
+				URL:        above.PrimaryImage.URL,
+				Width:      above.PrimaryImage.Width,
+				Height:     above.PrimaryImage.Height,
+				Caption:    above.PrimaryImage.Caption.PlainText,
 				Thumbnails: getPrimaryImageThumbnails(doc),
 			},
 			Items: getImageItems(main.TitleMainImages.Edges),
@@ -127,7 +131,7 @@ func Index(id string) (*IndexTransform, error) {
 			Total: main.TriviaTotal.Total,
 			Items: getTriviaItems(main.Trivia.Edges),
 		},
-		Keywords: keyword{
+		Keywords: keywords{
 			Total: above.Keywords.Total,
 			Items: strings.Split(schemaData.Keywords, ","),
 		},
@@ -397,6 +401,10 @@ func getSoundtracks(edges []soundtrackEdge) []soundtrack {
 func getSoundtrackComment(comments []plaidHTMLWrapper) []soundtrackComment {
 	items := []soundtrackComment{}
 
+	pushItem := func(item soundtrackComment) {
+		items = append(items, item)
+	}
+
 	for _, v := range comments {
 		// Sometimes the plain HTML string equals to "(uncredited)" for unknown reason
 		// Here we double-check to avoid future errors
@@ -405,7 +413,7 @@ func getSoundtrackComment(comments []plaidHTMLWrapper) []soundtrackComment {
 			continue
 		}
 
-		// Parse plaid HTML string to extract person ID and their name
+		// Parse plaid HTML string to extract link ID and their name
 		doc, err := goquery.NewDocumentFromReader(strings.NewReader(v.PlaidHTML))
 		if err != nil {
 			continue
@@ -414,29 +422,38 @@ func getSoundtrackComment(comments []plaidHTMLWrapper) []soundtrackComment {
 		link := doc.Find("a").First()
 		href, exists := link.Attr("href")
 		if !exists {
+			pushItem(soundtrackComment{
+				Original: doc.Text(),
+			})
 			continue
 		}
 
-		personName := strings.TrimSpace(link.Text())
-		// The plaid HTML text is usually "Performed by [PERSON_NAME]"
-		// Here, we replace the person's name with an empty string to extract the headline from it
+		linkName := strings.TrimSpace(link.Text())
+		// The plaid HTML text is usually "Performed by [LINK_NAME]"
+		// Here, we replace the link's name with an empty string to extract the headline from it
 		// Which would be "Performed by "
-		headline := strings.TrimSpace(strings.Replace(doc.Text(), personName, "", 1))
+		headline := strings.TrimSpace(strings.Replace(doc.Text(), linkName, "", 1))
 
 		// The "href" variable contains a string that contains the ID we need
 		// We use the regex below to extract that ID
 		// Example: "/name/nm0123456/?ref_=tt_trv_snd"
 		r, err := regexp.Compile("(nm[0-9]+)")
 		if err != nil {
-			log.Err(err).Msg("failed to compile the extract person ID regex")
+			pushItem(soundtrackComment{
+				Original: doc.Text(),
+			})
+			log.Err(err).Msg("failed to compile the extract link ID regex")
 			continue
 		}
 
 		items = append(items, soundtrackComment{
-			Headline: headline,
-			Person: person{
-				ID:   r.FindString(href),
-				Name: personName,
+			Original: doc.Text(),
+			Parsed: soundTrackCommentParsed{
+				Headline: headline,
+				Link: linkWrapper{
+					ID:   r.FindString(href),
+					Name: linkName,
+				},
 			},
 		})
 	}

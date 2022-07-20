@@ -55,7 +55,7 @@ func main() {
 		EnablePrintRoutes: viper.GetBool("PRINT_ROUTES"),
 		GETOnly:           true,
 		ErrorHandler: func(c *fiber.Ctx, err error) error {
-			log.Err(err).Send()
+			log.Err(err).Str("path", c.Path()).Msg("Fiber error handler")
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"ok":      false,
 				"message": err.Error(),
@@ -82,6 +82,14 @@ func main() {
 	t := app.Group("/title/:id")
 	t.Get("/", title.Index)
 	t.Get("/debug", title.IndexDebug)
+
+	// Not found error handler
+	app.Use(func(c *fiber.Ctx) error {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"ok":      false,
+			"message": "404 Not found.",
+		})
+	})
 
 	log.Info().Str("addr", viper.GetString("SERVER_ADDR")).Msg("Starting the HTTP server")
 	log.Fatal().Err(app.Listen(viper.GetString("SERVER_ADDR"))).Msg("Failed to start the HTTP server")

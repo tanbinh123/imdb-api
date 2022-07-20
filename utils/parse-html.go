@@ -6,6 +6,6 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func ParseHTML(r io.Reader) (*goquery.Document, error) {
+func ParseHTML(r io.ReadCloser) (*goquery.Document, error) {
 	return goquery.NewDocumentFromReader(r)
 }

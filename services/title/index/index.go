@@ -14,6 +14,7 @@ import (
 	"github.com/Scrip7/imdb-api/client"
 	"github.com/Scrip7/imdb-api/constants"
 	"github.com/Scrip7/imdb-api/utils"
+	"github.com/Scrip7/imdb-api/utils/srcset"
 )
 
 // TODO: Remove this method after implementation
@@ -60,6 +61,11 @@ func Index(id string) (*IndexTransform, error) {
 		return nil, err
 	}
 
+	poster := doc.Find("section.ipc-page-section div[data-testid=\"hero-media__poster\"] img.ipc-image").First()
+	srcsetRaw, _ := poster.Attr("srcset")
+	srcsetSource := srcset.Parse(srcsetRaw)
+	_ = srcsetSource
+
 	//
 	// Begin Transformation
 	//
@@ -99,8 +105,9 @@ func Index(id string) (*IndexTransform, error) {
 		Images: images{
 			Total: main.TitleMainImages.Total,
 			Primary: primaryImage{
-				ID:  main.PrimaryImage.ID,
-				URL: schemaData.Image,
+				ID:         main.PrimaryImage.ID,
+				URL:        schemaData.Image,
+				Thumbnails: getPrimaryImageThumbnails(doc),
 			},
 			Items: getImageItems(main.TitleMainImages.Edges),
 		},
@@ -210,6 +217,26 @@ func getRankingDifference(input rankChange) int64 {
 		return -(input.Difference)
 	}
 	return input.Difference
+}
+
+func getPrimaryImageThumbnails(doc *goquery.Document) []primaryImageThumbnail {
+	items := []primaryImageThumbnail{}
+
+	poster := doc.Find("section.ipc-page-section div[data-testid=\"hero-media__poster\"] img.ipc-image").First()
+	srcsetRaw, exists := poster.Attr("srcset")
+	if !exists {
+		return items
+	}
+	srcsetSource := srcset.Parse(srcsetRaw)
+	for _, v := range srcsetSource {
+		items = append(items, primaryImageThumbnail{
+			URL:   v.URL,
+			Width: *v.Width,
+			// IMDb does not return the "height" or "density"
+		})
+	}
+
+	return items
 }
 
 func getImageItems(edges []imageEdge) []imageItem {

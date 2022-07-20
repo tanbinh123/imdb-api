@@ -110,6 +110,13 @@ type images struct {
 type primaryImage struct {
 	ID  string `json:"id"`
 	URL string `json:"url"`
+	// TODO: can we add height and width to this?
+	Thumbnails []primaryImageThumbnail `json:"thumbnails"`
+}
+
+type primaryImageThumbnail struct {
+	URL   string `json:"url"`
+	Width int64  `json:"width"`
 }
 
 type imageItem struct {

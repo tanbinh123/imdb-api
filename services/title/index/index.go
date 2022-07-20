@@ -51,10 +51,10 @@ func Index(id string) (*IndexTransform, error) {
 		return nil, err
 	}
 
-	schemaData, err := getSchemaOrgData(doc)
-	if err != nil {
-		return nil, err
-	}
+	// schemaData, err := getSchemaOrgData(doc)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	nextData, err := getNextJSData(doc)
 	if err != nil {
@@ -134,7 +134,7 @@ func Index(id string) (*IndexTransform, error) {
 		},
 		Keywords: keywords{
 			Total: above.Keywords.Total,
-			Items: strings.Split(schemaData.Keywords, ","),
+			Items: getKeywords(above.Keywords.Edges),
 		},
 		Series: series{
 			ID: seriesID{
@@ -166,14 +166,14 @@ func Index(id string) (*IndexTransform, error) {
 // getSchemaOrgData extracts the first JSON string, which is usually on top of the web page's source code
 // this is manually generated based on "schema.org" schemas,
 // and it's unlikely to change in the future.
-func getSchemaOrgData(doc *goquery.Document) (*schemaOrgData, error) {
-	scriptJSON := doc.Find("script[type=\"application/ld+json\"]").First()
-	var data schemaOrgData
-	if err := json.Unmarshal([]byte(scriptJSON.Text()), &data); err != nil {
-		return nil, err
-	}
-	return &data, nil
-}
+// func getSchemaOrgData(doc *goquery.Document) (*schemaOrgData, error) {
+// 	scriptJSON := doc.Find("script[type=\"application/ld+json\"]").First()
+// 	var data schemaOrgData
+// 	if err := json.Unmarshal([]byte(scriptJSON.Text()), &data); err != nil {
+// 		return nil, err
+// 	}
+// 	return &data, nil
+// }
 
 // getNextJSData extracts the second JSON string
 // which is usually in the middle or bottom of the web page's source code
@@ -359,6 +359,16 @@ func getTriviaItems(edges []triviaEdge) []string {
 
 	for _, v := range edges {
 		items = append(items, utils.ParseHTMLToString(v.Node.Text.PlaidHTML))
+	}
+
+	return items
+}
+
+func getKeywords(edges []keywordEdge) []string {
+	items := []string{}
+
+	for _, v := range edges {
+		items = append(items, v.Node.Text)
 	}
 
 	return items

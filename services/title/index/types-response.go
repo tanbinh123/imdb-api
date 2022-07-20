@@ -1,9 +1,9 @@
 package index
 
-type schemaOrgData struct {
-	Keywords string `json:"keywords"` // list of keywords as a string joined by the "," character
-	Image    string `json:"image"`    // poster image URL
-}
+// type schemaOrgData struct {
+// 	Keywords string `json:"keywords"` // list of keywords as a string joined by the "," character
+// 	Image    string `json:"image"`    // poster image URL
+// }
 
 type nextJSData struct {
 	Props props `json:"props"`
@@ -162,7 +162,16 @@ type withTextAndID struct {
 }
 
 type titleKeywords struct {
-	Total int64 `json:"total"`
+	Total int64         `json:"total"`
+	Edges []keywordEdge `json:"edges"`
+}
+
+type keywordEdge struct {
+	Node keywordNode `json:"node"`
+}
+
+type keywordNode struct {
+	Text string `json:"text"`
 }
 
 type meta struct {
@@ -324,45 +333,38 @@ type aboveTheFoldDataRuntime struct {
 }
 
 type mainColumnData struct {
-	ID                      string                          `json:"id"`
-	WINS                    totalWrapper                    `json:"wins"`
-	Nominations             totalWrapper                    `json:"nominations"`
-	RatingsSummary          mainColumnDataRatingsSummary    `json:"ratingsSummary"`
-	Videos                  totalWrapper                    `json:"videos"`
-	VideoStrip              videoStrip                      `json:"videoStrip"`
-	TitleMainImages         mainImages                      `json:"titleMainImages"`
-	ProductionStatus        productionStatus                `json:"productionStatus"`
-	TitleType               IDWrapper                       `json:"titleType"`
-	CanHaveEpisodes         bool                            `json:"canHaveEpisodes"`
-	Cast                    castClass                       `json:"cast"`
-	Directors               []director                      `json:"directors"`
-	IsAdult                 bool                            `json:"isAdult"`
-	MoreLikeThisTitles      moreLikeThisTitles              `json:"moreLikeThisTitles"`
-	TriviaTotal             totalWrapper                    `json:"triviaTotal"`
-	Trivia                  titleTrivia                     `json:"trivia"`
-	GoofsTotal              totalWrapper                    `json:"goofsTotal"`
-	Goofs                   titleGoofs                      `json:"goofs"`
-	QuotesTotal             totalWrapper                    `json:"quotesTotal"`
+	ID                 string                       `json:"id"`
+	WINS               totalWrapper                 `json:"wins"`
+	Nominations        totalWrapper                 `json:"nominations"`
+	RatingsSummary     mainColumnDataRatingsSummary `json:"ratingsSummary"`
+	Videos             totalWrapper                 `json:"videos"`
+	VideoStrip         videoStrip                   `json:"videoStrip"`
+	TitleMainImages    mainImages                   `json:"titleMainImages"`
+	ProductionStatus   productionStatus             `json:"productionStatus"`
+	TitleType          IDWrapper                    `json:"titleType"`
+	CanHaveEpisodes    bool                         `json:"canHaveEpisodes"`
+	Cast               castClass                    `json:"cast"`
+	Directors          []director                   `json:"directors"`
+	IsAdult            bool                         `json:"isAdult"`
+	MoreLikeThisTitles moreLikeThisTitles           `json:"moreLikeThisTitles"`
+	Trivia             titleTrivia                  `json:"trivia"`
+	Goofs              titleGoofs                   `json:"goofs"`
+
 	Quotes                  quotes                          `json:"quotes"`
 	CrazyCredits            castPageTitle                   `json:"crazyCredits"`
-	AlternateVersions       titleKeywords                   `json:"alternateVersions"`
 	Connections             connections                     `json:"connections"`
 	Soundtrack              titleSoundtrack                 `json:"soundtrack"`
 	TitleText               withText                        `json:"titleText"`
 	OriginalTitleText       withText                        `json:"originalTitleText"`
 	ReleaseYear             associatedTitleReleaseYear      `json:"releaseYear"`
-	Reviews                 totalWrapper                    `json:"reviews"` // total number of users reviews
 	FeaturedReviews         featuredReviews                 `json:"featuredReviews"`
-	FaqsTotal               totalWrapper                    `json:"faqsTotal"`
 	Faqs                    faqEdges                        `json:"faqs"`
 	ReleaseDate             releaseDate                     `json:"releaseDate"`
 	CountriesOfOrigin       mainColumnDataCountriesOfOrigin `json:"countriesOfOrigin"`
 	DetailsExternalLinks    detailsExternalLinks            `json:"detailsExternalLinks"`
 	SpokenLanguages         spokenLanguagesWrapper          `json:"spokenLanguages"`
 	AKAs                    akasWrapper                     `json:"akas"`
-	FilmingLocations        titleKeywords                   `json:"filmingLocations"`
 	Production              titleProduction                 `json:"production"`
-	Companies               totalWrapper                    `json:"companies"`
 	Runtime                 aboveTheFoldDataRuntime         `json:"runtime"`
 	LifetimeGross           titleLifetimeGross              `json:"lifetimeGross"`
 	OpeningWeekendGross     titleOpeningWeekendGross        `json:"openingWeekendGross"`
@@ -370,6 +372,14 @@ type mainColumnData struct {
 	PrestigiousAwardSummary prestigiousAwardSummary         `json:"prestigiousAwardSummary"`
 	Creators                []titleCreator                  `json:"creators"`
 	Episodes                titleEpisodesWrapper            `json:"episodes"` // only when viewing the parent series ID
+	Reviews                 totalWrapper                    `json:"reviews"`  // total number of users reviews
+	FaqsTotal               totalWrapper                    `json:"faqsTotal"`
+	TriviaTotal             totalWrapper                    `json:"triviaTotal"`
+	GoofsTotal              totalWrapper                    `json:"goofsTotal"`
+	QuotesTotal             totalWrapper                    `json:"quotesTotal"`
+	AlternateVersions       totalWrapper                    `json:"alternateVersions"` // TODO: add edges type
+	FilmingLocations        totalWrapper                    `json:"filmingLocations"`  // TODO: add edges type
+	Companies               totalWrapper                    `json:"companies"`
 	// TODO: improve typings
 	Writers          []interface{} `json:"writers"`
 	ProductionBudget interface{}   `json:"productionBudget"`

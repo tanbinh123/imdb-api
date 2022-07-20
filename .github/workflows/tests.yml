@@ -44,4 +44,6 @@ jobs:
         run: cp .env.example .env
 
       - name: Running test
-        run: go test -v ./...
+        # The wrapper shell script is for colorizing golang test output
+        # https://stackoverflow.com/a/27245610
+        run: go test -v ./... | sed ''/PASS/s//$(printf "\033[32mPASS\033[0m")/'' | sed ''/FAIL/s//$(printf "\033[31mFAIL\033[0m")/''

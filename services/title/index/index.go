@@ -61,11 +61,6 @@ func Index(id string) (*IndexTransform, error) {
 		return nil, err
 	}
 
-	poster := doc.Find("section.ipc-page-section div[data-testid=\"hero-media__poster\"] img.ipc-image").First()
-	srcsetRaw, _ := poster.Attr("srcset")
-	srcsetSource := srcset.Parse(srcsetRaw)
-	_ = srcsetSource
-
 	//
 	// Begin Transformation
 	//

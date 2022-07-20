@@ -2,11 +2,14 @@ package index
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/goccy/go-json"
 	"github.com/gosimple/slug"
 	"github.com/iancoleman/strcase"
+	"github.com/rs/zerolog/log"
 
 	"github.com/Scrip7/imdb-api/client"
 	"github.com/Scrip7/imdb-api/constants"
@@ -156,14 +159,15 @@ func Index(id string) (*IndexTransform, error) {
 				To:   above.Series.Series.ReleaseYear.EndYear,
 			},
 		},
-		Related: getRelatedTitles(main.MoreLikeThisTitles.Edges),
+		Soundtracks: getSoundtracks(main.Soundtrack.Edges),
+		Related:     getRelatedTitles(main.MoreLikeThisTitles.Edges),
 	}
 
 	return &transform, nil
 }
 
 func getTitleAKA(edges []akaEdge) []string {
-	var items []string
+	items := []string{}
 
 	for _, v := range edges {
 		items = append(items, v.Node.Text)
@@ -173,7 +177,7 @@ func getTitleAKA(edges []akaEdge) []string {
 }
 
 func getGenres(genres []withTextAndID) []genre {
-	var items []genre
+	items := []genre{}
 
 	for _, v := range genres {
 		items = append(items, genre{
@@ -193,7 +197,7 @@ func getRankingDifference(input rankChange) int64 {
 }
 
 func getImageItems(edges []imageEdge) []imageItem {
-	var items []imageItem
+	items := []imageItem{}
 
 	for _, v := range edges {
 		items = append(items, imageItem{
@@ -209,7 +213,7 @@ func getImageItems(edges []imageEdge) []imageItem {
 }
 
 func getVideoItems(edges []primaryVideosEdge) []videoItem {
-	var items []videoItem
+	items := []videoItem{}
 
 	for _, v := range edges {
 		items = append(items, videoItem{
@@ -232,7 +236,7 @@ func getVideoItems(edges []primaryVideosEdge) []videoItem {
 }
 
 func getVideoPlaybackItems(urls []urlWrapper) []playbackItem {
-	var items []playbackItem
+	items := []playbackItem{}
 
 	for _, v := range urls {
 		items = append(items, playbackItem{
@@ -246,7 +250,7 @@ func getVideoPlaybackItems(urls []urlWrapper) []playbackItem {
 }
 
 func getFeaturedReviews(edges []featuredReviewEdge) []featuredReviewItem {
-	var items []featuredReviewItem
+	items := []featuredReviewItem{}
 
 	for _, v := range edges {
 		items = append(items, featuredReviewItem{
@@ -268,7 +272,7 @@ func getFeaturedReviews(edges []featuredReviewEdge) []featuredReviewItem {
 }
 
 func getFaqItems(edges []faqEdge) []faqItem {
-	var items []faqItem
+	items := []faqItem{}
 
 	for _, v := range edges {
 		items = append(items, faqItem{
@@ -281,7 +285,7 @@ func getFaqItems(edges []faqEdge) []faqItem {
 }
 
 func getTriviaItems(edges []triviaEdge) []string {
-	var items []string
+	items := []string{}
 
 	for _, v := range edges {
 		items = append(items, utils.ParseHTMLToString(v.Node.Text.PlaidHTML))
@@ -291,7 +295,7 @@ func getTriviaItems(edges []triviaEdge) []string {
 }
 
 func getRelatedTitles(edges []moreLikeThisTitlesEdge) []relatedTitle {
-	var items []relatedTitle
+	items := []relatedTitle{}
 
 	for _, v := range edges {
 		items = append(items, relatedTitle{
@@ -327,12 +331,73 @@ func getRelatedTitles(edges []moreLikeThisTitlesEdge) []relatedTitle {
 }
 
 func getRelatedTitleGenres(genres []withText) []genre {
-	var items []genre
+	items := []genre{}
 
 	for _, v := range genres {
 		items = append(items, genre{
 			Name: v.Text,
 			Slug: slug.Make(v.Text),
+		})
+	}
+
+	return items
+}
+
+func getSoundtracks(edges []soundtrackEdge) []soundtrack {
+	items := []soundtrack{}
+
+	for _, v := range edges {
+		items = append(items, soundtrack{
+			Title:    v.Node.Text,
+			Comments: getSoundtrackComment(v.Node.Comments),
+		})
+	}
+
+	return items
+}
+
+func getSoundtrackComment(comments []plaidHTMLWrapper) []soundtrackComment {
+	items := []soundtrackComment{}
+
+	for _, v := range comments {
+		// Sometimes the plain HTML string equals to "(uncredited)" for unknown reason
+		// Here we double-check to avoid future errors
+		// Even though it won't interfere with our business logic below
+		if v.PlaidHTML == "(uncredited)" {
+			continue
+		}
+
+		// Parse plaid HTML string to extract person ID and their name
+		doc, err := goquery.NewDocumentFromReader(strings.NewReader(v.PlaidHTML))
+		if err != nil {
+			continue
+		}
+
+		link := doc.Find("a").First()
+		href, exists := link.Attr("href")
+		if !exists {
+			continue
+		}
+
+		personName := strings.TrimSpace(link.Text())
+		// The plaid HTML text is usually "Performed by [PERSON_NAME]"
+		// Here, we replace the person's name with an empty string to extract the headline from it
+		// Which would be "Performed by "
+		headline := strings.TrimSpace(strings.Replace(doc.Text(), personName, "", 1))
+
+		// The "href" variable contains a string that contains the ID we need
+		// We use the regex below to extract that ID
+		// Example: "/name/nm0123456/?ref_=tt_trv_snd"
+		r, err := regexp.Compile("(nm[0-9]+)")
+		if err != nil {
+			log.Err(err).Msg("failed to compile the extract person ID regex")
+			continue
+		}
+
+		items = append(items, soundtrackComment{
+			Headline: headline,
+			ID:       r.FindString(href),
+			Name:     personName,
 		})
 	}
 

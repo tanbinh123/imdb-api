@@ -300,7 +300,7 @@ type mainColumnData struct {
 	CrazyCredits            castPageTitle                   `json:"crazyCredits"`
 	AlternateVersions       titleKeywords                   `json:"alternateVersions"`
 	Connections             connections                     `json:"connections"`
-	Soundtrack              soundtrack                      `json:"soundtrack"`
+	Soundtrack              titleSoundtrack                 `json:"soundtrack"`
 	TitleText               withText                        `json:"titleText"`
 	OriginalTitleText       withText                        `json:"originalTitleText"`
 	ReleaseYear             associatedTitleReleaseYear      `json:"releaseYear"`
@@ -585,10 +585,10 @@ type helpfulness struct {
 }
 
 type fluffyText struct {
-	OriginalText textElement `json:"originalText"`
+	OriginalText plaidHTMLWrapper `json:"originalText"`
 }
 
-type textElement struct {
+type plaidHTMLWrapper struct {
 	PlaidHTML string `json:"plaidHtml"`
 }
 
@@ -649,7 +649,7 @@ type mainColumnDataRatingsSummary struct {
 	TopRanking interface{} `json:"topRanking"`
 }
 
-type soundtrack struct {
+type titleSoundtrack struct {
 	Edges []soundtrackEdge `json:"edges"`
 }
 
@@ -658,8 +658,8 @@ type soundtrackEdge struct {
 }
 
 type friskyNode struct {
-	Text     string        `json:"text"`
-	Comments []textElement `json:"comments"`
+	Text     string             `json:"text"`
+	Comments []plaidHTMLWrapper `json:"comments"`
 }
 
 type spokenLanguagesWrapper struct {
@@ -684,5 +684,5 @@ type triviaEdge struct {
 }
 
 type triviaNode struct {
-	Text textElement `json:"text"`
+	Text plaidHTMLWrapper `json:"text"`
 }

@@ -1,20 +1,21 @@
 package index
 
 type IndexTransform struct {
-	ID         string         `json:"id"`
-	Validate   validate       `json:"validate"`
-	Title      title          `json:"title"`
-	Genres     []genre        `json:"genres"`
-	Plot       string         `json:"plot"`
-	Popularity popularity     `json:"popularity"`
-	Images     images         `json:"images"`
-	Videos     videos         `json:"videos"`
-	Reviews    reviews        `json:"reviews"`
-	FAQ        faq            `json:"faq"`
-	Trivia     trivia         `json:"trivia"`
-	Keywords   keyword        `json:"keywords"`
-	Series     series         `json:"series"`  // only when viewing an episode of a series
-	Related    []relatedTitle `json:"related"` // list of related titles
+	ID          string         `json:"id"`
+	Validate    validate       `json:"validate"`
+	Title       title          `json:"title"`
+	Genres      []genre        `json:"genres"`
+	Plot        string         `json:"plot"`
+	Popularity  popularity     `json:"popularity"`
+	Images      images         `json:"images"`
+	Videos      videos         `json:"videos"`
+	Reviews     reviews        `json:"reviews"`
+	FAQ         faq            `json:"faq"`
+	Trivia      trivia         `json:"trivia"`
+	Keywords    keyword        `json:"keywords"`
+	Series      series         `json:"series"` // only when viewing an episode of a series
+	Soundtracks []soundtrack   `json:"soundtracks"`
+	Related     []relatedTitle `json:"related"` // list of related titles
 }
 
 type validate struct {
@@ -167,6 +168,17 @@ type trivia struct {
 type keyword struct {
 	Total int64    `json:"total"` // total number of keywords that are related to this title
 	Items []string `json:"items"` // a short list of keywords as preview
+}
+
+type soundtrack struct {
+	Title    string              `json:"title"`
+	Comments []soundtrackComment `json:"comments"`
+}
+
+type soundtrackComment struct {
+	Headline string `json:"headline"` // Example: "Composed by", "Hummed by", or "Performed by"
+	ID       string `json:"id"`
+	Name     string `json:"name"`
 }
 
 type relatedTitle struct {

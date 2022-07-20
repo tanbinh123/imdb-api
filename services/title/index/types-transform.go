@@ -45,19 +45,33 @@ type popularity struct {
 }
 
 type videos struct {
-	Total int64       `json:"total"`
-	Items []videoItem `json:"items"`
+	Total     int64              `json:"total"`
+	Primaries []videoItemPrimary `json:"primaries"`
+	Items     []videoItem        `json:"items"`
+}
+
+type videoItemPrimary struct {
+	ID          string           `json:"id"`
+	Type        videoTypeWrapper `json:"type"`
+	Title       string           `json:"title"`
+	Description string           `json:"description"`
+	Duration    int64            `json:"duration"`
+	Thumbnail   thumbnail        `json:"thumbnail"`
+	Playback    []playbackItem   `json:"playback"`
+	IsMature    bool             `json:"isMature"`
 }
 
 type videoItem struct {
-	ID          string         `json:"id"`
-	Type        string         `json:"type"`
-	Title       string         `json:"title"`
-	Description string         `json:"description"`
-	Duration    int64          `json:"duration"`
-	Thumbnail   thumbnail      `json:"thumbnail"`
-	Playback    []playbackItem `json:"playback"`
-	IsMature    bool           `json:"isMature"`
+	ID        string           `json:"id"`
+	Type      videoTypeWrapper `json:"type"`
+	Title     string           `json:"title"`
+	Duration  int64            `json:"duration"`
+	Thumbnail thumbnail        `json:"thumbnail"`
+}
+
+type videoTypeWrapper struct {
+	Text string `json:"text"`
+	Slug string `json:"slug"`
 }
 
 type series struct {

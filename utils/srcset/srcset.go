@@ -57,6 +57,7 @@ func isSpace(c rune) bool {
 	}
 }
 
+// TODO: refactor to decrease function complicity
 // Parse takes the value of a srcset attribute and parses it.
 func Parse(input string) SourceSet {
 	var (

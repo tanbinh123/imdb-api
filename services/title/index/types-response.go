@@ -82,6 +82,40 @@ type totalWrapper struct {
 	Total int64 `json:"total"`
 }
 
+type videoStrip struct {
+	Edges []videoStripEdge `json:"edges"`
+}
+
+type videoStripEdge struct {
+	Node videoStripNode `json:"node"`
+}
+
+type videoStripNode struct {
+	ID          string              `json:"id"`
+	ContentType videoContentType    `json:"contentType"`
+	Name        stringValueWrapper  `json:"name"`
+	Runtime     int64ValueWrapper   `json:"runtime"`
+	Thumbnail   videoThumbnailClass `json:"thumbnail"`
+}
+
+type videoContentType struct {
+	DisplayName stringValueWrapper `json:"displayName"`
+}
+
+type stringValueWrapper struct {
+	Value string `json:"value"`
+}
+
+type int64ValueWrapper struct {
+	Value int64 `json:"value"`
+}
+
+type videoThumbnailClass struct {
+	Height int64  `json:"height"`
+	URL    string `json:"url"`
+	Width  int64  `json:"width"`
+}
+
 type directorsPageTitle struct {
 	Credits []nodeWithNameText `json:"credits"`
 }
@@ -295,6 +329,7 @@ type mainColumnData struct {
 	Nominations             totalWrapper                    `json:"nominations"`
 	RatingsSummary          mainColumnDataRatingsSummary    `json:"ratingsSummary"`
 	Videos                  totalWrapper                    `json:"videos"`
+	VideoStrip              videoStrip                      `json:"videoStrip"`
 	TitleMainImages         mainImages                      `json:"titleMainImages"`
 	ProductionStatus        productionStatus                `json:"productionStatus"`
 	TitleType               IDWrapper                       `json:"titleType"`

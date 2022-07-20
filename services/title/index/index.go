@@ -111,8 +111,9 @@ func Index(id string) (*IndexTransform, error) {
 			Items: getImageItems(main.TitleMainImages.Edges),
 		},
 		Videos: videos{
-			Total: main.Videos.Total,
-			Items: getVideoItems(above.PrimaryVideos.Edges),
+			Total:     main.Videos.Total,
+			Primaries: getPrimaryVideos(above.PrimaryVideos.Edges),
+			Items:     getVideoItems(main.VideoStrip.Edges),
 		},
 		Reviews: reviews{
 			Featured: getFeaturedReviews(main.FeaturedReviews.Edges),
@@ -254,13 +255,16 @@ func getImageItems(edges []imageEdge) []imageItem {
 	return items
 }
 
-func getVideoItems(edges []primaryVideosEdge) []videoItem {
-	items := []videoItem{}
+func getPrimaryVideos(edges []primaryVideosEdge) []videoItemPrimary {
+	items := []videoItemPrimary{}
 
 	for _, v := range edges {
-		items = append(items, videoItem{
-			ID:          v.Node.ID,
-			Type:        slug.Make(v.Node.ContentType.DisplayName.Value),
+		items = append(items, videoItemPrimary{
+			ID: v.Node.ID,
+			Type: videoTypeWrapper{
+				Text: v.Node.ContentType.DisplayName.Value,
+				Slug: slug.Make(v.Node.ContentType.DisplayName.Value),
+			},
 			Title:       v.Node.Name.Value,
 			Description: v.Node.Description.Value,
 			Duration:    v.Node.Runtime.Value,
@@ -271,6 +275,30 @@ func getVideoItems(edges []primaryVideosEdge) []videoItem {
 			},
 			Playback: getVideoPlaybackItems(v.Node.PlaybackURLs),
 			IsMature: v.Node.IsMature,
+		})
+	}
+
+	return items
+}
+
+func getVideoItems(edges []videoStripEdge) []videoItem {
+	items := []videoItem{}
+
+	for _, v := range edges {
+		// TODO: custom type
+		items = append(items, videoItem{
+			ID: v.Node.ID,
+			Type: videoTypeWrapper{
+				Text: v.Node.ContentType.DisplayName.Value,
+				Slug: slug.Make(v.Node.ContentType.DisplayName.Value),
+			},
+			Title:    v.Node.Name.Value,
+			Duration: v.Node.Runtime.Value,
+			Thumbnail: thumbnail{
+				URL:    v.Node.Thumbnail.URL,
+				Width:  v.Node.Thumbnail.Width,
+				Height: v.Node.Thumbnail.Height,
+			},
 		})
 	}
 

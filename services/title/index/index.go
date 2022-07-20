@@ -396,8 +396,10 @@ func getSoundtrackComment(comments []plaidHTMLWrapper) []soundtrackComment {
 
 		items = append(items, soundtrackComment{
 			Headline: headline,
-			ID:       r.FindString(href),
-			Name:     personName,
+			Person: person{
+				ID:   r.FindString(href),
+				Name: personName,
+			},
 		})
 	}
 

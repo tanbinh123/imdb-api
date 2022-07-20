@@ -177,8 +177,12 @@ type soundtrack struct {
 
 type soundtrackComment struct {
 	Headline string `json:"headline"` // Example: "Composed by", "Hummed by", or "Performed by"
-	ID       string `json:"id"`
-	Name     string `json:"name"`
+	Person   person `json:"person"`
+}
+
+type person struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
 }
 
 type relatedTitle struct {

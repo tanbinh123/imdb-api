@@ -30,7 +30,7 @@ func Debug(id string) (*pageProps, error) {
 	}
 
 	nextDataJSON := doc.Find("script[type=\"application/json\"][id=\"__NEXT_DATA__\"]").First()
-	var nextData titleIndex
+	var nextData nextJSData
 	if err := json.Unmarshal([]byte(nextDataJSON.Text()), &nextData); err != nil {
 		return nil, err
 	}
@@ -50,23 +50,13 @@ func Index(id string) (*IndexTransform, error) {
 		return nil, err
 	}
 
-	// Extract the first JSON string, which is usually on top of the web page's source code
-	// this is manually generated based on "schema.org" schemas,
-	// and it's unlikely to change in the future.
-	scriptJSON := doc.Find("script[type=\"application/ld+json\"]").First()
-	var data scriptResponse
-	if err := json.Unmarshal([]byte(scriptJSON.Text()), &data); err != nil {
+	schemaData, err := getSchemaOrgData(doc)
+	if err != nil {
 		return nil, err
 	}
 
-	// Extract the second JSON string
-	// which is usually in the middle or bottom of the web page's source code
-	// the Next.JS framework automatically generates this.
-	// Most likely, the structure of this JSON object is going to change.
-	// But as long as they use the Next.JS framework, the approach remains the same.
-	nextDataJSON := doc.Find("script[type=\"application/json\"][id=\"__NEXT_DATA__\"]").First()
-	var nextData titleIndex
-	if err := json.Unmarshal([]byte(nextDataJSON.Text()), &nextData); err != nil {
+	nextData, err := getNextJSData(doc)
+	if err != nil {
 		return nil, err
 	}
 
@@ -110,7 +100,7 @@ func Index(id string) (*IndexTransform, error) {
 			Total: main.TitleMainImages.Total,
 			Primary: primaryImage{
 				ID:  main.PrimaryImage.ID,
-				URL: data.Image,
+				URL: schemaData.Image,
 			},
 			Items: getImageItems(main.TitleMainImages.Edges),
 		},
@@ -137,7 +127,7 @@ func Index(id string) (*IndexTransform, error) {
 		},
 		Keywords: keyword{
 			Total: above.Keywords.Total,
-			Items: strings.Split(data.Keywords, ","),
+			Items: strings.Split(schemaData.Keywords, ","),
 		},
 		Series: series{
 			ID: seriesID{
@@ -164,6 +154,32 @@ func Index(id string) (*IndexTransform, error) {
 	}
 
 	return &transform, nil
+}
+
+// getSchemaOrgData extracts the first JSON string, which is usually on top of the web page's source code
+// this is manually generated based on "schema.org" schemas,
+// and it's unlikely to change in the future.
+func getSchemaOrgData(doc *goquery.Document) (*schemaOrgData, error) {
+	scriptJSON := doc.Find("script[type=\"application/ld+json\"]").First()
+	var data schemaOrgData
+	if err := json.Unmarshal([]byte(scriptJSON.Text()), &data); err != nil {
+		return nil, err
+	}
+	return &data, nil
+}
+
+// getNextJSData extracts the second JSON string
+// which is usually in the middle or bottom of the web page's source code
+// the Next.JS framework automatically generates this.
+// Most likely, the structure of this JSON object is going to change.
+// But as long as they use the Next.JS framework, the approach remains the same.
+func getNextJSData(doc *goquery.Document) (*nextJSData, error) {
+	nextDataJSON := doc.Find("script[type=\"application/json\"][id=\"__NEXT_DATA__\"]").First()
+	var nextData nextJSData
+	if err := json.Unmarshal([]byte(nextDataJSON.Text()), &nextData); err != nil {
+		return nil, err
+	}
+	return &nextData, nil
 }
 
 func getTitleAKA(edges []akaEdge) []string {

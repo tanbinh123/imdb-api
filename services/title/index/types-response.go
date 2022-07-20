@@ -1,11 +1,11 @@
 package index
 
-type scriptResponse struct {
+type schemaOrgData struct {
 	Keywords string `json:"keywords"` // list of keywords as a string joined by the "," character
 	Image    string `json:"image"`    // poster image URL
 }
 
-type titleIndex struct {
+type nextJSData struct {
 	Props props `json:"props"`
 }
 

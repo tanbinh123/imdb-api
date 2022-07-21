@@ -13,12 +13,3 @@ func Index(c *fiber.Ctx) error {
 
 	return c.JSON(res)
 }
-
-func IndexDebug(c *fiber.Ctx) error {
-	res, err := index.Debug(c.Params("id"))
-	if err != nil {
-		return err
-	}
-
-	return c.JSON(res)
-}

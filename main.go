@@ -81,7 +81,6 @@ func main() {
 
 	t := app.Group("/title/:id")
 	t.Get("/", title.Index)
-	t.Get("/debug", title.IndexDebug)
 
 	// Not found error handler
 	app.Use(func(c *fiber.Ctx) error {

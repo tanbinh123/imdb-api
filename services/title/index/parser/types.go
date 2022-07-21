@@ -1,4 +1,4 @@
-package index
+package parser
 
 // type schemaOrgData struct {
 // 	Keywords string `json:"keywords"` // list of keywords as a string joined by the "," character
@@ -19,25 +19,25 @@ type pageProps struct {
 }
 
 type aboveTheFoldData struct {
-	PrimaryImage  titlePrimaryImage `json:"primaryImage"`
-	MeterRanking  meterRanking      `json:"meterRanking"`
-	PrimaryVideos primaryVideos     `json:"primaryVideos"`
-	Genres        genresWrapper     `json:"genres"`
-	Plot          plotWrapper       `json:"plot"`
-	Meta          meta              `json:"meta"`
+	PrimaryImage  primaryImage  `json:"primaryImage"`
+	MeterRanking  meterRanking  `json:"meterRanking"`
+	PrimaryVideos primaryVideos `json:"primaryVideos"`
+	Genres        genresWrapper `json:"genres"`
+	Plot          plotWrapper   `json:"plot"`
+	Meta          meta          `json:"meta"`
 	// CastPageTitle      castPageTitle        `json:"castPageTitle"`
 	// DirectorsPageTitle []directorsPageTitle `json:"directorsPageTitle"`
-	Series      titleSeries      `json:"series"` // only when viewing an episode of a series
-	Certificate titleCertificate `json:"certificate"`
+	Series      series            `json:"series"` // only when viewing an episode of a series
+	Certificate certificateRating `json:"certificate"`
 	// PrincipalCredits   []principalCredit    `json:"principalCredits"`
-	Keywords           titleKeywords `json:"keywords"`
-	ExternalLinks      totalWrapper  `json:"externalLinks"`
-	Credits            totalWrapper  `json:"credits"`
-	CriticReviewsTotal totalWrapper  `json:"criticReviewsTotal"` // total number of external reviews
-	Metacritic         interface{}   `json:"metacritic"`         // TODO: improve typings
+	Keywords           keywords     `json:"keywords"`
+	ExternalLinks      totalWrapper `json:"externalLinks"`
+	Credits            totalWrapper `json:"credits"`
+	CriticReviewsTotal totalWrapper `json:"criticReviewsTotal"` // total number of external reviews
+	Metacritic         interface{}  `json:"metacritic"`         // TODO: improve typings
 }
 
-type titleCertificate struct {
+type certificateRating struct {
 	Rating string `json:"rating"`
 }
 
@@ -61,7 +61,7 @@ type withText struct {
 	Text string `json:"text"`
 }
 
-type titlePrimaryImage struct {
+type primaryImage struct {
 	ID      string                     `json:"id"`
 	Width   int64                      `json:"width"`
 	Height  int64                      `json:"height"`
@@ -156,7 +156,7 @@ type withTextAndID struct {
 	Text string `json:"text"`
 }
 
-type titleKeywords struct {
+type keywords struct {
 	Total int64         `json:"total"`
 	Edges []keywordEdge `json:"edges"`
 }
@@ -460,7 +460,7 @@ type worldwideGrossTotal struct {
 	Currency string `json:"currency"`
 }
 
-type titleSeries struct {
+type series struct {
 	EpisodeNumber   episodeNumber `json:"episodeNumber"`
 	NextEpisode     nextEpisode   `json:"nextEpisode"`
 	PreviousEpisode nextEpisode   `json:"previousEpisode"`

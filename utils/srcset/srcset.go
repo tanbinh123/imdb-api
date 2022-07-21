@@ -57,160 +57,174 @@ func isSpace(c rune) bool {
 	}
 }
 
-// TODO: refactor to decrease function complicity
-// Parse takes the value of a srcset attribute and parses it.
+type parser struct {
+	input        string
+	url          string
+	pos          int
+	currentState int
+	end          int
+	candidates   SourceSet
+	descriptors  []string
+}
+
 func Parse(input string) SourceSet {
+	p := &parser{
+		pos:          0,
+		currentState: stateNone,
+		end:          len(input),
+		candidates:   SourceSet{},
+		descriptors:  []string{},
+		input:        input,
+		url:          "",
+	}
+
+	return p.Parse(input)
+}
+
+// Parse takes the value of a srcset attribute and parses it.
+func (p *parser) Parse(input string) SourceSet {
+	for {
+		p.collectChars(regexLeadingCommasOrSpaces)
+		if p.pos >= p.end {
+			return p.candidates
+		}
+
+		p.url = p.collectChars(regexLeadingNotSpaces)
+		p.descriptors = []string{}
+
+		if p.url[len(p.url)-1] == ',' {
+			p.url = regexTrailingCommas.ReplaceAllString(p.url, "")
+			p.parseDescriptors()
+		} else {
+			p.tokenize()
+		}
+	}
+}
+
+func (p *parser) collectChars(rx *regexp.Regexp) string {
+	if match := rx.FindString(p.input[p.pos:]); match != "" {
+		p.pos += len(match)
+		return match
+	}
+
+	return ""
+}
+
+func (p *parser) parseDescriptors() {
 	var (
-		url          string
-		pos          = 0
-		currentState = stateNone
-		end          = len(input)
-		candidates   = SourceSet{}
-		descriptors  = []string{}
+		isErr = false
+		h     *int64
+		w     *int64
+		d     *float64
 	)
 
-	collectChars := func(rx *regexp.Regexp) string {
-		if match := rx.FindString(input[pos:]); match != "" {
-			pos += len(match)
-			return match
-		}
+	for _, desc := range p.descriptors {
+		lastIdx := len(desc) - 1
+		lastChar, numericVal := desc[lastIdx], desc[:lastIdx]
+		intVal, intErr := strconv.ParseInt(numericVal, 10, 64)
+		floatVal, floatErr := strconv.ParseFloat(numericVal, 64)
 
-		return ""
-	}
-
-	parseDescriptors := func() {
-		var (
-			isErr = false
-			h     *int64
-			w     *int64
-			d     *float64
-		)
-
-		for _, desc := range descriptors {
-			lastIdx := len(desc) - 1
-			lastChar, numericVal := desc[lastIdx], desc[:lastIdx]
-			intVal, intErr := strconv.ParseInt(numericVal, 10, 64)
-			floatVal, floatErr := strconv.ParseFloat(numericVal, 64)
-
-			switch {
-			case regexNonNegativeInteger.MatchString(numericVal) && lastChar == 'w':
-				if w != nil || d != nil {
-					isErr = true
-				}
-				if intErr != nil || intVal == 0 {
-					isErr = true
-				} else {
-					w = &intVal
-				}
-			case regexFloatingPoint.MatchString(numericVal) && lastChar == 'x':
-				if w != nil || d != nil || h != nil {
-					isErr = true
-				}
-				if floatErr != nil || floatVal < 0 {
-					isErr = true
-				} else {
-					d = &floatVal
-				}
-			case regexNonNegativeInteger.MatchString(numericVal) && lastChar == 'h':
-				if h != nil || d != nil {
-					isErr = true
-				}
-				if intErr != nil || intVal == 0 {
-					isErr = true
-				} else {
-					h = &intVal
-				}
-			default:
+		switch {
+		case regexNonNegativeInteger.MatchString(numericVal) && lastChar == 'w':
+			if w != nil || d != nil {
 				isErr = true
 			}
-		}
-
-		if !isErr {
-			candidates = append(candidates, ImageSource{
-				URL:     url,
-				Density: d,
-				Width:   w,
-				Height:  h,
-			})
+			if intErr != nil || intVal == 0 {
+				isErr = true
+			} else {
+				w = &intVal
+			}
+		case regexFloatingPoint.MatchString(numericVal) && lastChar == 'x':
+			if w != nil || d != nil || h != nil {
+				isErr = true
+			}
+			if floatErr != nil || floatVal < 0 {
+				isErr = true
+			} else {
+				d = &floatVal
+			}
+		case regexNonNegativeInteger.MatchString(numericVal) && lastChar == 'h':
+			if h != nil || d != nil {
+				isErr = true
+			}
+			if intErr != nil || intVal == 0 {
+				isErr = true
+			} else {
+				h = &intVal
+			}
+		default:
+			isErr = true
 		}
 	}
 
-	tokenize := func() {
-		collectChars(regexLeadingSpaces)
-		currentDescriptor := ""
-		currentState = stateInDescriptor
-
-		for {
-			if pos == len(input) {
-				if currentState != stateAfterDescriptor && currentDescriptor != "" {
-					descriptors = append(descriptors, currentDescriptor)
-				}
-
-				parseDescriptors()
-				return
-			}
-
-			c := rune(input[pos])
-
-			switch currentState {
-			case stateInDescriptor:
-				switch {
-				case isSpace(c):
-					if currentDescriptor != "" {
-						descriptors = append(descriptors, currentDescriptor)
-						currentDescriptor = ""
-						currentState = stateAfterDescriptor
-					}
-				case c == comma:
-					pos++
-					if currentDescriptor != "" {
-						descriptors = append(descriptors, currentDescriptor)
-						parseDescriptors()
-						return
-					}
-				case c == leftParentheses:
-					currentDescriptor += string(c)
-					currentState = stateInParentheses
-				default:
-					currentDescriptor += string(c)
-				}
-
-			case stateInParentheses:
-				switch c {
-				case rightParentheses:
-					currentDescriptor += string(c)
-					currentState = stateInDescriptor
-				default:
-					currentDescriptor += string(c)
-				}
-
-			case stateAfterDescriptor:
-				switch {
-				case isSpace(c):
-				default:
-					currentState = stateInDescriptor
-					pos--
-				}
-			}
-
-			pos++
-		}
+	if !isErr {
+		p.candidates = append(p.candidates, ImageSource{
+			URL:     p.url,
+			Density: d,
+			Width:   w,
+			Height:  h,
+		})
 	}
+}
+
+func (p *parser) tokenize() {
+	p.collectChars(regexLeadingSpaces)
+	currentDescriptor := ""
+	p.currentState = stateInDescriptor
 
 	for {
-		collectChars(regexLeadingCommasOrSpaces)
-		if pos >= end {
-			return candidates
+		if p.pos == len(p.input) {
+			if p.currentState != stateAfterDescriptor && currentDescriptor != "" {
+				p.descriptors = append(p.descriptors, currentDescriptor)
+			}
+
+			p.parseDescriptors()
+			return
 		}
 
-		url = collectChars(regexLeadingNotSpaces)
-		descriptors = []string{}
+		c := rune(p.input[p.pos])
 
-		if url[len(url)-1] == ',' {
-			url = regexTrailingCommas.ReplaceAllString(url, "")
-			parseDescriptors()
-		} else {
-			tokenize()
+		switch p.currentState {
+		case stateInDescriptor:
+			switch {
+			case isSpace(c):
+				if currentDescriptor != "" {
+					p.descriptors = append(p.descriptors, currentDescriptor)
+					currentDescriptor = ""
+					p.currentState = stateAfterDescriptor
+				}
+			case c == comma:
+				p.pos++
+				if currentDescriptor != "" {
+					p.descriptors = append(p.descriptors, currentDescriptor)
+					p.parseDescriptors()
+					return
+				}
+			case c == leftParentheses:
+				currentDescriptor += string(c)
+				p.currentState = stateInParentheses
+			default:
+				currentDescriptor += string(c)
+			}
+
+		case stateInParentheses:
+			switch c {
+			case rightParentheses:
+				currentDescriptor += string(c)
+				p.currentState = stateInDescriptor
+			default:
+				currentDescriptor += string(c)
+			}
+
+		case stateAfterDescriptor:
+			switch {
+			case isSpace(c):
+			default:
+				p.currentState = stateInDescriptor
+				p.pos--
+			}
 		}
+
+		p.pos++
 	}
 }

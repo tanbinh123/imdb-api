@@ -2,14 +2,12 @@ package index
 
 import (
 	"fmt"
-	"regexp"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/goccy/go-json"
 	"github.com/gosimple/slug"
 	"github.com/iancoleman/strcase"
-	"github.com/rs/zerolog/log"
 
 	"github.com/Scrip7/imdb-api/client"
 	"github.com/Scrip7/imdb-api/constants"
@@ -439,15 +437,10 @@ func getSoundtracks(edges []soundtrackEdge) []soundtrack {
 func getSoundtrackComment(comments []plaidHTMLWrapper) []soundtrackComment {
 	items := []soundtrackComment{}
 
-	pushItem := func(item soundtrackComment) {
-		items = append(items, item)
-	}
-
 	for _, v := range comments {
-		// Sometimes the plain HTML string equals to "(uncredited)" for unknown reason
-		// Here we double-check to avoid future errors
-		// Even though it won't interfere with our business logic below
-		if v.PlaidHTML == "(uncredited)" {
+		// Sometimes the plain HTML string equals to useless values
+		// we skip those to avoid unnecessary response payloads
+		if v.PlaidHTML == "(uncredited)" || v.PlaidHTML == "(Title Theme)" {
 			continue
 		}
 
@@ -457,42 +450,9 @@ func getSoundtrackComment(comments []plaidHTMLWrapper) []soundtrackComment {
 			continue
 		}
 
-		link := doc.Find("a").First()
-		href, exists := link.Attr("href")
-		if !exists {
-			pushItem(soundtrackComment{
-				Original: doc.Text(),
-			})
-			continue
-		}
-
-		linkName := strings.TrimSpace(link.Text())
-		// The plaid HTML text is usually "Performed by [LINK_NAME]"
-		// Here, we replace the link's name with an empty string to extract the headline from it
-		// Which would be "Performed by "
-		headline := strings.TrimSpace(strings.Replace(doc.Text(), linkName, "", 1))
-
-		// The "href" variable contains a string that contains the ID we need
-		// We use the regex below to extract that ID
-		// Example: "/name/nm0123456/?ref_=tt_trv_snd"
-		r, err := regexp.Compile("(nm[0-9]+)")
-		if err != nil {
-			pushItem(soundtrackComment{
-				Original: doc.Text(),
-			})
-			log.Err(err).Msg("failed to compile the extract link ID regex")
-			continue
-		}
-
 		items = append(items, soundtrackComment{
-			Original: doc.Text(),
-			Parsed: soundTrackCommentParsed{
-				Headline: headline,
-				Link: linkWrapper{
-					ID:   r.FindString(href),
-					Name: linkName,
-				},
-			},
+			HTML: v.PlaidHTML,
+			Text: doc.Text(),
 		})
 	}
 

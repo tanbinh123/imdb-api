@@ -19,23 +19,22 @@ type pageProps struct {
 }
 
 type aboveTheFoldData struct {
-	PrimaryImage       titlePrimaryImage    `json:"primaryImage"`
-	MeterRanking       meterRanking         `json:"meterRanking"`
-	PrimaryVideos      primaryVideos        `json:"primaryVideos"`
-	ExternalLinks      totalWrapper         `json:"externalLinks"`
-	Keywords           titleKeywords        `json:"keywords"`
-	Genres             genresWrapper        `json:"genres"`
-	Plot               plotWrapper          `json:"plot"`
-	Credits            totalWrapper         `json:"credits"`
-	PrincipalCredits   []principalCredit    `json:"principalCredits"`
-	CriticReviewsTotal totalWrapper         `json:"criticReviewsTotal"` // total number of external reviews
-	Meta               meta                 `json:"meta"`
-	CastPageTitle      castPageTitle        `json:"castPageTitle"`
-	DirectorsPageTitle []directorsPageTitle `json:"directorsPageTitle"`
-	Series             titleSeries          `json:"series"` // only when viewing an episode of a series
-	Certificate        titleCertificate     `json:"certificate"`
-	// TODO: improve typings
-	Metacritic interface{} `json:"metacritic"`
+	PrimaryImage  titlePrimaryImage `json:"primaryImage"`
+	MeterRanking  meterRanking      `json:"meterRanking"`
+	PrimaryVideos primaryVideos     `json:"primaryVideos"`
+	Genres        genresWrapper     `json:"genres"`
+	Plot          plotWrapper       `json:"plot"`
+	Meta          meta              `json:"meta"`
+	// CastPageTitle      castPageTitle        `json:"castPageTitle"`
+	// DirectorsPageTitle []directorsPageTitle `json:"directorsPageTitle"`
+	Series      titleSeries      `json:"series"` // only when viewing an episode of a series
+	Certificate titleCertificate `json:"certificate"`
+	// PrincipalCredits   []principalCredit    `json:"principalCredits"`
+	Keywords           titleKeywords `json:"keywords"`
+	ExternalLinks      totalWrapper  `json:"externalLinks"`
+	Credits            totalWrapper  `json:"credits"`
+	CriticReviewsTotal totalWrapper  `json:"criticReviewsTotal"` // total number of external reviews
+	Metacritic         interface{}   `json:"metacritic"`         // TODO: improve typings
 }
 
 type titleCertificate struct {
@@ -175,8 +174,8 @@ type keywordNode struct {
 }
 
 type meta struct {
-	CanonicalID       string `json:"canonicalId"`
-	PublicationStatus string `json:"publicationStatus"`
+	CanonicalID       string `json:"canonicalId"`       // tt0123456
+	PublicationStatus string `json:"publicationStatus"` // PUBLISHED
 }
 
 type meterRanking struct {
@@ -250,12 +249,6 @@ type titleThumbnail struct {
 	Width  int64  `json:"width"`
 }
 
-type principalCredit struct {
-	TotalCredits int64         `json:"totalCredits"`
-	Category     withTextAndID `json:"category"`
-	Credits      []credit      `json:"credits"`
-}
-
 type credit struct {
 	Name       fluffyName  `json:"name"`
 	Attributes interface{} `json:"attributes"`
@@ -287,7 +280,7 @@ type company struct {
 type productionStatus struct {
 	CurrentProductionStage  withTextAndID             `json:"currentProductionStage"`
 	ProductionStatusHistory []productionStatusHistory `json:"productionStatusHistory"`
-	Restriction             interface{}               `json:"restriction"`
+	Restriction             interface{}               `json:"restriction"` // TODO: improve typing
 }
 
 type productionStatusHistory struct {
@@ -333,29 +326,19 @@ type aboveTheFoldDataRuntime struct {
 }
 
 type mainColumnData struct {
-	ID                 string                       `json:"id"`
-	WINS               totalWrapper                 `json:"wins"`
-	Nominations        totalWrapper                 `json:"nominations"`
-	RatingsSummary     mainColumnDataRatingsSummary `json:"ratingsSummary"`
-	Videos             totalWrapper                 `json:"videos"`
-	VideoStrip         videoStrip                   `json:"videoStrip"`
-	TitleMainImages    mainImages                   `json:"titleMainImages"`
-	ProductionStatus   productionStatus             `json:"productionStatus"`
-	TitleType          IDWrapper                    `json:"titleType"`
-	CanHaveEpisodes    bool                         `json:"canHaveEpisodes"`
-	Cast               castClass                    `json:"cast"`
-	Directors          []director                   `json:"directors"`
-	IsAdult            bool                         `json:"isAdult"`
-	MoreLikeThisTitles moreLikeThisTitles           `json:"moreLikeThisTitles"`
-	Trivia             titleTrivia                  `json:"trivia"`
-	Goofs              titleGoofs                   `json:"goofs"`
-
-	Quotes                  quotes                          `json:"quotes"`
-	CrazyCredits            castPageTitle                   `json:"crazyCredits"`
-	Connections             connections                     `json:"connections"`
-	Soundtrack              titleSoundtrack                 `json:"soundtrack"`
+	ID                      string                          `json:"id"`
 	TitleText               withText                        `json:"titleText"`
 	OriginalTitleText       withText                        `json:"originalTitleText"`
+	CanHaveEpisodes         bool                            `json:"canHaveEpisodes"`
+	IsAdult                 bool                            `json:"isAdult"`
+	TitleMainImages         mainImages                      `json:"titleMainImages"`
+	VideoStrip              videoStrip                      `json:"videoStrip"`
+	ProductionStatus        productionStatus                `json:"productionStatus"`
+	TitleType               IDWrapper                       `json:"titleType"`
+	Cast                    castEdgeWrapper                 `json:"cast"`
+	MoreLikeThisTitles      moreLikeThisTitles              `json:"moreLikeThisTitles"`
+	CrazyCredits            castPageTitle                   `json:"crazyCredits"`
+	Soundtrack              titleSoundtrack                 `json:"soundtrack"`
 	ReleaseYear             associatedTitleReleaseYear      `json:"releaseYear"`
 	FeaturedReviews         featuredReviews                 `json:"featuredReviews"`
 	Faqs                    faqEdges                        `json:"faqs"`
@@ -369,20 +352,41 @@ type mainColumnData struct {
 	LifetimeGross           titleLifetimeGross              `json:"lifetimeGross"`
 	OpeningWeekendGross     titleOpeningWeekendGross        `json:"openingWeekendGross"`
 	WorldwideGross          titleWorldwideGross             `json:"worldwideGross"`
+	Connections             connections                     `json:"connections"`
 	PrestigiousAwardSummary prestigiousAwardSummary         `json:"prestigiousAwardSummary"`
-	Creators                []titleCreator                  `json:"creators"`
+	RatingsSummary          titleRatingsSummary             `json:"ratingsSummary"`
 	Episodes                titleEpisodesWrapper            `json:"episodes"` // only when viewing the parent series ID
-	Reviews                 totalWrapper                    `json:"reviews"`  // total number of users reviews
+	Wins                    totalWrapper                    `json:"wins"`
+	Nominations             totalWrapper                    `json:"nominations"`
+	Videos                  totalWrapper                    `json:"videos"`
+	Reviews                 totalWrapper                    `json:"reviews"` // total number of users reviews
 	FaqsTotal               totalWrapper                    `json:"faqsTotal"`
 	TriviaTotal             totalWrapper                    `json:"triviaTotal"`
+	Trivia                  titleTrivia                     `json:"trivia"`
 	GoofsTotal              totalWrapper                    `json:"goofsTotal"`
+	Goofs                   titleGoofs                      `json:"goofs"`
 	QuotesTotal             totalWrapper                    `json:"quotesTotal"`
-	AlternateVersions       totalWrapper                    `json:"alternateVersions"` // TODO: add edges type
-	FilmingLocations        totalWrapper                    `json:"filmingLocations"`  // TODO: add edges type
+	Quotes                  quotes                          `json:"quotes"`
+	AlternateVersions       titleAlternateVersions          `json:"alternateVersions"`
+	FilmingLocations        totalWrapper                    `json:"filmingLocations"` // TODO: add edges type
 	Companies               totalWrapper                    `json:"companies"`
-	// TODO: improve typings
-	Writers          []interface{} `json:"writers"`
-	ProductionBudget interface{}   `json:"productionBudget"`
+	Creators                []titleCreator                  `json:"creators"`
+	Directors               []director                      `json:"directors"`
+	Writers                 []interface{}                   `json:"writers"` // TODO: better typing
+	ProductionBudget        interface{}                     `json:"productionBudget"`
+}
+
+type titleAlternateVersions struct {
+	Total int64                       `json:"total"`
+	Edges []titleAlternateVersionEdge `json:"edges"`
+}
+
+type titleAlternateVersionEdge struct {
+	Node titleAlternateVersionNode `json:"node"`
+}
+
+type titleAlternateVersionNode struct {
+	Text plaidHTMLWrapper `json:"text"`
 }
 
 type titleLifetimeGross struct {
@@ -425,51 +429,46 @@ type titleSeries struct {
 }
 
 type prestigiousAwardSummary struct {
+	Nominations int64        `json:"nominations"` // Total nominations
+	Wins        int64        `json:"wins"`        // Total wins
 	Award       awardSummary `json:"award"`
-	Nominations int64        `json:"nominations"`
-	WINS        int64        `json:"wins"`
 }
 
 type awardSummary struct {
-	Event eventIDWrapper `json:"event"`
-	ID    string         `json:"id"`
+	ID    string         `json:"id"` // an0123456
 	Text  string         `json:"text"`
+	Event eventIDWrapper `json:"event"`
 }
 
 type eventIDWrapper struct {
-	ID string `json:"id"`
+	ID string `json:"id"` // ev0123456
 }
 
 type titleCreator struct {
-	Category     creatorCategory `json:"category"`
-	Credits      []creatorCredit `json:"credits"`
 	TotalCredits int64           `json:"totalCredits"`
-}
-
-type creatorCategory struct {
-	Text string `json:"text"`
+	Credits      []creatorCredit `json:"credits"`
 }
 
 type creatorCredit struct {
-	Name       nameWrapper `json:"name"`
-	Attributes interface{} `json:"attributes"`
+	Name       creatorNameWrapper `json:"name"`
+	Attributes interface{}        `json:"attributes"` // TODO: better type
 }
 
-type nameWrapper struct {
-	ID       string          `json:"id"`
-	NameText creatorCategory `json:"nameText"`
+type creatorNameWrapper struct {
+	ID       string           `json:"id"`
+	NameText textValueWrapper `json:"nameText"`
+}
+
+type textValueWrapper struct {
+	Text string `json:"text"`
 }
 
 type titleEpisodesWrapper struct {
-	Episodes      titleEpisodes      `json:"episodes"`
+	Episodes      totalWrapper       `json:"episodes"`
+	TotalEpisodes totalWrapper       `json:"totalEpisodes"`
 	Seasons       []seasonNumWrapper `json:"seasons"`
-	TopRated      topRated           `json:"topRated"`
-	TotalEpisodes titleEpisodes      `json:"totalEpisodes"`
 	Years         []yearWrapper      `json:"years"`
-}
-
-type titleEpisodes struct {
-	Total int64 `json:"total"`
+	TopRated      topRated           `json:"topRated"`
 }
 
 type seasonNumWrapper struct {
@@ -530,28 +529,49 @@ type akaEdge struct {
 	Node withText `json:"node"`
 }
 
-type castClass struct {
-	Edges []castEdge `json:"edges"`
+type castEdgeWrapper struct {
+	Edges []castNodeWrapper `json:"edges"`
 }
 
-type castEdge struct {
-	Node stickyNode `json:"node"`
+type castNodeWrapper struct {
+	Node castNode `json:"node"`
 }
 
-type stickyNode struct {
-	Name           fluffyName      `json:"name"`
-	Attributes     []withText      `json:"attributes"`
-	Characters     []nodeCharacter `json:"characters"`
-	EpisodeCredits episodeCredits  `json:"episodeCredits"`
+type castNode struct {
+	Name           castName           `json:"name"`
+	Characters     []castCharacter    `json:"characters"`
+	EpisodeCredits castEpisodeCredits `json:"episodeCredits"`
+	Attributes     interface{}        `json:"attributes"` // TODO: better type
 }
 
-type nodeCharacter struct {
+type castName struct {
+	ID           string              `json:"id"`
+	NameText     castNameTextWrapper `json:"nameText"`
+	PrimaryImage castPrimaryImage    `json:"primaryImage"`
+}
+
+type castNameTextWrapper struct {
+	Text string `json:"text"`
+}
+
+type castPrimaryImage struct {
+	URL    string `json:"url"`
+	Width  int64  `json:"width"`
+	Height int64  `json:"height"`
+}
+
+type castCharacter struct {
 	Name string `json:"name"`
 }
 
-type episodeCredits struct {
-	Total     int64       `json:"total"`
-	YearRange interface{} `json:"yearRange"`
+type castEpisodeCredits struct {
+	Total     int64                      `json:"total"`
+	YearRange castEpisodeCreditYearRange `json:"yearRange"`
+}
+
+type castEpisodeCreditYearRange struct {
+	Year    int64 `json:"year"`
+	EndYear int64 `json:"endYear"`
 }
 
 type connections struct {
@@ -559,10 +579,10 @@ type connections struct {
 }
 
 type connectionsEdge struct {
-	Node indigoNode `json:"node"`
+	Node connectionNode `json:"node"`
 }
 
-type indigoNode struct {
+type connectionNode struct {
 	AssociatedTitle associatedTitle `json:"associatedTitle"`
 	Category        withText        `json:"category"`
 }
@@ -609,7 +629,6 @@ type hilariousNode struct {
 
 type director struct {
 	TotalCredits int64    `json:"totalCredits"`
-	Category     withText `json:"category"`
 	Credits      []credit `json:"credits"`
 }
 
@@ -654,10 +673,10 @@ type moreLikeThisTitles struct {
 }
 
 type moreLikeThisTitlesEdge struct {
-	Node cunningNode `json:"node"`
+	Node relatedTitleNode `json:"node"`
 }
 
-type cunningNode struct {
+type relatedTitleNode struct {
 	ID                string                         `json:"id"`
 	TitleText         withText                       `json:"titleText"`
 	OriginalTitleText withText                       `json:"originalTitleText"`
@@ -702,8 +721,14 @@ type lineCharacter struct {
 	Name      IDWrapper `json:"name"`
 }
 
-type mainColumnDataRatingsSummary struct {
-	TopRanking interface{} `json:"topRanking"`
+type titleRatingsSummary struct {
+	TopRanking ratingSummaryTopRaking `json:"topRanking"`
+}
+
+type ratingSummaryTopRaking struct {
+	ID   string             `json:"id"` // topRatedTv:tt0108778:en_US
+	Text stringValueWrapper `json:"text"`
+	Rank int64              `json:"rank"`
 }
 
 type titleSoundtrack struct {
@@ -741,5 +766,7 @@ type triviaEdge struct {
 }
 
 type triviaNode struct {
-	Text plaidHTMLWrapper `json:"text"`
+	Text         plaidHTMLWrapper `json:"text"`
+	Trademark    interface{}      `json:"trademark"`    // TODO: better type
+	RelatedNames interface{}      `json:"relatedNames"` // TODO: better type
 }

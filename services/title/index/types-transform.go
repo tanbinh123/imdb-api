@@ -199,18 +199,8 @@ type soundtrack struct {
 }
 
 type soundtrackComment struct {
-	Original string                  `json:"original"`
-	Parsed   soundTrackCommentParsed `json:"parsed"`
-}
-
-type soundTrackCommentParsed struct {
-	Headline string      `json:"headline"` // Example: "Composed by", "Hummed by", or "Performed by"
-	Link     linkWrapper `json:"link"`
-}
-
-type linkWrapper struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	HTML string `json:"html"`
+	Text string `json:"text"`
 }
 
 type relatedTitle struct {

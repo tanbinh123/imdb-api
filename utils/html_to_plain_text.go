@@ -6,10 +6,10 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func ParseHTMLToString(input string) string {
+func ParseHTMLToPlainText(input string) string {
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(input))
 	if err != nil {
-		return "__FAILED_TO_PARSE_HTML_TEXT__"
+		return ""
 	}
 	return doc.Text()
 }

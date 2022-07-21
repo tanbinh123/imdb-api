@@ -23,7 +23,7 @@ func Debug(id string) (*pageProps, error) {
 		return nil, err
 	}
 
-	doc, err := utils.ParseHTML(*res)
+	doc, err := goquery.NewDocumentFromReader(*res)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +44,7 @@ func Index(id string) (*IndexTransform, error) {
 		return nil, err
 	}
 
-	doc, err := utils.ParseHTML(*res)
+	doc, err := goquery.NewDocumentFromReader(*res)
 	if err != nil {
 		return nil, err
 	}
@@ -321,6 +321,10 @@ func getFeaturedReviews(edges []featuredReviewEdge) []featuredReviewItem {
 	items := []featuredReviewItem{}
 
 	for _, v := range edges {
+		text := utils.ParseHTMLToPlainText(v.Node.Text.OriginalText.PlaidHTML)
+		if text == "" {
+			continue
+		}
 		items = append(items, featuredReviewItem{
 			ID: v.Node.ID,
 			Author: reviewAuthor{
@@ -329,7 +333,7 @@ func getFeaturedReviews(edges []featuredReviewEdge) []featuredReviewItem {
 				Rating:   v.Node.AuthorRating,
 			},
 			Summary:   v.Node.Summary.OriginalText,
-			Text:      utils.ParseHTMLToString(v.Node.Text.OriginalText.PlaidHTML),
+			Text:      text,
 			Likes:     v.Node.Helpfulness.UpVotes,
 			Dislikes:  v.Node.Helpfulness.DownVotes,
 			CreatedAt: v.Node.SubmissionDate,
@@ -356,7 +360,11 @@ func getTriviaItems(edges []triviaEdge) []string {
 	items := []string{}
 
 	for _, v := range edges {
-		items = append(items, utils.ParseHTMLToString(v.Node.Text.PlaidHTML))
+		text := utils.ParseHTMLToPlainText(v.Node.Text.PlaidHTML)
+		if text == "" {
+			continue
+		}
+		items = append(items, text)
 	}
 
 	return items

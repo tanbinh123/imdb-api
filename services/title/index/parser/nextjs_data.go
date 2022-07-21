@@ -7,9 +7,9 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/Scrip7/imdb-api/services/title/index/pipe"
 	"github.com/Scrip7/imdb-api/utils"
-	"github.com/Scrip7/imdb-api/utils/srcset"
 	"github.com/gosimple/slug"
 	"github.com/iancoleman/strcase"
+	"github.com/lukasbob/srcset"
 )
 
 // GetNextJSData extracts the second JSON string

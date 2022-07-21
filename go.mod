@@ -45,6 +45,7 @@ require (
 	github.com/goccy/go-json v0.9.10
 	github.com/gosimple/slug v1.12.0
 	github.com/klauspost/compress v1.15.0 // indirect
+	github.com/lukasbob/srcset v0.0.0-20190730101422-86b742e617f3
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.38.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect

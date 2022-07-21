@@ -245,12 +245,11 @@ type titleThumbnail struct {
 	Width  int64  `json:"width"`
 }
 
-type credit struct {
-	Name       fluffyName  `json:"name"`
-	Attributes interface{} `json:"attributes"`
+type creditNameWrapper struct {
+	Name creditName `json:"name"`
 }
 
-type fluffyName struct {
+type creditName struct {
 	ID           string         `json:"id"`
 	NameText     withText       `json:"nameText"`
 	PrimaryImage titleThumbnail `json:"primaryImage"`
@@ -261,14 +260,14 @@ type titleProduction struct {
 }
 
 type productionEdge struct {
-	Node companyWrapper `json:"node"`
+	Node productionCompanyNode `json:"node"`
 }
 
-type companyWrapper struct {
-	Company company `json:"company"`
+type productionCompanyNode struct {
+	Company titleCompany `json:"company"`
 }
 
-type company struct {
+type titleCompany struct {
 	ID          string   `json:"id"`
 	CompanyText withText `json:"companyText"`
 }
@@ -317,7 +316,7 @@ type aboveTheFoldDataReleaseYear struct {
 	EndYear int64 `json:"endYear"`
 }
 
-type aboveTheFoldDataRuntime struct {
+type secondsWrapper struct {
 	Seconds int64 `json:"seconds"`
 }
 
@@ -343,11 +342,10 @@ type mainColumnData struct {
 	DetailsExternalLinks    detailsExternalLinks            `json:"detailsExternalLinks"`
 	SpokenLanguages         spokenLanguagesWrapper          `json:"spokenLanguages"`
 	AKAs                    akasWrapper                     `json:"akas"`
-	Production              titleProduction                 `json:"production"`
-	Runtime                 aboveTheFoldDataRuntime         `json:"runtime"`
-	LifetimeGross           titleLifetimeGross              `json:"lifetimeGross"`
-	OpeningWeekendGross     titleOpeningWeekendGross        `json:"openingWeekendGross"`
-	WorldwideGross          titleWorldwideGross             `json:"worldwideGross"`
+	Runtime                 secondsWrapper                  `json:"runtime"`
+	LifetimeGross           titleLifetimeGross              `json:"lifetimeGross"`       // Boxoffice stats
+	OpeningWeekendGross     titleOpeningWeekendGross        `json:"openingWeekendGross"` // Boxoffice stats
+	WorldwideGross          titleWorldwideGross             `json:"worldwideGross"`      // Boxoffice stats
 	Connections             connections                     `json:"connections"`
 	PrestigiousAwardSummary prestigiousAwardSummary         `json:"prestigiousAwardSummary"`
 	RatingsSummary          titleRatingsSummary             `json:"ratingsSummary"`
@@ -364,12 +362,57 @@ type mainColumnData struct {
 	QuotesTotal             totalWrapper                    `json:"quotesTotal"`
 	Quotes                  quotes                          `json:"quotes"`
 	AlternateVersions       titleAlternateVersions          `json:"alternateVersions"`
-	FilmingLocations        totalWrapper                    `json:"filmingLocations"` // TODO: add edges type
-	Companies               totalWrapper                    `json:"companies"`
+	FilmingLocations        titleFilmingLocations           `json:"filmingLocations"`
+	Companies               totalWrapper                    `json:"companies"`  // Companies total number
+	Production              titleProduction                 `json:"production"` // Companies list
 	Creators                []titleCreator                  `json:"creators"`
-	Directors               []director                      `json:"directors"`
-	Writers                 []interface{}                   `json:"writers"` // TODO: better typing
+	Directors               []titleDirector                 `json:"directors"`
+	TechnicalSpecifications technicalSpecifications         `json:"technicalSpecifications"`
+	Writers                 []interface{}                   `json:"writers"` // TODO: better typing (it's probably same as "creators", and "directors")
 	ProductionBudget        interface{}                     `json:"productionBudget"`
+}
+
+type technicalSpecifications struct {
+	SoundMixes   soundMixes   `json:"soundMixes"`
+	AspectRatios aspectRatios `json:"aspectRatios"`
+	Colorations  colorations  `json:"colorations"`
+}
+
+type aspectRatios struct {
+	Items []aspectRatiosItem `json:"items"`
+}
+
+type aspectRatiosItem struct {
+	AspectRatio string             `json:"aspectRatio"`
+	Attributes  []textValueWrapper `json:"attributes"`
+}
+
+type colorations struct {
+	Items []colorationsItem `json:"items"`
+}
+
+type colorationsItem struct {
+	ConceptID string `json:"conceptId"`
+	Text      string `json:"text"`
+}
+
+type soundMixes struct {
+	Items []soundMixesItem `json:"items"`
+}
+
+type soundMixesItem struct {
+	ID         string        `json:"id"`
+	Text       string        `json:"text"`
+	Attributes []interface{} `json:"attributes"`
+}
+
+type titleFilmingLocations struct {
+	Total int64                      `json:"total"`
+	Edges []titleFilmingLocationEdge `json:"edges"`
+}
+
+type titleFilmingLocationEdge struct {
+	Node textValueWrapper `json:"node"`
 }
 
 type titleAlternateVersions struct {
@@ -396,7 +439,7 @@ type lifetimeGrossTotal struct {
 
 type titleOpeningWeekendGross struct {
 	Gross          titleGross `json:"gross"`
-	WeekendEndDate string     `json:"weekendEndDate"`
+	WeekendEndDate string     `json:"weekendEndDate"` // "" "2019-11-24"
 }
 
 type titleGross struct {
@@ -446,8 +489,7 @@ type titleCreator struct {
 }
 
 type creatorCredit struct {
-	Name       creatorNameWrapper `json:"name"`
-	Attributes interface{}        `json:"attributes"` // TODO: better type
+	Name creatorNameWrapper `json:"name"`
 }
 
 type creatorNameWrapper struct {
@@ -537,7 +579,6 @@ type castNode struct {
 	Name           castName           `json:"name"`
 	Characters     []castCharacter    `json:"characters"`
 	EpisodeCredits castEpisodeCredits `json:"episodeCredits"`
-	Attributes     interface{}        `json:"attributes"` // TODO: better type
 }
 
 type castName struct {
@@ -618,14 +659,14 @@ type detailsExternalLinksEdge struct {
 }
 
 type hilariousNode struct {
-	URL                string      `json:"url"`
-	Label              string      `json:"label"`
-	ExternalLinkRegion interface{} `json:"externalLinkRegion"`
+	URL                string           `json:"url"`
+	Label              string           `json:"label"`
+	ExternalLinkRegion textValueWrapper `json:"externalLinkRegion"`
 }
 
-type director struct {
-	TotalCredits int64    `json:"totalCredits"`
-	Credits      []credit `json:"credits"`
+type titleDirector struct {
+	TotalCredits int64               `json:"totalCredits"`
+	Credits      []creditNameWrapper `json:"credits"`
 }
 
 type featuredReviews struct {
@@ -680,7 +721,7 @@ type relatedTitleNode struct {
 	PrimaryImage      imageNode                      `json:"primaryImage"`
 	ReleaseYear       aboveTheFoldDataReleaseYear    `json:"releaseYear"`
 	RatingsSummary    aboveTheFoldDataRatingsSummary `json:"ratingsSummary"`
-	Runtime           aboveTheFoldDataRuntime        `json:"runtime"`
+	Runtime           secondsWrapper                 `json:"runtime"`
 	Certificate       certificate                    `json:"certificate"`
 	TitleCardGenres   titleCardGenres                `json:"titleCardGenres"`
 	CanHaveEpisodes   bool                           `json:"canHaveEpisodes"`
@@ -709,7 +750,7 @@ type magentaNode struct {
 type line struct {
 	Characters     []lineCharacter `json:"characters"`
 	Text           string          `json:"text"`
-	StageDirection interface{}     `json:"stageDirection"`
+	StageDirection interface{}     `json:"stageDirection"` // TODO: better type
 }
 
 type lineCharacter struct {

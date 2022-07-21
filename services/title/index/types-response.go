@@ -115,10 +115,6 @@ type videoThumbnailClass struct {
 	Width  int64  `json:"width"`
 }
 
-type directorsPageTitle struct {
-	Credits []nodeWithNameText `json:"credits"`
-}
-
 type titleGoofs struct {
 	Edges []goofsEdge `json:"edges"`
 }

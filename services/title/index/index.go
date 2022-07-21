@@ -447,6 +447,9 @@ func getSoundtrackComment(comments []plaidHTMLWrapper) []soundtrackComment {
 		// Parse plaid HTML string to extract link ID and their name
 		doc, err := goquery.NewDocumentFromReader(strings.NewReader(v.PlaidHTML))
 		if err != nil {
+			items = append(items, soundtrackComment{
+				HTML: v.PlaidHTML,
+			})
 			continue
 		}
 

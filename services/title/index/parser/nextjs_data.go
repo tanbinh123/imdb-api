@@ -56,8 +56,8 @@ func GetRankingDifference(input rankChange) int64 {
 	return input.Difference
 }
 
-func GetPrimaryImageThumbnails(doc *goquery.Document) []pipe.PrimaryImageThumbnail {
-	items := []pipe.PrimaryImageThumbnail{}
+func GetPrimaryImageThumbnails(doc *goquery.Document) []*pipe.PrimaryImageThumbnail {
+	items := []*pipe.PrimaryImageThumbnail{}
 
 	poster := doc.Find("section.ipc-page-section div[data-testid=\"hero-media__poster\"] img.ipc-image").First()
 	srcsetRaw, exists := poster.Attr("srcset")
@@ -66,7 +66,7 @@ func GetPrimaryImageThumbnails(doc *goquery.Document) []pipe.PrimaryImageThumbna
 	}
 	srcsetSource := srcset.Parse(srcsetRaw)
 	for _, v := range srcsetSource {
-		items = append(items, pipe.PrimaryImageThumbnail{
+		items = append(items, &pipe.PrimaryImageThumbnail{
 			URL:   v.URL,
 			Width: *v.Width,
 			// IMDb does not return the "height" or "density"
@@ -92,20 +92,20 @@ func GetImageItems(edges []imageEdge) []pipe.ImageItem {
 	return items
 }
 
-func GetPrimaryVideos(edges []primaryVideosEdge) []pipe.VideoItemPrimary {
-	items := []pipe.VideoItemPrimary{}
+func GetPrimaryVideos(edges []primaryVideosEdge) []*pipe.VideoItemPrimary {
+	items := []*pipe.VideoItemPrimary{}
 
 	for _, v := range edges {
-		items = append(items, pipe.VideoItemPrimary{
+		items = append(items, &pipe.VideoItemPrimary{
 			ID: v.Node.ID,
-			Type: pipe.VideoTypeWrapper{
+			Type: &pipe.VideoTypeWrapper{
 				Text: v.Node.ContentType.DisplayName.Value,
 				Slug: slug.Make(v.Node.ContentType.DisplayName.Value),
 			},
 			Title:       v.Node.Name.Value,
 			Description: v.Node.Description.Value,
 			Duration:    v.Node.Runtime.Value,
-			Thumbnail: pipe.Thumbnail{
+			Thumbnail: &pipe.Thumbnail{
 				URL:    v.Node.Thumbnail.URL,
 				Width:  v.Node.Thumbnail.Width,
 				Height: v.Node.Thumbnail.Height,
@@ -118,19 +118,19 @@ func GetPrimaryVideos(edges []primaryVideosEdge) []pipe.VideoItemPrimary {
 	return items
 }
 
-func GetVideoItems(edges []videoStripEdge) []pipe.VideoItem {
-	items := []pipe.VideoItem{}
+func GetVideoItems(edges []videoStripEdge) []*pipe.VideoItem {
+	items := []*pipe.VideoItem{}
 
 	for _, v := range edges {
-		items = append(items, pipe.VideoItem{
+		items = append(items, &pipe.VideoItem{
 			ID: v.Node.ID,
-			Type: pipe.VideoTypeWrapper{
+			Type: &pipe.VideoTypeWrapper{
 				Text: v.Node.ContentType.DisplayName.Value,
 				Slug: slug.Make(v.Node.ContentType.DisplayName.Value),
 			},
 			Title:    v.Node.Name.Value,
 			Duration: v.Node.Runtime.Value,
-			Thumbnail: pipe.Thumbnail{
+			Thumbnail: &pipe.Thumbnail{
 				URL:    v.Node.Thumbnail.URL,
 				Width:  v.Node.Thumbnail.Width,
 				Height: v.Node.Thumbnail.Height,
@@ -141,11 +141,11 @@ func GetVideoItems(edges []videoStripEdge) []pipe.VideoItem {
 	return items
 }
 
-func GetVideoPlaybackItems(urls []urlWrapper) []pipe.PlaybackItem {
-	items := []pipe.PlaybackItem{}
+func GetVideoPlaybackItems(urls []urlWrapper) []*pipe.PlaybackItem {
+	items := []*pipe.PlaybackItem{}
 
 	for _, v := range urls {
-		items = append(items, pipe.PlaybackItem{
+		items = append(items, &pipe.PlaybackItem{
 			Quality:  v.DisplayName.Value,
 			MIMEType: v.MIMEType,
 			URL:      v.URL,
@@ -155,17 +155,17 @@ func GetVideoPlaybackItems(urls []urlWrapper) []pipe.PlaybackItem {
 	return items
 }
 
-func GetFeaturedReviews(edges []featuredReviewEdge) []pipe.FeaturedReviewItem {
-	items := []pipe.FeaturedReviewItem{}
+func GetFeaturedReviews(edges []featuredReviewEdge) []*pipe.FeaturedReviewItem {
+	items := []*pipe.FeaturedReviewItem{}
 
 	for _, v := range edges {
 		text := utils.ParseHTMLToPlainText(v.Node.Text.OriginalText.PlaidHTML)
 		if text == "" {
 			continue
 		}
-		items = append(items, pipe.FeaturedReviewItem{
+		items = append(items, &pipe.FeaturedReviewItem{
 			ID: v.Node.ID,
-			Author: pipe.ReviewAuthor{
+			Author: &pipe.ReviewAuthor{
 				ID:       v.Node.Author.UserID,
 				Nickname: v.Node.Author.NickName,
 				Rating:   v.Node.AuthorRating,
@@ -181,11 +181,11 @@ func GetFeaturedReviews(edges []featuredReviewEdge) []pipe.FeaturedReviewItem {
 	return items
 }
 
-func GetFAQItems(edges []faqEdge) []pipe.FAQItem {
-	items := []pipe.FAQItem{}
+func GetFAQItems(edges []faqEdge) []*pipe.FAQItem {
+	items := []*pipe.FAQItem{}
 
 	for _, v := range edges {
-		items = append(items, pipe.FAQItem{
+		items = append(items, &pipe.FAQItem{
 			ID:       v.Node.ID,
 			Question: v.Node.Question.PlainText,
 		})
@@ -218,30 +218,30 @@ func GetKeywords(edges []keywordEdge) []string {
 	return items
 }
 
-func GetRelatedTitles(edges []moreLikeThisTitlesEdge) []pipe.RelatedTitle {
-	items := []pipe.RelatedTitle{}
+func GetRelatedTitles(edges []moreLikeThisTitlesEdge) []*pipe.RelatedTitle {
+	items := []*pipe.RelatedTitle{}
 
 	for _, v := range edges {
-		items = append(items, pipe.RelatedTitle{
+		items = append(items, &pipe.RelatedTitle{
 			ID: v.Node.ID,
-			Title: pipe.RelatedTitleName{
+			Title: &pipe.RelatedTitleName{
 				Text:     v.Node.TitleText.Text,
 				Original: v.Node.OriginalTitleText.Text,
 				Slug:     slug.Make(v.Node.OriginalTitleText.Text),
 			},
 			Type:            strcase.ToLowerCamel(v.Node.TitleType.ID),
 			CanHaveEpisodes: v.Node.CanHaveEpisodes,
-			Poster: pipe.RelatedTitlePoster{
+			Poster: &pipe.RelatedTitlePoster{
 				ID:     v.Node.PrimaryImage.ID,
 				Width:  v.Node.PrimaryImage.Width,
 				Height: v.Node.PrimaryImage.Height,
 				URL:    v.Node.PrimaryImage.URL,
 			},
-			ReleaseYear: pipe.ReleaseYear{
+			ReleaseYear: &pipe.YearRange{
 				From: v.Node.ReleaseYear.Year,
 				To:   v.Node.ReleaseYear.EndYear,
 			},
-			Rating: pipe.Rating{
+			Rating: &pipe.Rating{
 				Score:       v.Node.RatingsSummary.AggregateRating,
 				Count:       v.Node.RatingsSummary.VoteCount,
 				Certificate: v.Node.Certificate.Rating,
@@ -267,11 +267,11 @@ func GetRelatedTitleGenres(genres []withText) []pipe.Genre {
 	return items
 }
 
-func GetSoundtracks(edges []soundtrackEdge) []pipe.Soundtrack {
-	items := []pipe.Soundtrack{}
+func GetSoundtracks(edges []soundtrackEdge) []*pipe.Soundtrack {
+	items := []*pipe.Soundtrack{}
 
 	for _, v := range edges {
-		items = append(items, pipe.Soundtrack{
+		items = append(items, &pipe.Soundtrack{
 			Title:    v.Node.Text,
 			Comments: GetSoundtrackComment(v.Node.Comments),
 		})
@@ -280,8 +280,8 @@ func GetSoundtracks(edges []soundtrackEdge) []pipe.Soundtrack {
 	return items
 }
 
-func GetSoundtrackComment(comments []plaidHTMLWrapper) []pipe.SoundtrackComment {
-	items := []pipe.SoundtrackComment{}
+func GetSoundtrackComment(comments []plaidHTMLWrapper) []*pipe.SoundtrackComment {
+	items := []*pipe.SoundtrackComment{}
 
 	for _, v := range comments {
 		// Sometimes the plain HTML string equals to useless values
@@ -293,13 +293,13 @@ func GetSoundtrackComment(comments []plaidHTMLWrapper) []pipe.SoundtrackComment 
 		// Parse plaid HTML string to extract link ID and their name
 		doc, err := goquery.NewDocumentFromReader(strings.NewReader(v.PlaidHTML))
 		if err != nil {
-			items = append(items, pipe.SoundtrackComment{
+			items = append(items, &pipe.SoundtrackComment{
 				HTML: v.PlaidHTML,
 			})
 			continue
 		}
 
-		items = append(items, pipe.SoundtrackComment{
+		items = append(items, &pipe.SoundtrackComment{
 			HTML: v.PlaidHTML,
 			Text: doc.Text(),
 		})

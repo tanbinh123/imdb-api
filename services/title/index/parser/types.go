@@ -401,9 +401,8 @@ type soundMixes struct {
 }
 
 type soundMixesItem struct {
-	ID         string        `json:"id"`
-	Text       string        `json:"text"`
-	Attributes []interface{} `json:"attributes"`
+	ID   string `json:"id"`
+	Text string `json:"text"`
 }
 
 type titleFilmingLocations struct {

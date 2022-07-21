@@ -1,21 +1,22 @@
 package pipe
 
 type IndexTransform struct {
-	ID          string         `json:"id"`
-	Validate    Validate       `json:"validate"`
-	Title       Title          `json:"title"`
-	Genres      []Genre        `json:"genres"`
-	Plot        string         `json:"plot"`
-	Popularity  Popularity     `json:"popularity"`
-	Images      Images         `json:"images"`
-	Videos      Videos         `json:"videos"`
-	Reviews     Reviews        `json:"reviews"`
-	FAQ         FAQ            `json:"faq"`
-	Trivia      Trivia         `json:"trivia"`
-	Keywords    Keywords       `json:"keywords"`
-	Series      Series         `json:"series"` // only when viewing an episode of a series
-	Soundtracks []Soundtrack   `json:"soundtracks"`
-	Related     []RelatedTitle `json:"related"` // list of related titles
+	ID          string          `json:"id"`
+	Validate    *Validate       `json:"validate"`
+	Title       *Title          `json:"title"`
+	Genres      *[]Genre        `json:"genres"`
+	Plot        string          `json:"plot"`
+	Popularity  *Popularity     `json:"popularity"`
+	Images      *Images         `json:"images"`
+	Videos      *Videos         `json:"videos"`
+	Cast        []*Cast         `json:"cast"`
+	Reviews     *Reviews        `json:"reviews"`
+	FAQ         *FAQ            `json:"faq"`
+	Trivia      *Trivia         `json:"trivia"`
+	Keywords    *Keywords       `json:"keywords"`
+	Series      *Series         `json:"series"` // only when viewing an episode of a series
+	Soundtracks []*Soundtrack   `json:"soundtracks"`
+	Related     []*RelatedTitle `json:"related"` // list of related titles
 }
 
 type Validate struct {
@@ -45,28 +46,28 @@ type Popularity struct {
 }
 
 type Videos struct {
-	Total     int64              `json:"total"`
-	Primaries []VideoItemPrimary `json:"primaries"`
-	Items     []VideoItem        `json:"items"`
+	Total     int64               `json:"total"`
+	Primaries []*VideoItemPrimary `json:"primaries"`
+	Items     []*VideoItem        `json:"items"`
 }
 
 type VideoItemPrimary struct {
-	ID          string           `json:"id"`
-	Type        VideoTypeWrapper `json:"type"`
-	Title       string           `json:"title"`
-	Description string           `json:"description"`
-	Duration    int64            `json:"duration"`
-	Thumbnail   Thumbnail        `json:"thumbnail"`
-	Playback    []PlaybackItem   `json:"playback"`
-	IsMature    bool             `json:"isMature"`
+	ID          string            `json:"id"`
+	Type        *VideoTypeWrapper `json:"type"`
+	Title       string            `json:"title"`
+	Description string            `json:"description"`
+	Duration    int64             `json:"duration"`
+	Thumbnail   *Thumbnail        `json:"thumbnail"`
+	Playback    []*PlaybackItem   `json:"playback"`
+	IsMature    bool              `json:"isMature"`
 }
 
 type VideoItem struct {
-	ID        string           `json:"id"`
-	Type      VideoTypeWrapper `json:"type"`
-	Title     string           `json:"title"`
-	Duration  int64            `json:"duration"`
-	Thumbnail Thumbnail        `json:"thumbnail"`
+	ID        string            `json:"id"`
+	Type      *VideoTypeWrapper `json:"type"`
+	Title     string            `json:"title"`
+	Duration  int64             `json:"duration"`
+	Thumbnail *Thumbnail        `json:"thumbnail"`
 }
 
 type VideoTypeWrapper struct {
@@ -74,11 +75,31 @@ type VideoTypeWrapper struct {
 	Slug string `json:"slug"`
 }
 
+type Cast struct {
+	ID             string              `json:"id"`
+	Name           string              `json:"name"`
+	Slug           string              `json:"slug"`
+	Image          *CastImage          `json:"image"`
+	Characters     []string            `json:"characters"`
+	EpisodeCredits *CastEpisodeCredits `json:"episodeCredits"`
+}
+
+type CastImage struct {
+	URL    string `json:"url"`
+	Width  int64  `json:"width"`
+	Height int64  `json:"height"`
+}
+
+type CastEpisodeCredits struct {
+	Total int64     `json:"total"`
+	Years YearRange `json:"years"`
+}
+
 type Series struct {
-	ID          SeriesID      `json:"id"`
-	Title       SeriesTitle   `json:"title"`
-	Current     SeriesCurrent `json:"current"`
-	ReleaseYear ReleaseYear   `json:"releaseYear"`
+	ID          *SeriesID      `json:"id"`
+	Title       *SeriesTitle   `json:"title"`
+	Current     *SeriesCurrent `json:"current"`
+	ReleaseYear *YearRange     `json:"releaseYear"`
 }
 
 type SeriesID struct {
@@ -98,7 +119,7 @@ type SeriesCurrent struct {
 	Season  int64 `json:"season"`  // season number (starts from 1)
 }
 
-type ReleaseYear struct {
+type YearRange struct {
 	From int64 `json:"from"`
 	To   int64 `json:"to"`
 }
@@ -116,18 +137,18 @@ type Thumbnail struct {
 }
 
 type Images struct {
-	Total   int64        `json:"total"`
-	Primary PrimaryImage `json:"primary"`
-	Items   []ImageItem  `json:"items"`
+	Total   int64         `json:"total"`
+	Primary *PrimaryImage `json:"primary"`
+	Items   []ImageItem   `json:"items"`
 }
 
 type PrimaryImage struct {
-	ID         string                  `json:"id"`
-	URL        string                  `json:"url"`
-	Width      int64                   `json:"width"`
-	Height     int64                   `json:"height"`
-	Caption    string                  `json:"caption"`
-	Thumbnails []PrimaryImageThumbnail `json:"thumbnails"`
+	ID         string                   `json:"id"`
+	URL        string                   `json:"url"`
+	Width      int64                    `json:"width"`
+	Height     int64                    `json:"height"`
+	Caption    string                   `json:"caption"`
+	Thumbnails []*PrimaryImageThumbnail `json:"thumbnails"`
 }
 
 type PrimaryImageThumbnail struct {
@@ -144,19 +165,19 @@ type ImageItem struct {
 }
 
 type Reviews struct {
-	Featured []FeaturedReviewItem `json:"featured"`
-	Users    UsersReviews         `json:"users"`
-	External ExternalReviews      `json:"external"`
+	Featured []*FeaturedReviewItem `json:"featured"`
+	Users    *UsersReviews         `json:"users"`
+	External *ExternalReviews      `json:"external"`
 }
 
 type FeaturedReviewItem struct {
-	ID        string       `json:"id"`
-	Author    ReviewAuthor `json:"author"`
-	Summary   string       `json:"summary"`
-	Text      string       `json:"text"`
-	Likes     int64        `json:"likes"`
-	Dislikes  int64        `json:"dislikes"`
-	CreatedAt string       `json:"createdAt"`
+	ID        string        `json:"id"`
+	Author    *ReviewAuthor `json:"author"`
+	Summary   string        `json:"summary"`
+	Text      string        `json:"text"`
+	Likes     int64         `json:"likes"`
+	Dislikes  int64         `json:"dislikes"`
+	CreatedAt string        `json:"createdAt"`
 }
 
 type ReviewAuthor struct {
@@ -174,8 +195,8 @@ type ExternalReviews struct {
 }
 
 type FAQ struct {
-	Total int64     `json:"total"` // total number of keywords that are related to this title
-	Items []FAQItem `json:"items"` // a short list of FAQs as preview
+	Total int64      `json:"total"` // total number of keywords that are related to this title
+	Items []*FAQItem `json:"items"` // a short list of FAQs as preview
 }
 
 type FAQItem struct {
@@ -194,8 +215,8 @@ type Keywords struct {
 }
 
 type Soundtrack struct {
-	Title    string              `json:"title"`
-	Comments []SoundtrackComment `json:"comments"`
+	Title    string               `json:"title"`
+	Comments []*SoundtrackComment `json:"comments"`
 }
 
 type SoundtrackComment struct {
@@ -204,15 +225,15 @@ type SoundtrackComment struct {
 }
 
 type RelatedTitle struct {
-	ID              string             `json:"id"`
-	Title           RelatedTitleName   `json:"title"`
-	Type            string             `json:"type"`
-	CanHaveEpisodes bool               `json:"canHaveEpisodes"`
-	Poster          RelatedTitlePoster `json:"poster"`
-	ReleaseYear     ReleaseYear        `json:"releaseYear"`
-	Rating          Rating             `json:"rating"`
-	Duration        int64              `json:"duration"` // unit is seconds
-	Genres          []Genre            `json:"genres"`
+	ID              string              `json:"id"`
+	Title           *RelatedTitleName   `json:"title"`
+	Type            string              `json:"type"`
+	CanHaveEpisodes bool                `json:"canHaveEpisodes"`
+	Poster          *RelatedTitlePoster `json:"poster"`
+	ReleaseYear     *YearRange          `json:"releaseYear"`
+	Rating          *Rating             `json:"rating"`
+	Duration        int64               `json:"duration"` // unit is seconds
+	Genres          []Genre             `json:"genres"`
 }
 
 type RelatedTitleName struct {

@@ -7,19 +7,34 @@ import (
 )
 
 func TestMovie(t *testing.T) {
-	res, err := Index("tt20256528") // What Is a Woman?
+	id := "tt20256528" // What Is a Woman?
+
+	res, err := Index(id)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
+
+	assert.Equal(t, id, res.ID)
+	assert.Equal(t, "What Is a Woman?", res.Title.Original)
 }
 
 func TestTVSeries(t *testing.T) {
-	res, err := Index("tt0108778") // Friends
+	id := "tt0108778" // Friends
+
+	res, err := Index(id)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
+
+	assert.Equal(t, id, res.ID)
+	assert.Equal(t, "Friends", res.Title.Original)
 }
 
 func TestTVSeriesEpisode(t *testing.T) {
-	res, err := Index("tt0583436") // Friends S10.E1
+	id := "tt0583436" // Friends S10.E1 (The One After Joey and Rachel Kiss)
+
+	res, err := Index(id)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
+
+	assert.Equal(t, id, res.ID)
+	assert.Equal(t, "The One After Joey and Rachel Kiss", res.Title.Original)
 }

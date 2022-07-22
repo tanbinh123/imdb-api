@@ -59,15 +59,15 @@ func Index(id string) (*pipe.IndexTransform, error) {
 	// Values are refactored with the Extract Method technique
 	// https://refactoring.guru/extract-method
 	transform := &pipe.IndexTransform{
-		ID:         main.ID,
-		Validate:   validate,
-		Title:      parser.GetTitle(main.TitleText.Text, main.OriginalTitleText.Text, main.AKAs.Edges),
-		Genres:     parser.GetGenres(above.Genres.Genres),
-		Plot:       above.Plot.PlotText.PlainText,
-		Popularity: parser.GetPopularity(above.MeterRanking),
-		Images:     parser.GetImages(main.TitleMainImages.Total, above.PrimaryImage, main.TitleMainImages.Edges, doc),
-		Videos:     parser.GetVideos(main.Videos.Total, above.PrimaryVideos.Edges, main.VideoStrip.Edges),
-		// TODO: cast
+		ID:          main.ID,
+		Validate:    validate,
+		Title:       parser.GetTitle(main.TitleText.Text, main.OriginalTitleText.Text, main.AKAs.Edges),
+		Genres:      parser.GetGenres(above.Genres.Genres),
+		Plot:        above.Plot.PlotText.PlainText,
+		Popularity:  parser.GetPopularity(above.MeterRanking),
+		Images:      parser.GetImages(main.TitleMainImages.Total, above.PrimaryImage, main.TitleMainImages.Edges, doc),
+		Videos:      parser.GetVideos(main.Videos.Total, above.PrimaryVideos.Edges, main.VideoStrip.Edges),
+		Cast:        parser.GetCast(main.Cast.Edges),
 		Reviews:     parser.GetReviews(main.Reviews.Total, above.CriticReviewsTotal.Total, main.FeaturedReviews.Edges),
 		FAQ:         parser.GetFAQ(main.FaqsTotal.Total, main.Faqs.Edges),
 		Trivia:      parser.GetTrivia(main.TriviaTotal.Total, main.Trivia.Edges),

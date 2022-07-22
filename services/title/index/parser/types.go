@@ -78,6 +78,10 @@ type IDWrapper struct {
 }
 
 type totalWrapper struct {
+	// Total is the sum of "Full Cast & Crew." for example,
+	// by the time I'm writing this documentation,
+	// the total number is 74 for the link below:
+	// https://m.imdb.com/title/tt20256528/fullcredits
 	Total int64 `json:"total"`
 }
 

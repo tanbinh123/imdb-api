@@ -126,6 +126,16 @@ func getVideoPlaybackItems(urls []urlWrapper) []*pipe.PlaybackItem {
 	return items
 }
 
+func getCastChapters(c []castCharacter) []string {
+	items := []string{}
+
+	for _, v := range c {
+		items = append(items, v.Name)
+	}
+
+	return items
+}
+
 func getFeaturedReviews(edges []featuredReviewEdge) []*pipe.FeaturedReviewItem {
 	items := []*pipe.FeaturedReviewItem{}
 

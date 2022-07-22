@@ -59,6 +59,33 @@ func GetVideos(total int64, primaryEdges []primaryVideosEdge, stripEdges []video
 	}
 }
 
+func GetCast(edges []castNodeWrapper) []*pipe.Cast {
+	items := []*pipe.Cast{}
+
+	for _, v := range edges {
+		items = append(items, &pipe.Cast{
+			ID:   v.Node.Name.ID,
+			Name: v.Node.Name.NameText.Text,
+			Slug: slug.Make(v.Node.Name.NameText.Text),
+			Image: &pipe.CastImage{
+				URL:    v.Node.Name.PrimaryImage.URL,
+				Width:  v.Node.Name.PrimaryImage.Width,
+				Height: v.Node.Name.PrimaryImage.Width,
+			},
+			Characters: getCastChapters(v.Node.Characters),
+			EpisodeCredits: &pipe.CastEpisodeCredits{
+				Total: v.Node.EpisodeCredits.Total,
+				Years: pipe.YearRange{
+					From: v.Node.EpisodeCredits.YearRange.Year,
+					To:   v.Node.EpisodeCredits.YearRange.EndYear,
+				},
+			},
+		})
+	}
+
+	return items
+}
+
 func GetReviews(totalUsers int64, totalExternal int64, featuresEdges []featuredReviewEdge) *pipe.Reviews {
 	return &pipe.Reviews{
 		Featured: getFeaturedReviews(featuresEdges),

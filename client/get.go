@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/gojek/heimdall/v7"
 	"github.com/gojek/heimdall/v7/httpclient"
 )
@@ -42,7 +43,7 @@ func Get(url string) (*[]byte, error) {
 	defer res.Body.Close()
 
 	if res.StatusCode == http.StatusNotFound {
-		return nil, fmt.Errorf("not found")
+		return nil, fiber.NewError(fiber.StatusNotFound, "Not found")
 	}
 
 	if res.StatusCode != http.StatusOK {

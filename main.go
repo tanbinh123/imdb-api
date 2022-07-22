@@ -56,7 +56,16 @@ func main() {
 		GETOnly:           true,
 		ErrorHandler: func(c *fiber.Ctx, err error) error {
 			log.Err(err).Str("path", c.Path()).Msg("Fiber error handler")
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+
+			// Status code defaults to 500
+			code := fiber.StatusInternalServerError
+
+			// Retrieve the custom status code if it's an fiber.*Error
+			if e, ok := err.(*fiber.Error); ok {
+				code = e.Code
+			}
+
+			return c.Status(code).JSON(fiber.Map{
 				"ok":      false,
 				"message": err.Error(),
 			})

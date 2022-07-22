@@ -4,7 +4,7 @@ type IndexTransform struct {
 	ID          string          `json:"id"`
 	Validate    *Validate       `json:"validate"`
 	Title       *Title          `json:"title"`
-	Genres      *[]Genre        `json:"genres"`
+	Genres      []*Genre        `json:"genres"`
 	Plot        string          `json:"plot"`
 	Popularity  *Popularity     `json:"popularity"`
 	Images      *Images         `json:"images"`

@@ -38,3 +38,14 @@ func TestTVSeriesEpisode(t *testing.T) {
 	assert.Equal(t, id, res.ID)
 	assert.Equal(t, "The One After Joey and Rachel Kiss", res.Title.Original)
 }
+
+func TestVideoGame(t *testing.T) {
+	id := "tt2140553" // The Last of Us
+
+	res, err := Index(id)
+	assert.Nil(t, err)
+	assert.NotNil(t, res)
+
+	assert.Equal(t, id, res.ID)
+	assert.Equal(t, "The Last of Us", res.Title.Original)
+}

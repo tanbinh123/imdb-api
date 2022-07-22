@@ -14,7 +14,7 @@
   <img align="right" src="https://go.dev/images/go-logo-blue.svg" width="140" />
 </a>
 
-A cross-platform [Go][7] microservice application to scrap the [IMDb][8] website.
+A cross-platform [Go][7] microservice application to scrape the [IMDb][8] website.
 
 > **Warning**  
 > Keep in mind this app does **not** have rate-limiting or authentication features to protect itself against spams.  

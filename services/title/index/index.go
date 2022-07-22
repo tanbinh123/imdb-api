@@ -1,6 +1,7 @@
 package index
 
 import (
+	"bytes"
 	"fmt"
 
 	"github.com/PuerkitoBio/goquery"
@@ -20,7 +21,7 @@ func Index(id string) (*pipe.IndexTransform, error) {
 		return nil, err
 	}
 
-	doc, err := goquery.NewDocumentFromReader(*res)
+	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(*res))
 	if err != nil {
 		return nil, err
 	}

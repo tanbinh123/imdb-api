@@ -2,7 +2,7 @@ package client
 
 import (
 	"fmt"
-	"io"
+	"io/ioutil"
 	"net/http"
 	"time"
 
@@ -21,15 +21,15 @@ func (lb *linearBackoff) Next(retry int) time.Duration {
 	return time.Duration(retry*lb.backoffInterval) * time.Millisecond
 }
 
-var (
-	client = httpclient.NewClient(
-		httpclient.WithHTTPTimeout(4*time.Second),
-		httpclient.WithRetrier(heimdall.NewRetrier(&linearBackoff{100})),
-		httpclient.WithRetryCount(4),
-	)
+var client = httpclient.NewClient(
+	httpclient.WithHTTPTimeout(4*time.Second),
+	httpclient.WithRetrier(heimdall.NewRetrier(&linearBackoff{
+		backoffInterval: 100,
+	})),
+	httpclient.WithRetryCount(4),
 )
 
-func Get(url string) (*io.ReadCloser, error) {
+func Get(url string) (*[]byte, error) {
 	res, err := client.Get(url, http.Header{
 		// TODO: dynamic language
 		"accept-language": {"en-US,en;q=0.9"},
@@ -39,6 +39,7 @@ func Get(url string) (*io.ReadCloser, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch url(%v): %v", url, err)
 	}
+	defer res.Body.Close()
 
 	if res.StatusCode == http.StatusNotFound {
 		return nil, fmt.Errorf("not found")
@@ -48,5 +49,10 @@ func Get(url string) (*io.ReadCloser, error) {
 		return nil, fmt.Errorf("request to url(%v) failed with status %v", url, res.Status)
 	}
 
-	return &res.Body, nil
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read response body: %v", err)
+	}
+
+	return &body, nil
 }

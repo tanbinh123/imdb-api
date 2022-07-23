@@ -444,7 +444,7 @@ definitions:
       to:
         type: integer
     type: object
-  server.HTTPError:
+  server.httpError:
     properties:
       code:
         type: integer
@@ -493,11 +493,11 @@ paths:
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/server.HTTPError'
+            $ref: '#/definitions/server.httpError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/server.HTTPError'
+            $ref: '#/definitions/server.httpError'
       summary: Get an IMDb title by ID
       tags:
       - Title

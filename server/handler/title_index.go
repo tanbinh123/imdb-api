@@ -23,8 +23,8 @@ import (
 // @Tags        Title
 // @Param       id  path     string true "Title ID"
 // @Success     200 {object} pipe.IndexTransform{}
-// @Failure     404 {object} server.HTTPError
-// @Failure     500 {object} server.HTTPError
+// @Failure     404 {object} server.httpError
+// @Failure     500 {object} server.httpError
 // @Router      /title/{id} [get]
 func TitleIndex(c *fiber.Ctx) error {
 	res, err := index.Index(c.Params("id"))

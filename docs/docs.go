@@ -55,13 +55,13 @@ const docTemplate = `{
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/server.HTTPError"
+                            "$ref": "#/definitions/server.httpError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/server.HTTPError"
+                            "$ref": "#/definitions/server.httpError"
                         }
                     }
                 }
@@ -746,7 +746,7 @@ const docTemplate = `{
                 }
             }
         },
-        "server.HTTPError": {
+        "server.httpError": {
             "type": "object",
             "properties": {
                 "code": {

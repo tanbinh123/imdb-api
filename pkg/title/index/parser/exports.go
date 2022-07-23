@@ -2,7 +2,7 @@ package parser
 
 import (
 	"github.com/PuerkitoBio/goquery"
-	"github.com/Scrip7/imdb-api/services/title/index/pipe"
+	"github.com/Scrip7/imdb-api/pkg/title/index/pipe"
 	"github.com/gosimple/slug"
 	"github.com/iancoleman/strcase"
 )

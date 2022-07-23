@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/Scrip7/imdb-api/services/title/index/pipe"
+	"github.com/Scrip7/imdb-api/pkg/title/index/pipe"
 	"github.com/Scrip7/imdb-api/utils"
 	"github.com/gosimple/slug"
 	"github.com/lukasbob/srcset"

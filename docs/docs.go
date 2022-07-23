@@ -35,7 +35,7 @@ const docTemplate = `{
                 "tags": [
                     "Title"
                 ],
-                "summary": "Get IMDb title by ID",
+                "summary": "Get an IMDb title by ID",
                 "parameters": [
                     {
                         "type": "string",

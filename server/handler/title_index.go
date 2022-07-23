@@ -1,12 +1,12 @@
-package title
+package handler
 
 import (
-	"github.com/Scrip7/imdb-api/services/title/index"
+	"github.com/Scrip7/imdb-api/pkg/title/index"
 	"github.com/gofiber/fiber/v2"
 )
 
-// Index is a function to get information about IMDb title
-// @Summary     Get IMDb title by ID
+// TitleIndex is a function to get information about an IMDb title
+// @Summary     Get an IMDb title by ID
 // @Description The ID should start with "tt" at the beginning.
 // @Description | Title Text | IMDb ID |
 // @Description | --- | --- |
@@ -26,7 +26,7 @@ import (
 // @Failure     404 {object} server.HTTPError
 // @Failure     500 {object} server.HTTPError
 // @Router      /title/{id} [get]
-func Index(c *fiber.Ctx) error {
+func TitleIndex(c *fiber.Ctx) error {
 	res, err := index.Index(c.Params("id"))
 	if err != nil {
 		return err

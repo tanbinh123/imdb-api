@@ -9,8 +9,8 @@ import (
 
 	"github.com/Scrip7/imdb-api/client"
 	"github.com/Scrip7/imdb-api/constants"
-	"github.com/Scrip7/imdb-api/services/title/index/parser"
-	"github.com/Scrip7/imdb-api/services/title/index/pipe"
+	"github.com/Scrip7/imdb-api/pkg/title/index/parser"
+	"github.com/Scrip7/imdb-api/pkg/title/index/pipe"
 )
 
 func Index(id string) (*pipe.IndexTransform, error) {

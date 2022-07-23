@@ -5,14 +5,14 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// HTTPError is a API response wrapper
-type HTTPError struct {
+// httpError is a API response wrapper
+type httpError struct {
 	OK      bool   `json:"ok"`
 	Code    int    `json:"code"`
 	Message string `json:"message"`
 }
 
-func ErrorHandler(c *fiber.Ctx, err error) error {
+func errorHandler(c *fiber.Ctx, err error) error {
 	log.Err(err).Str("path", c.Path()).Msg("Fiber error handler")
 
 	// Status code defaults to 500
@@ -23,7 +23,7 @@ func ErrorHandler(c *fiber.Ctx, err error) error {
 		code = e.Code
 	}
 
-	return c.Status(code).JSON(HTTPError{
+	return c.Status(code).JSON(httpError{
 		OK:      false,
 		Code:    code,
 		Message: err.Error(),

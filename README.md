@@ -14,7 +14,7 @@
   <img align="right" src="https://go.dev/images/go-logo-blue.svg" width="140" />
 </a>
 
-A cross-platform [Go][7] microservice application to scrape the [IMDb][8] website.
+A cross-platform [Go][7] microservice to scrape the [IMDb][8] website.
 
 > **Warning**  
 > Keep in mind this app does **not** have rate-limiting or authentication features to protect itself against spams.  
@@ -23,9 +23,9 @@ A cross-platform [Go][7] microservice application to scrape the [IMDb][8] websit
 ## Features
 
 - [ ] Proxy support
-- [ ] Swagger documentation
-- [ ] [Slug][9] generator
-- [ ] In-memory caching
+- [x] Swagger documentation
+- [x] [Slug][9] generator
+- [x] In-memory caching
 - [ ] CLI tool
 - [ ] Docker Hub image
 

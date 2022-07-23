@@ -1,0 +1,506 @@
+consumes:
+- application/json
+definitions:
+  pipe.Cast:
+    properties:
+      characters:
+        items:
+          type: string
+        type: array
+      episodeCredits:
+        $ref: '#/definitions/pipe.CastEpisodeCredits'
+      id:
+        type: string
+      image:
+        $ref: '#/definitions/pipe.CastImage'
+      name:
+        type: string
+      slug:
+        type: string
+    type: object
+  pipe.CastEpisodeCredits:
+    properties:
+      total:
+        type: integer
+      years:
+        $ref: '#/definitions/pipe.YearRange'
+    type: object
+  pipe.CastImage:
+    properties:
+      height:
+        type: integer
+      url:
+        type: string
+      width:
+        type: integer
+    type: object
+  pipe.ExternalReviews:
+    properties:
+      total:
+        type: integer
+    type: object
+  pipe.FAQ:
+    properties:
+      items:
+        description: a short list of FAQs as preview
+        items:
+          $ref: '#/definitions/pipe.FAQItem'
+        type: array
+      total:
+        description: total number of keywords that are related to this title
+        type: integer
+    type: object
+  pipe.FAQItem:
+    properties:
+      id:
+        type: string
+      question:
+        type: string
+    type: object
+  pipe.FeaturedReviewItem:
+    properties:
+      author:
+        $ref: '#/definitions/pipe.ReviewAuthor'
+      createdAt:
+        type: string
+      dislikes:
+        type: integer
+      id:
+        type: string
+      likes:
+        type: integer
+      summary:
+        type: string
+      text:
+        type: string
+    type: object
+  pipe.Genre:
+    properties:
+      name:
+        type: string
+      slug:
+        description: can directly be used in advances search feature
+        type: string
+    type: object
+  pipe.ImageItem:
+    properties:
+      caption:
+        type: string
+      height:
+        type: integer
+      id:
+        type: string
+      url:
+        type: string
+      width:
+        type: integer
+    type: object
+  pipe.Images:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/pipe.ImageItem'
+        type: array
+      primary:
+        $ref: '#/definitions/pipe.PrimaryImage'
+      total:
+        type: integer
+    type: object
+  pipe.IndexTransform:
+    properties:
+      cast:
+        items:
+          $ref: '#/definitions/pipe.Cast'
+        type: array
+      faq:
+        $ref: '#/definitions/pipe.FAQ'
+      genres:
+        items:
+          $ref: '#/definitions/pipe.Genre'
+        type: array
+      id:
+        type: string
+      images:
+        $ref: '#/definitions/pipe.Images'
+      keywords:
+        $ref: '#/definitions/pipe.Keywords'
+      plot:
+        type: string
+      popularity:
+        $ref: '#/definitions/pipe.Popularity'
+      related:
+        description: list of related titles
+        items:
+          $ref: '#/definitions/pipe.RelatedTitle'
+        type: array
+      reviews:
+        $ref: '#/definitions/pipe.Reviews'
+      series:
+        $ref: '#/definitions/pipe.Series'
+        description: only when viewing an episode of a series
+      soundtracks:
+        items:
+          $ref: '#/definitions/pipe.Soundtrack'
+        type: array
+      title:
+        $ref: '#/definitions/pipe.Title'
+      trivia:
+        $ref: '#/definitions/pipe.Trivia'
+      validate:
+        $ref: '#/definitions/pipe.Validate'
+      videos:
+        $ref: '#/definitions/pipe.Videos'
+    type: object
+  pipe.Keywords:
+    properties:
+      items:
+        description: a short list of keywords as preview
+        items:
+          type: string
+        type: array
+      total:
+        description: total number of keywords that are related to this title
+        type: integer
+    type: object
+  pipe.PlaybackItem:
+    properties:
+      mimeType:
+        type: string
+      quality:
+        type: string
+      url:
+        type: string
+    type: object
+  pipe.Popularity:
+    properties:
+      difference:
+        type: integer
+      rank:
+        type: integer
+    type: object
+  pipe.PrimaryImage:
+    properties:
+      caption:
+        type: string
+      height:
+        type: integer
+      id:
+        type: string
+      thumbnails:
+        items:
+          $ref: '#/definitions/pipe.PrimaryImageThumbnail'
+        type: array
+      url:
+        type: string
+      width:
+        type: integer
+    type: object
+  pipe.PrimaryImageThumbnail:
+    properties:
+      url:
+        type: string
+      width:
+        type: integer
+    type: object
+  pipe.Rating:
+    properties:
+      certificate:
+        description: For example "TV-14"
+        type: string
+      count:
+        description: Voters count
+        type: integer
+      score:
+        description: IMDb score from 0 to 10 (includes precision)
+        type: number
+    type: object
+  pipe.RelatedTitle:
+    properties:
+      canHaveEpisodes:
+        type: boolean
+      duration:
+        description: unit is seconds
+        type: integer
+      genres:
+        items:
+          $ref: '#/definitions/pipe.Genre'
+        type: array
+      id:
+        type: string
+      poster:
+        $ref: '#/definitions/pipe.RelatedTitlePoster'
+      rating:
+        $ref: '#/definitions/pipe.Rating'
+      releaseYear:
+        $ref: '#/definitions/pipe.YearRange'
+      title:
+        $ref: '#/definitions/pipe.RelatedTitleName'
+      type:
+        type: string
+    type: object
+  pipe.RelatedTitleName:
+    properties:
+      original:
+        type: string
+      slug:
+        type: string
+      text:
+        type: string
+    type: object
+  pipe.RelatedTitlePoster:
+    properties:
+      height:
+        type: integer
+      id:
+        type: string
+      url:
+        type: string
+      width:
+        type: integer
+    type: object
+  pipe.ReviewAuthor:
+    properties:
+      id:
+        type: string
+      nickname:
+        type: string
+      rating:
+        type: integer
+    type: object
+  pipe.Reviews:
+    properties:
+      external:
+        $ref: '#/definitions/pipe.ExternalReviews'
+      featured:
+        items:
+          $ref: '#/definitions/pipe.FeaturedReviewItem'
+        type: array
+      users:
+        $ref: '#/definitions/pipe.UsersReviews'
+    type: object
+  pipe.Series:
+    properties:
+      current:
+        $ref: '#/definitions/pipe.SeriesCurrent'
+      id:
+        $ref: '#/definitions/pipe.SeriesID'
+      releaseYear:
+        $ref: '#/definitions/pipe.YearRange'
+      title:
+        $ref: '#/definitions/pipe.SeriesTitle'
+    type: object
+  pipe.SeriesCurrent:
+    properties:
+      episode:
+        description: episode number (starts from 1)
+        type: integer
+      season:
+        description: season number (starts from 1)
+        type: integer
+    type: object
+  pipe.SeriesID:
+    properties:
+      episodeNext:
+        type: string
+      episodePrevious:
+        type: string
+      parent:
+        type: string
+    type: object
+  pipe.SeriesTitle:
+    properties:
+      original:
+        type: string
+      slug:
+        type: string
+      text:
+        type: string
+    type: object
+  pipe.Soundtrack:
+    properties:
+      comments:
+        items:
+          $ref: '#/definitions/pipe.SoundtrackComment'
+        type: array
+      title:
+        type: string
+    type: object
+  pipe.SoundtrackComment:
+    properties:
+      html:
+        type: string
+      text:
+        type: string
+    type: object
+  pipe.Thumbnail:
+    properties:
+      height:
+        type: integer
+      url:
+        type: string
+      width:
+        type: integer
+    type: object
+  pipe.Title:
+    properties:
+      aka:
+        items:
+          type: string
+        type: array
+      original:
+        type: string
+      slug:
+        type: string
+      text:
+        type: string
+    type: object
+  pipe.Trivia:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+      total:
+        type: integer
+    type: object
+  pipe.UsersReviews:
+    properties:
+      total:
+        type: integer
+    type: object
+  pipe.Validate:
+    properties:
+      canHaveEpisodes:
+        type: boolean
+      isAdult:
+        type: boolean
+      isEpisode:
+        type: boolean
+      isMovie:
+        type: boolean
+      isSeries:
+        type: boolean
+      type:
+        type: string
+    type: object
+  pipe.VideoItem:
+    properties:
+      duration:
+        type: integer
+      id:
+        type: string
+      thumbnail:
+        $ref: '#/definitions/pipe.Thumbnail'
+      title:
+        type: string
+      type:
+        $ref: '#/definitions/pipe.VideoTypeWrapper'
+    type: object
+  pipe.VideoItemPrimary:
+    properties:
+      description:
+        type: string
+      duration:
+        type: integer
+      id:
+        type: string
+      isMature:
+        type: boolean
+      playback:
+        items:
+          $ref: '#/definitions/pipe.PlaybackItem'
+        type: array
+      thumbnail:
+        $ref: '#/definitions/pipe.Thumbnail'
+      title:
+        type: string
+      type:
+        $ref: '#/definitions/pipe.VideoTypeWrapper'
+    type: object
+  pipe.VideoTypeWrapper:
+    properties:
+      slug:
+        type: string
+      text:
+        type: string
+    type: object
+  pipe.Videos:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/pipe.VideoItem'
+        type: array
+      primaries:
+        items:
+          $ref: '#/definitions/pipe.VideoItemPrimary'
+        type: array
+      total:
+        type: integer
+    type: object
+  pipe.YearRange:
+    properties:
+      from:
+        type: integer
+      to:
+        type: integer
+    type: object
+  server.HTTPError:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+      ok:
+        type: boolean
+    type: object
+info:
+  contact:
+    name: Repository
+    url: https://github.com/Scrip7/imdb-api
+  description: Cross-platform microservice to scrape the IMDb website.
+  license:
+    name: MIT license
+    url: https://github.com/Scrip7/imdb-api/blob/main/LICENSE
+  title: IMDb-API
+paths:
+  /title/{id}:
+    get:
+      description: |-
+        The ID should start with "tt" at the beginning.
+        | Title Text | IMDb ID |
+        | --- | --- |
+        | Spider-Man: No Way Home | `tt10872600` |
+        | Spider-Man: Far from Home | `tt6320628` |
+        | Spider-Man: Homecoming | `tt2250912` |
+        | Avengers: Endgame | `tt4154796` |
+        | Avengers: Infinity War | `tt4154756` |
+        | The Dark Knight | `tt0468569` |
+        | The Godfather | `tt0068646` |
+        | Friends | `tt0108778` |
+        | Breaking Bad | `tt0903747` |
+        | Chernobyl | `tt7366338` |
+      parameters:
+      - description: Title ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pipe.IndexTransform'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.HTTPError'
+      summary: Get IMDb title by ID
+      tags:
+      - Title
+produces:
+- application/json
+swagger: "2.0"

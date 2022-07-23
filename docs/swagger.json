@@ -223,67 +223,83 @@
         "pipe.IndexTransform": {
             "type": "object",
             "properties": {
-                "cast": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/pipe.Cast"
-                    }
+                "id": {
+                    "type": "string",
+                    "x-order": "001"
                 },
-                "faq": {
-                    "$ref": "#/definitions/pipe.FAQ"
+                "validate": {
+                    "x-order": "002",
+                    "$ref": "#/definitions/pipe.Validate"
+                },
+                "title": {
+                    "x-order": "003",
+                    "$ref": "#/definitions/pipe.Title"
                 },
                 "genres": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/pipe.Genre"
-                    }
-                },
-                "id": {
-                    "type": "string"
-                },
-                "images": {
-                    "$ref": "#/definitions/pipe.Images"
-                },
-                "keywords": {
-                    "$ref": "#/definitions/pipe.Keywords"
+                    },
+                    "x-order": "004"
                 },
                 "plot": {
-                    "type": "string"
+                    "type": "string",
+                    "x-order": "005"
                 },
                 "popularity": {
+                    "x-order": "006",
                     "$ref": "#/definitions/pipe.Popularity"
                 },
-                "related": {
-                    "description": "list of related titles",
+                "images": {
+                    "x-order": "007",
+                    "$ref": "#/definitions/pipe.Images"
+                },
+                "videos": {
+                    "x-order": "008",
+                    "$ref": "#/definitions/pipe.Videos"
+                },
+                "cast": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/pipe.RelatedTitle"
-                    }
+                        "$ref": "#/definitions/pipe.Cast"
+                    },
+                    "x-order": "009"
                 },
                 "reviews": {
+                    "x-order": "010",
                     "$ref": "#/definitions/pipe.Reviews"
+                },
+                "faq": {
+                    "x-order": "011",
+                    "$ref": "#/definitions/pipe.FAQ"
+                },
+                "trivia": {
+                    "x-order": "012",
+                    "$ref": "#/definitions/pipe.Trivia"
+                },
+                "keywords": {
+                    "x-order": "013",
+                    "$ref": "#/definitions/pipe.Keywords"
                 },
                 "series": {
                     "description": "only when viewing an episode of a series",
+                    "x-order": "014",
                     "$ref": "#/definitions/pipe.Series"
                 },
                 "soundtracks": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/pipe.Soundtrack"
-                    }
+                    },
+                    "x-order": "015"
                 },
-                "title": {
-                    "$ref": "#/definitions/pipe.Title"
-                },
-                "trivia": {
-                    "$ref": "#/definitions/pipe.Trivia"
-                },
-                "validate": {
-                    "$ref": "#/definitions/pipe.Validate"
-                },
-                "videos": {
-                    "$ref": "#/definitions/pipe.Videos"
+                "related": {
+                    "description": "list of related titles",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pipe.RelatedTitle"
+                    },
+                    "x-order": "016"
                 }
             }
         },

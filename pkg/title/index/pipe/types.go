@@ -1,22 +1,22 @@
 package pipe
 
 type IndexTransform struct {
-	ID          string          `json:"id"`
-	Validate    *Validate       `json:"validate"`
-	Title       *Title          `json:"title"`
-	Genres      []*Genre        `json:"genres"`
-	Plot        string          `json:"plot"`
-	Popularity  *Popularity     `json:"popularity"`
-	Images      *Images         `json:"images"`
-	Videos      *Videos         `json:"videos"`
-	Cast        []*Cast         `json:"cast"`
-	Reviews     *Reviews        `json:"reviews"`
-	FAQ         *FAQ            `json:"faq"`
-	Trivia      *Trivia         `json:"trivia"`
-	Keywords    *Keywords       `json:"keywords"`
-	Series      *Series         `json:"series"` // only when viewing an episode of a series
-	Soundtracks []*Soundtrack   `json:"soundtracks"`
-	Related     []*RelatedTitle `json:"related"` // list of related titles
+	ID          string          `json:"id" extensions:"x-order=001"`
+	Validate    *Validate       `json:"validate" extensions:"x-order=002"`
+	Title       *Title          `json:"title" extensions:"x-order=003"`
+	Genres      []*Genre        `json:"genres" extensions:"x-order=004"`
+	Plot        string          `json:"plot" extensions:"x-order=005"`
+	Popularity  *Popularity     `json:"popularity" extensions:"x-order=006"`
+	Images      *Images         `json:"images" extensions:"x-order=007"`
+	Videos      *Videos         `json:"videos" extensions:"x-order=008"`
+	Cast        []*Cast         `json:"cast" extensions:"x-order=009"`
+	Reviews     *Reviews        `json:"reviews" extensions:"x-order=010"`
+	FAQ         *FAQ            `json:"faq" extensions:"x-order=011"`
+	Trivia      *Trivia         `json:"trivia" extensions:"x-order=012"`
+	Keywords    *Keywords       `json:"keywords" extensions:"x-order=013"`
+	Series      *Series         `json:"series" extensions:"x-order=014"` // only when viewing an episode of a series
+	Soundtracks []*Soundtrack   `json:"soundtracks" extensions:"x-order=015"`
+	Related     []*RelatedTitle `json:"related" extensions:"x-order=016"` // list of related titles
 }
 
 type Validate struct {

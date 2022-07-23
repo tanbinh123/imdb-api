@@ -112,44 +112,60 @@ definitions:
         items:
           $ref: '#/definitions/pipe.Cast'
         type: array
+        x-order: "009"
       faq:
         $ref: '#/definitions/pipe.FAQ'
+        x-order: "011"
       genres:
         items:
           $ref: '#/definitions/pipe.Genre'
         type: array
+        x-order: "004"
       id:
         type: string
+        x-order: "001"
       images:
         $ref: '#/definitions/pipe.Images'
+        x-order: "007"
       keywords:
         $ref: '#/definitions/pipe.Keywords'
+        x-order: "013"
       plot:
         type: string
+        x-order: "005"
       popularity:
         $ref: '#/definitions/pipe.Popularity'
+        x-order: "006"
       related:
         description: list of related titles
         items:
           $ref: '#/definitions/pipe.RelatedTitle'
         type: array
+        x-order: "016"
       reviews:
         $ref: '#/definitions/pipe.Reviews'
+        x-order: "010"
       series:
         $ref: '#/definitions/pipe.Series'
         description: only when viewing an episode of a series
+        x-order: "014"
       soundtracks:
         items:
           $ref: '#/definitions/pipe.Soundtrack'
         type: array
+        x-order: "015"
       title:
         $ref: '#/definitions/pipe.Title'
+        x-order: "003"
       trivia:
         $ref: '#/definitions/pipe.Trivia'
+        x-order: "012"
       validate:
         $ref: '#/definitions/pipe.Validate'
+        x-order: "002"
       videos:
         $ref: '#/definitions/pipe.Videos'
+        x-order: "008"
     type: object
   pipe.Keywords:
     properties:

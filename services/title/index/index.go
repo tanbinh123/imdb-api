@@ -50,8 +50,8 @@ func Index(id string) (*pipe.IndexTransform, error) {
 	validate := &pipe.Validate{
 		Type:            titleType,
 		IsMovie:         titleType == constants.TITLE_TYPE_MOVIE,
-		IsSeries:        titleType == constants.TITLE_TYPE_SERIES,
-		IsEpisode:       titleType == constants.TITLE_TYPE_EPISODE,
+		IsSeries:        titleType == constants.TITLE_TYPE_TV_SERIES,
+		IsEpisode:       titleType == constants.TITLE_TYPE_TV_EPISODE,
 		IsAdult:         main.IsAdult,
 		CanHaveEpisodes: main.CanHaveEpisodes,
 	}

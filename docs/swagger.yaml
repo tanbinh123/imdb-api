@@ -1,6 +1,35 @@
 consumes:
 - application/json
 definitions:
+  pipe.BoxOfficeItem:
+    properties:
+      id:
+        type: string
+      thumbnail:
+        type: string
+      title:
+        $ref: '#/definitions/pipe.BoxOfficeItemTitle'
+      totalGross:
+        type: string
+      weekendGross:
+        type: string
+      weeksSinceRelease:
+        type: string
+    type: object
+  pipe.BoxOfficeItemTitle:
+    properties:
+      slug:
+        type: string
+      text:
+        type: string
+    type: object
+  pipe.BoxOfficeTransform:
+    properties:
+      titles:
+        items:
+          $ref: '#/definitions/pipe.BoxOfficeItem'
+        type: array
+    type: object
   pipe.Cast:
     properties:
       characters:
@@ -479,6 +508,20 @@ info:
     url: https://github.com/Scrip7/imdb-api/blob/main/LICENSE
   title: IMDb-API
 paths:
+  /chart/box-office:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pipe.BoxOfficeTransform'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.httpError'
+      summary: Top Box Office (US)
+      tags:
+      - Chart
   /title/{id}:
     get:
       description: |-

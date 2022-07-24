@@ -19,6 +19,28 @@
         }
     },
     "paths": {
+        "/chart/box-office": {
+            "get": {
+                "tags": [
+                    "Chart"
+                ],
+                "summary": "Top Box Office (US)",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pipe.BoxOfficeTransform"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.httpError"
+                        }
+                    }
+                }
+            }
+        },
         "/title/{id}": {
             "get": {
                 "description": "The ID should start with \"tt\" at the beginning.\n| Title Text | IMDb ID |\n| --- | --- |\n| Spider-Man: No Way Home | `tt10872600` |\n| Spider-Man: Far from Home | `tt6320628` |\n| Spider-Man: Homecoming | `tt2250912` |\n| Avengers: Endgame | `tt4154796` |\n| Avengers: Infinity War | `tt4154756` |\n| The Dark Knight | `tt0468569` |\n| The Godfather | `tt0068646` |\n| Friends | `tt0108778` |\n| Breaking Bad | `tt0903747` |\n| Chernobyl | `tt7366338` |",
@@ -59,6 +81,51 @@
         }
     },
     "definitions": {
+        "pipe.BoxOfficeItem": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "title": {
+                    "$ref": "#/definitions/pipe.BoxOfficeItemTitle"
+                },
+                "totalGross": {
+                    "type": "string"
+                },
+                "weekendGross": {
+                    "type": "string"
+                },
+                "weeksSinceRelease": {
+                    "type": "string"
+                }
+            }
+        },
+        "pipe.BoxOfficeItemTitle": {
+            "type": "object",
+            "properties": {
+                "slug": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "pipe.BoxOfficeTransform": {
+            "type": "object",
+            "properties": {
+                "titles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pipe.BoxOfficeItem"
+                    }
+                }
+            }
+        },
         "pipe.Cast": {
             "type": "object",
             "properties": {

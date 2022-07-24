@@ -65,7 +65,7 @@ Therefore, we keep this list updated along with the new features we introduce or
 
 | URL _(prefix: `imdb.com`)_          | Scope  | Second Scope | Module                            | Status | Tests |
 | ----------------------------------- | ------ | ------------ | --------------------------------- | :----: | :---: |
-| `/title/:id`                        | Title  | -            | Index                             |   🚧   |   -   |
+| `/title/:id`                        | Title  | -            | Index                             |   ✅   |  ✅   |
 | `/title/:id/mediaindex`             | Title  | -            | Photo Gallery                     |   💭   |   -   |
 | `/title/:id/videogallery`           | Title  | -            | Video Gallery                     |   💭   |   -   |
 | `/title/:id/news`                   | Title  | -            | News                              |   💭   |   -   |
@@ -96,7 +96,7 @@ Therefore, we keep this list updated along with the new features we introduce or
 | `/search/title`                     | Search | -            | Title                             |   💭   |   -   |
 | `/search/name`                      | Search | -            | Name                              |   💭   |   -   |
 | `/search/common`                    | Search | -            | Collaborations                    |   💭   |   -   |
-| `/chart/boxoffice`                  | Chart  | -            | Box Office                        |   💭   |   -   |
+| `/chart/boxoffice`                  | Chart  | -            | Box Office                        |   ✅   |  ✅   |
 | `/chart/moviemeter`                 | Chart  | -            | Most Popular Movies               |   💭   |   -   |
 | `/chart/top`                        | Chart  | -            | Top 250 Movies                    |   💭   |   -   |
 | `/chart/top-english-movies`         | Chart  | -            | Top Rated English Movies          |   💭   |   -   |
@@ -162,20 +162,20 @@ I'm not confident about my coding approaches, maybe I'm stuck with JS strategies
 
 See the [`LICENSE`][5] file for more information.
 
-[1]:  https://pkg.go.dev/github.com/Scrip7/imdb-api
-[2]:  https://github.com/Scrip7/imdb-api/actions/workflows/tests.yml
-[3]:  https://codefactor.io/repository/github/scrip7/imdb-api
-[4]:  https://goreportcard.com/report/github.com/Scrip7/imdb-api
-[5]:  https://github.com/Scrip7/imdb-api/blob/main/LICENSE
-[6]:  https://github.com/Scrip7/imdb-api/pulls
-[7]:  https://go.dev
-[8]:  https://imdb.com
-[9]:  https://en.wikipedia.org/wiki/Clean_URL#Slug
+[1]: https://pkg.go.dev/github.com/Scrip7/imdb-api
+[2]: https://github.com/Scrip7/imdb-api/actions/workflows/tests.yml
+[3]: https://codefactor.io/repository/github/scrip7/imdb-api
+[4]: https://goreportcard.com/report/github.com/Scrip7/imdb-api
+[5]: https://github.com/Scrip7/imdb-api/blob/main/LICENSE
+[6]: https://github.com/Scrip7/imdb-api/pulls
+[7]: https://go.dev
+[8]: https://imdb.com
+[9]: https://en.wikipedia.org/wiki/Clean_URL#Slug
 [10]: https://github.com/Scrip7/imdb-api/issues
 [11]: https://github.com/Scrip7/imdb-api/blob/main/CONTRIBUTING.md
 [12]: https://github.com/Scrip7/imdb-api
 [13]: https://en.wikipedia.org/wiki/IMDb
-[14]: <https://en.wikipedia.org/wiki/Amazon_(company)>
+[14]: https://en.wikipedia.org/wiki/Amazon_(company)
 [15]: https://github.com/Scrip7/imdb-api/releases
 [16]: https://linode.com/docs/guides/how-to-install-git-on-linux-mac-and-windows
 [17]: https://go.dev/doc/install

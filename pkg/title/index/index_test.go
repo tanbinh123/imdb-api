@@ -1,16 +1,17 @@
-package index
+package index_test
 
 import (
 	"testing"
 
 	"github.com/Scrip7/imdb-api/constants"
+	"github.com/Scrip7/imdb-api/pkg/title/index"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestMovie(t *testing.T) {
 	id := "tt20256528" // What Is a Woman?
 
-	res, err := Index(id)
+	res, err := index.Index(id)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 
@@ -22,7 +23,7 @@ func TestMovie(t *testing.T) {
 func TestTVSeries(t *testing.T) {
 	id := "tt0108778" // Friends
 
-	res, err := Index(id)
+	res, err := index.Index(id)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 
@@ -34,7 +35,7 @@ func TestTVSeries(t *testing.T) {
 func TestTVSeriesEpisode(t *testing.T) {
 	id := "tt0583436" // Friends S10.E1 (The One After Joey and Rachel Kiss)
 
-	res, err := Index(id)
+	res, err := index.Index(id)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 
@@ -46,7 +47,7 @@ func TestTVSeriesEpisode(t *testing.T) {
 func TestTVShort(t *testing.T) {
 	id := "tt4448662" // Mr Bean: Funeral
 
-	res, err := Index(id)
+	res, err := index.Index(id)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 
@@ -59,7 +60,7 @@ func TestTVShort(t *testing.T) {
 func TestVideoGame(t *testing.T) {
 	id := "tt2140553" // The Last of Us
 
-	res, err := Index(id)
+	res, err := index.Index(id)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 
@@ -71,7 +72,7 @@ func TestVideoGame(t *testing.T) {
 func TestTVSpecial(t *testing.T) {
 	id := "tt21106500" // Bill Burr: Live at Red Rocks
 
-	res, err := Index(id)
+	res, err := index.Index(id)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 
@@ -83,7 +84,7 @@ func TestTVSpecial(t *testing.T) {
 func TestTVMiniSeries(t *testing.T) {
 	id := "tt7366338" // Chernobyl
 
-	res, err := Index(id)
+	res, err := index.Index(id)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 
@@ -95,7 +96,7 @@ func TestTVMiniSeries(t *testing.T) {
 func TestVideo(t *testing.T) {
 	id := "tt18258584" // Jackass 4.5
 
-	res, err := Index(id)
+	res, err := index.Index(id)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 
@@ -107,7 +108,7 @@ func TestVideo(t *testing.T) {
 func TestMusicVideo(t *testing.T) {
 	id := "tt4272746" // DJ Snake and Lil Jon: Turn Down for What
 
-	res, err := Index(id)
+	res, err := index.Index(id)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 
@@ -119,7 +120,7 @@ func TestMusicVideo(t *testing.T) {
 func TestPodcastSeries(t *testing.T) {
 	id := "tt12326830" // The Sandman
 
-	res, err := Index(id)
+	res, err := index.Index(id)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 
@@ -131,7 +132,7 @@ func TestPodcastSeries(t *testing.T) {
 func TestPodcastEpisode(t *testing.T) {
 	id := "tt13998532" // Live in Toronto!
 
-	res, err := Index(id)
+	res, err := index.Index(id)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 

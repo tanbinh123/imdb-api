@@ -39,6 +39,13 @@ func GetFiberApp() *fiber.App {
 		StoreResponseHeaders: false,
 		CacheControl:         false,
 		MaxBytes:             viper.GetUint("CACHE_MAX_BYTES"),
+		KeyGenerator: func(c *fiber.Ctx) string {
+			queryString := c.Context().QueryArgs().String()
+			if queryString == "" {
+				return c.Path()
+			}
+			return c.Path() + "?" + queryString
+		},
 	}))
 
 	t := app.Group("/title/:id")
@@ -46,6 +53,7 @@ func GetFiberApp() *fiber.App {
 
 	c := app.Group("/chart/")
 	c.Get("box-office", handler.ChartBoxOffice)
+	c.Get("common", handler.ChartCommon)
 
 	app.Use(fallback)
 

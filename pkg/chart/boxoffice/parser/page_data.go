@@ -13,7 +13,7 @@ func GetChartData(doc *goquery.Document) []*pipe.BoxOfficeItem {
 
 	doc.Find("section[id=chart-content] div.media").Each(func(i int, s *goquery.Selection) {
 		// Extract title ID (starts with "tt")
-		ID, exists := s.Find("span").First().Attr("data-tconst") // TODO: error handling
+		ID, exists := s.Find("span").First().Attr("data-tconst")
 		if !exists {
 			return
 		}

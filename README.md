@@ -99,10 +99,10 @@ Feel free to come back and check it in the future!
 | `/search/common`                    | Search | Collaborations                    | -               |   💭   |   -   |
 | `/chart/boxoffice`                  | Chart  | Box Office                        | [boxoffice][19] |   ✅   |  ✅   |
 | `/chart/moviemeter`                 | Chart  | Most Popular Movies               | -               |   💭   |   -   |
-| `/chart/top`                        | Chart  | Top 250 Movies                    | -               |   💭   |   -   |
-| `/chart/top-english-movies`         | Chart  | Top Rated English Movies          | -               |   💭   |   -   |
-| `/chart/toptv`                      | Chart  | Top Rated TV Shows                | -               |   💭   |   -   |
-| `/chart/bottom`                     | Chart  | Lowest Rated Movies               | -               |   💭   |   -   |
+| `/chart/top`                        | Chart  | Top 250 Movies                    | [common][20]    |   ✅   |  ✅   |
+| `/chart/toptv`                      | Chart  | Top Rated TV Shows                | [common][20]    |   ✅   |  ✅   |
+| `/chart/top-english-movies`         | Chart  | Top Rated English Movies          | [common][20]    |   ✅   |  ✅   |
+| `/chart/bottom`                     | Chart  | Lowest Rated Movies               | [common][20]    |   ✅   |  ✅   |
 | `/news/top`                         | News   | Top                               | -               |   💭   |   -   |
 | `/news/movie`                       | News   | Movie                             | -               |   💭   |   -   |
 | `/news/tv`                          | News   | TV                                | -               |   💭   |   -   |
@@ -182,3 +182,4 @@ See the [`LICENSE`][5] file for more information.
 [17]: https://go.dev/doc/install
 [18]: https://github.com/Scrip7/imdb-api/tree/main/pkg/title/index
 [19]: https://github.com/Scrip7/imdb-api/tree/main/pkg/chart/boxoffice
+[20]: https://github.com/Scrip7/imdb-api/tree/main/pkg/chart/common

@@ -51,6 +51,44 @@ const docTemplate = `{
                 }
             }
         },
+        "/chart/common": {
+            "get": {
+                "description": "This endpoint can scrape common chart types that have the same response structure.\n\nSpecifying the chart type based on the table below is required.\n| URL | Page Title | Page Description |\n| --- | --- | --- |\n| ` + "`" + `https://imdb.com/chart/top` + "`" + ` | IMDb Top 250 Movies | IMDb Top 250 as rated by regular IMDb voters. |\n| ` + "`" + `https://imdb.com/chart/toptv` + "`" + ` | Top Rated TV Shows | Top 250 as rated by IMDb Users |\n| ` + "`" + `https://imdb.com/chart/top-english-movies` + "`" + ` | Top Rated English Movies | Top 250 English-language movies as rated by IMDb Users |\n| ` + "`" + `https://imdb.com/chart/bottom` + "`" + ` | Lowest Rated Movies | Bottom 100 as voted by IMDb Users |",
+                "tags": [
+                    "Chart"
+                ],
+                "summary": "Scrape common chart types",
+                "parameters": [
+                    {
+                        "enum": [
+                            "top",
+                            "toptv",
+                            "top-english-movies",
+                            "bottom"
+                        ],
+                        "type": "string",
+                        "description": "Chart Type",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pipe.ChartCommonTransform"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.httpError"
+                        }
+                    }
+                }
+            }
+        },
         "/title/{id}": {
             "get": {
                 "description": "The ID should start with \"tt\" at the beginning.\n| Title Text | IMDb ID |\n| --- | --- |\n| Spider-Man: No Way Home | ` + "`" + `tt10872600` + "`" + ` |\n| Spider-Man: Far from Home | ` + "`" + `tt6320628` + "`" + ` |\n| Spider-Man: Homecoming | ` + "`" + `tt2250912` + "`" + ` |\n| Avengers: Endgame | ` + "`" + `tt4154796` + "`" + ` |\n| Avengers: Infinity War | ` + "`" + `tt4154756` + "`" + ` |\n| The Dark Knight | ` + "`" + `tt0468569` + "`" + ` |\n| The Godfather | ` + "`" + `tt0068646` + "`" + ` |\n| Friends | ` + "`" + `tt0108778` + "`" + ` |\n| Breaking Bad | ` + "`" + `tt0903747` + "`" + ` |\n| Chernobyl | ` + "`" + `tt7366338` + "`" + ` |",
@@ -184,6 +222,58 @@ const docTemplate = `{
                 },
                 "width": {
                     "type": "integer"
+                }
+            }
+        },
+        "pipe.ChartCommonTransform": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "x-order": "001"
+                },
+                "titles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pipe.ChatItem"
+                    },
+                    "x-order": "002"
+                }
+            }
+        },
+        "pipe.ChartItemTitle": {
+            "type": "object",
+            "properties": {
+                "slug": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "pipe.ChatItem": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "x-order": "001"
+                },
+                "title": {
+                    "x-order": "002",
+                    "$ref": "#/definitions/pipe.ChartItemTitle"
+                },
+                "thumbnail": {
+                    "type": "string",
+                    "x-order": "003"
+                },
+                "rating": {
+                    "type": "number",
+                    "x-order": "004"
+                },
+                "releaseYear": {
+                    "type": "number",
+                    "x-order": "005"
                 }
             }
         },

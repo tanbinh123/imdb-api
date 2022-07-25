@@ -63,6 +63,42 @@ definitions:
       width:
         type: integer
     type: object
+  pipe.ChartCommonTransform:
+    properties:
+      titles:
+        items:
+          $ref: '#/definitions/pipe.ChatItem'
+        type: array
+        x-order: "002"
+      type:
+        type: string
+        x-order: "001"
+    type: object
+  pipe.ChartItemTitle:
+    properties:
+      slug:
+        type: string
+      text:
+        type: string
+    type: object
+  pipe.ChatItem:
+    properties:
+      id:
+        type: string
+        x-order: "001"
+      rating:
+        type: number
+        x-order: "004"
+      releaseYear:
+        type: number
+        x-order: "005"
+      thumbnail:
+        type: string
+        x-order: "003"
+      title:
+        $ref: '#/definitions/pipe.ChartItemTitle'
+        x-order: "002"
+    type: object
   pipe.ExternalReviews:
     properties:
       total:
@@ -520,6 +556,41 @@ paths:
           schema:
             $ref: '#/definitions/server.httpError'
       summary: Top Box Office (US)
+      tags:
+      - Chart
+  /chart/common:
+    get:
+      description: |-
+        This endpoint can scrape common chart types that have the same response structure.
+
+        Specifying the chart type based on the table below is required.
+        | URL | Page Title | Page Description |
+        | --- | --- | --- |
+        | `https://imdb.com/chart/top` | IMDb Top 250 Movies | IMDb Top 250 as rated by regular IMDb voters. |
+        | `https://imdb.com/chart/toptv` | Top Rated TV Shows | Top 250 as rated by IMDb Users |
+        | `https://imdb.com/chart/top-english-movies` | Top Rated English Movies | Top 250 English-language movies as rated by IMDb Users |
+        | `https://imdb.com/chart/bottom` | Lowest Rated Movies | Bottom 100 as voted by IMDb Users |
+      parameters:
+      - description: Chart Type
+        enum:
+        - top
+        - toptv
+        - top-english-movies
+        - bottom
+        in: query
+        name: type
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pipe.ChartCommonTransform'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.httpError'
+      summary: Scrape common chart types
       tags:
       - Chart
   /title/{id}:

@@ -64,59 +64,59 @@ Feel free to come back and check it in the future!
 >
 > ❌ Failed to implement.
 
-| URL _(prefix: `imdb.com`)_          | Scope  | Page Title                        | Module          | Status | Tests |
-| ----------------------------------- | ------ | --------------------------------- | --------------- | :----: | :---: |
-| `/title/:id`                        | Title  | Index                             | [index][18]     |   ✅   |  ✅   |
-| `/title/:id/mediaindex`             | Title  | Photo Gallery                     | -               |   💭   |   -   |
-| `/title/:id/videogallery`           | Title  | Video Gallery                     | -               |   💭   |   -   |
-| `/title/:id/news`                   | Title  | News                              | -               |   💭   |   -   |
-| `/title/:id/fullcredits`            | Title  | Full Cast & Crew                  | -               |   💭   |   -   |
-| `/title/:id/releaseinfo`            | Title  | Release Info (Dates)              | -               |   💭   |   -   |
-| `/title/:id/externalsites`          | Title  | External Sites                    | -               |   💭   |   -   |
-| `/title/:id/companycredits`         | Title  | Company Credits                   | -               |   💭   |   -   |
-| `/title/:id/locations`              | Title  | Filming & Production              | -               |   💭   |   -   |
-| `/title/:id/technical`              | Title  | Technical Specifications          | -               |   💭   |   -   |
-| `/title/:id/taglines`               | Title  | Taglines                          | -               |   💭   |   -   |
-| `/title/:id/plotsummary`            | Title  | Plot Summary                      | -               |   💭   |   -   |
-| `/title/:id/keywords`               | Title  | Plot Keywords                     | -               |   💭   |   -   |
-| `/title/:id/parentalguide`          | Title  | Parents Guide                     | -               |   💭   |   -   |
-| `/title/:id/trivia`                 | Title  | Trivia                            | -               |   💭   |   -   |
-| `/title/:id/trgoofsivia`            | Title  | Goofs                             | -               |   💭   |   -   |
-| `/title/:id/crazycredits`           | Title  | Crazy Credits                     | -               |   💭   |   -   |
-| `/title/:id/quotes`                 | Title  | Quotes                            | -               |   💭   |   -   |
-| `/title/:id/alternateversions`      | Title  | Alternate Versions                | -               |   💭   |   -   |
-| `/title/:id/movieconnections`       | Title  | Connections                       | -               |   💭   |   -   |
-| `/title/:id/soundtrack`             | Title  | Soundtracks                       | -               |   💭   |   -   |
-| `/title/:id/awards`                 | Title  | Awards                            | -               |   💭   |   -   |
-| `/title/:id/faq`                    | Title  | FAQ                               | -               |   💭   |   -   |
-| `/title/:id/reviews`                | Title  | User Reviews                      | -               |   💭   |   -   |
-| `/title/:id/ratings`                | Title  | User Ratings                      | -               |   💭   |   -   |
-| `/title/:id/externalreviews`        | Title  | External Reviews                  | -               |   💭   |   -   |
-| `/title/:id/episodes`               | Title  | Episode List                      | -               |   💭   |   -   |
-| `/title/:id/tvschedule`             | Title  | Schedule                          | -               |   💭   |   -   |
-| `/search/title`                     | Search | Title                             | -               |   💭   |   -   |
-| `/search/name`                      | Search | Name                              | -               |   💭   |   -   |
-| `/search/common`                    | Search | Collaborations                    | -               |   💭   |   -   |
-| `/chart/boxoffice`                  | Chart  | Box Office                        | [boxoffice][19] |   ✅   |  ✅   |
-| `/chart/moviemeter`                 | Chart  | Most Popular Movies               | -               |   💭   |   -   |
-| `/chart/top`                        | Chart  | Top 250 Movies                    | [common][20]    |   ✅   |  ✅   |
-| `/chart/toptv`                      | Chart  | Top Rated TV Shows                | [common][20]    |   ✅   |  ✅   |
-| `/chart/top-english-movies`         | Chart  | Top Rated English Movies          | [common][20]    |   ✅   |  ✅   |
-| `/chart/bottom`                     | Chart  | Lowest Rated Movies               | [common][20]    |   ✅   |  ✅   |
-| `/news/top`                         | News   | Top                               | -               |   💭   |   -   |
-| `/news/movie`                       | News   | Movie                             | -               |   💭   |   -   |
-| `/news/tv`                          | News   | TV                                | -               |   💭   |   -   |
-| `/news/celebrity`                   | News   | Celebrity                         | -               |   💭   |   -   |
-| `/news/indie`                       | News   | Indie                             | -               |   💭   |   -   |
-| `/india/upcoming`                   | Indian | Most Anticipated New Movies/Shows | -               |   💭   |   -   |
-| `/india/top-rated-indian-movies`    | Indian | Top Rated Movies                  | -               |   💭   |   -   |
-| `/india/top-rated-malayalam-movies` | Indian | Top Rated Malayalam Movies        | -               |   💭   |   -   |
-| `/india/top-rated-tamil-movies`     | Indian | Top Rated Tamil Movies            | -               |   💭   |   -   |
-| `/india/top-rated-telugu-movies`    | Indian | Top Rated Telugu Movies           | -               |   💭   |   -   |
-| `/india/tamil`                      | Indian | Trending Tamil Movies             | -               |   💭   |   -   |
-| `/india/telugu`                     | Indian | Trending Telugu Movies            | -               |   💭   |   -   |
-| `/event/all`                        | Event  | All Events Alphabetically         | -               |   💭   |   -   |
-| `/calendar`                         | -      | Upcoming Releases                 | -               |   💭   |   -   |
+| URL _(prefix: `imdb.com`)_          | Scope       | Page Title                        | Module           | Status | Tests |
+| ----------------------------------- | ----------- | --------------------------------- | ---------------- | :----: | :---: |
+| `/title/:id`                        | [Title][23] | Index                             | [index][18]      |   ✅   |  ✅   |
+| `/title/:id/mediaindex`             | Title       | Photo Gallery                     | -                |   💭   |   -   |
+| `/title/:id/videogallery`           | Title       | Video Gallery                     | -                |   💭   |   -   |
+| `/title/:id/news`                   | Title       | News                              | -                |   💭   |   -   |
+| `/title/:id/fullcredits`            | Title       | Full Cast & Crew                  | -                |   💭   |   -   |
+| `/title/:id/releaseinfo`            | Title       | Release Info (Dates)              | -                |   💭   |   -   |
+| `/title/:id/externalsites`          | Title       | External Sites                    | -                |   💭   |   -   |
+| `/title/:id/companycredits`         | Title       | Company Credits                   | -                |   💭   |   -   |
+| `/title/:id/locations`              | Title       | Filming & Production              | -                |   💭   |   -   |
+| `/title/:id/technical`              | Title       | Technical Specifications          | -                |   💭   |   -   |
+| `/title/:id/taglines`               | Title       | Taglines                          | -                |   💭   |   -   |
+| `/title/:id/plotsummary`            | Title       | Plot Summary                      | -                |   💭   |   -   |
+| `/title/:id/keywords`               | Title       | Plot Keywords                     | -                |   💭   |   -   |
+| `/title/:id/parentalguide`          | Title       | Parents Guide                     | -                |   💭   |   -   |
+| `/title/:id/trivia`                 | Title       | Trivia                            | -                |   💭   |   -   |
+| `/title/:id/trgoofsivia`            | Title       | Goofs                             | -                |   💭   |   -   |
+| `/title/:id/crazycredits`           | Title       | Crazy Credits                     | -                |   💭   |   -   |
+| `/title/:id/quotes`                 | Title       | Quotes                            | -                |   💭   |   -   |
+| `/title/:id/alternateversions`      | Title       | Alternate Versions                | -                |   💭   |   -   |
+| `/title/:id/movieconnections`       | Title       | Connections                       | -                |   💭   |   -   |
+| `/title/:id/soundtrack`             | Title       | Soundtracks                       | -                |   💭   |   -   |
+| `/title/:id/awards`                 | Title       | Awards                            | -                |   💭   |   -   |
+| `/title/:id/faq`                    | Title       | FAQ                               | -                |   💭   |   -   |
+| `/title/:id/reviews`                | Title       | User Reviews                      | -                |   💭   |   -   |
+| `/title/:id/ratings`                | Title       | User Ratings                      | -                |   💭   |   -   |
+| `/title/:id/externalreviews`        | Title       | External Reviews                  | -                |   💭   |   -   |
+| `/title/:id/episodes`               | Title       | Episode List                      | -                |   💭   |   -   |
+| `/title/:id/tvschedule`             | Title       | Schedule                          | -                |   💭   |   -   |
+| `/search/title`                     | Search      | Title                             | -                |   💭   |   -   |
+| `/search/name`                      | Search      | Name                              | -                |   💭   |   -   |
+| `/search/common`                    | Search      | Collaborations                    | -                |   💭   |   -   |
+| `/chart/boxoffice`                  | [Chart][22] | Box Office                        | [boxoffice][19]  |   ✅   |  ✅   |
+| `/chart/moviemeter`                 | [Chart][22] | Most Popular Movies               | [moviemeter][21] |   ✅   |  ✅   |
+| `/chart/top`                        | [Chart][22] | Top 250 Movies                    | [common][20]     |   ✅   |  ✅   |
+| `/chart/toptv`                      | [Chart][22] | Top Rated TV Shows                | [common][20]     |   ✅   |  ✅   |
+| `/chart/top-english-movies`         | [Chart][22] | Top Rated English Movies          | [common][20]     |   ✅   |  ✅   |
+| `/chart/bottom`                     | [Chart][22] | Lowest Rated Movies               | [common][20]     |   ✅   |  ✅   |
+| `/news/top`                         | News        | Top                               | -                |   💭   |   -   |
+| `/news/movie`                       | News        | Movie                             | -                |   💭   |   -   |
+| `/news/tv`                          | News        | TV                                | -                |   💭   |   -   |
+| `/news/celebrity`                   | News        | Celebrity                         | -                |   💭   |   -   |
+| `/news/indie`                       | News        | Indie                             | -                |   💭   |   -   |
+| `/india/upcoming`                   | Indian      | Most Anticipated New Movies/Shows | -                |   💭   |   -   |
+| `/india/top-rated-indian-movies`    | Indian      | Top Rated Movies                  | -                |   💭   |   -   |
+| `/india/top-rated-malayalam-movies` | Indian      | Top Rated Malayalam Movies        | -                |   💭   |   -   |
+| `/india/top-rated-tamil-movies`     | Indian      | Top Rated Tamil Movies            | -                |   💭   |   -   |
+| `/india/top-rated-telugu-movies`    | Indian      | Top Rated Telugu Movies           | -                |   💭   |   -   |
+| `/india/tamil`                      | Indian      | Trending Tamil Movies             | -                |   💭   |   -   |
+| `/india/telugu`                     | Indian      | Trending Telugu Movies            | -                |   💭   |   -   |
+| `/event/all`                        | Event       | All Events Alphabetically         | -                |   💭   |   -   |
+| `/calendar`                         | -           | Upcoming Releases                 | -                |   💭   |   -   |
 
 Is a route missing? Feel free to [open a new issue][10] to let us know!
 
@@ -183,3 +183,6 @@ See the [`LICENSE`][5] file for more information.
 [18]: https://github.com/Scrip7/imdb-api/tree/main/pkg/title/index
 [19]: https://github.com/Scrip7/imdb-api/tree/main/pkg/chart/boxoffice
 [20]: https://github.com/Scrip7/imdb-api/tree/main/pkg/chart/common
+[21]: https://github.com/Scrip7/imdb-api/tree/main/pkg/chart/moviemeter
+[22]: https://github.com/Scrip7/imdb-api/tree/main/pkg/chart
+[23]: https://github.com/Scrip7/imdb-api/tree/main/pkg/title

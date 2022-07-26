@@ -1,11 +1,11 @@
 package pipe
 
 type ChartCommonTransform struct {
-	Type   string      `json:"type" extensions:"x-order=001"`
-	Titles []*ChatItem `json:"titles" extensions:"x-order=002"`
+	Type   string       `json:"type" extensions:"x-order=001"`
+	Titles []*ChartItem `json:"titles" extensions:"x-order=002"`
 }
 
-type ChatItem struct {
+type ChartItem struct {
 	ID          string          `json:"id" extensions:"x-order=001"`
 	Title       *ChartItemTitle `json:"title" extensions:"x-order=002"`
 	Thumbnail   string          `json:"thumbnail" extensions:"x-order=003"`

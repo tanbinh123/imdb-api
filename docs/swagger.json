@@ -79,6 +79,28 @@
                 }
             }
         },
+        "/chart/moviemeter": {
+            "get": {
+                "tags": [
+                    "Chart"
+                ],
+                "summary": "Most Popular Movies",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pipe.ChartMovieMeterTransform"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.httpError"
+                        }
+                    }
+                }
+            }
+        },
         "/title/{id}": {
             "get": {
                 "description": "The ID should start with \"tt\" at the beginning.\n| Title Text | IMDb ID |\n| --- | --- |\n| Spider-Man: No Way Home | `tt10872600` |\n| Spider-Man: Far from Home | `tt6320628` |\n| Spider-Man: Homecoming | `tt2250912` |\n| Avengers: Endgame | `tt4154796` |\n| Avengers: Infinity War | `tt4154756` |\n| The Dark Knight | `tt0468569` |\n| The Godfather | `tt0068646` |\n| Friends | `tt0108778` |\n| Breaking Bad | `tt0903747` |\n| Chernobyl | `tt7366338` |",
@@ -225,24 +247,13 @@
                 "titles": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/pipe.ChatItem"
+                        "$ref": "#/definitions/pipe.ChartItem"
                     },
                     "x-order": "002"
                 }
             }
         },
-        "pipe.ChartItemTitle": {
-            "type": "object",
-            "properties": {
-                "slug": {
-                    "type": "string"
-                },
-                "text": {
-                    "type": "string"
-                }
-            }
-        },
-        "pipe.ChatItem": {
+        "pipe.ChartItem": {
             "type": "object",
             "properties": {
                 "id": {
@@ -264,6 +275,72 @@
                 "releaseYear": {
                     "type": "number",
                     "x-order": "005"
+                }
+            }
+        },
+        "pipe.ChartItemTitle": {
+            "type": "object",
+            "properties": {
+                "slug": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "pipe.ChartMovieMeterItem": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "x-order": "001"
+                },
+                "title": {
+                    "x-order": "002",
+                    "$ref": "#/definitions/pipe.ChartMovieMeterItemTitle"
+                },
+                "thumbnail": {
+                    "type": "string",
+                    "x-order": "003"
+                },
+                "rating": {
+                    "type": "number",
+                    "x-order": "004"
+                },
+                "rankingChange": {
+                    "description": "Could be negative or positive number, determinate chart ranking change",
+                    "type": "integer",
+                    "x-order": "005"
+                },
+                "releaseYear": {
+                    "type": "number",
+                    "x-order": "006"
+                }
+            }
+        },
+        "pipe.ChartMovieMeterItemTitle": {
+            "type": "object",
+            "properties": {
+                "text": {
+                    "type": "string",
+                    "x-order": "001"
+                },
+                "slug": {
+                    "type": "string",
+                    "x-order": "002"
+                }
+            }
+        },
+        "pipe.ChartMovieMeterTransform": {
+            "type": "object",
+            "properties": {
+                "titles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pipe.ChartMovieMeterItem"
+                    },
+                    "x-order": "001"
                 }
             }
         },

@@ -67,21 +67,14 @@ definitions:
     properties:
       titles:
         items:
-          $ref: '#/definitions/pipe.ChatItem'
+          $ref: '#/definitions/pipe.ChartItem'
         type: array
         x-order: "002"
       type:
         type: string
         x-order: "001"
     type: object
-  pipe.ChartItemTitle:
-    properties:
-      slug:
-        type: string
-      text:
-        type: string
-    type: object
-  pipe.ChatItem:
+  pipe.ChartItem:
     properties:
       id:
         type: string
@@ -98,6 +91,53 @@ definitions:
       title:
         $ref: '#/definitions/pipe.ChartItemTitle'
         x-order: "002"
+    type: object
+  pipe.ChartItemTitle:
+    properties:
+      slug:
+        type: string
+      text:
+        type: string
+    type: object
+  pipe.ChartMovieMeterItem:
+    properties:
+      id:
+        type: string
+        x-order: "001"
+      rankingChange:
+        description: Could be negative or positive number, determinate chart ranking
+          change
+        type: integer
+        x-order: "005"
+      rating:
+        type: number
+        x-order: "004"
+      releaseYear:
+        type: number
+        x-order: "006"
+      thumbnail:
+        type: string
+        x-order: "003"
+      title:
+        $ref: '#/definitions/pipe.ChartMovieMeterItemTitle'
+        x-order: "002"
+    type: object
+  pipe.ChartMovieMeterItemTitle:
+    properties:
+      slug:
+        type: string
+        x-order: "002"
+      text:
+        type: string
+        x-order: "001"
+    type: object
+  pipe.ChartMovieMeterTransform:
+    properties:
+      titles:
+        items:
+          $ref: '#/definitions/pipe.ChartMovieMeterItem'
+        type: array
+        x-order: "001"
     type: object
   pipe.ExternalReviews:
     properties:
@@ -591,6 +631,20 @@ paths:
           schema:
             $ref: '#/definitions/server.httpError'
       summary: Scrape common chart types
+      tags:
+      - Chart
+  /chart/moviemeter:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pipe.ChartMovieMeterTransform'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.httpError'
+      summary: Most Popular Movies
       tags:
       - Chart
   /title/{id}:

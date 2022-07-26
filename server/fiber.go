@@ -54,6 +54,7 @@ func GetFiberApp() *fiber.App {
 	c := app.Group("/chart/")
 	c.Get("box-office", handler.ChartBoxOffice)
 	c.Get("common", handler.ChartCommon)
+	c.Get("moviemeter", handler.ChartMovieMeter)
 
 	app.Use(fallback)
 

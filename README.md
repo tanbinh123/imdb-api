@@ -78,7 +78,7 @@ Feel free to come back and check it in the future!
 | `/title/:id/technical`              | Title       | Technical Specifications          | -                |   💭   |   -   |
 | `/title/:id/taglines`               | Title       | Taglines                          | -                |   💭   |   -   |
 | `/title/:id/plotsummary`            | Title       | Plot Summary                      | -                |   💭   |   -   |
-| `/title/:id/keywords`               | Title       | Plot Keywords                     | -                |   💭   |   -   |
+| `/title/:id/keywords`               | [Title][23] | Plot Keywords                     | [keywords][24]   |   ✅   |  ✅   |
 | `/title/:id/parentalguide`          | Title       | Parents Guide                     | -                |   💭   |   -   |
 | `/title/:id/trivia`                 | Title       | Trivia                            | -                |   💭   |   -   |
 | `/title/:id/trgoofsivia`            | Title       | Goofs                             | -                |   💭   |   -   |
@@ -186,3 +186,4 @@ See the [`LICENSE`][5] file for more information.
 [21]: https://github.com/Scrip7/imdb-api/tree/main/pkg/chart/moviemeter
 [22]: https://github.com/Scrip7/imdb-api/tree/main/pkg/chart
 [23]: https://github.com/Scrip7/imdb-api/tree/main/pkg/title
+[24]: https://github.com/Scrip7/imdb-api/tree/main/pkg/title/keywords

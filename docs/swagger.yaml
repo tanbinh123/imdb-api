@@ -475,6 +475,22 @@ definitions:
       text:
         type: string
     type: object
+  pipe.TitleKeyword:
+    properties:
+      id:
+        type: string
+      slug:
+        type: string
+      text:
+        type: string
+    type: object
+  pipe.TitleKeywordsTransform:
+    properties:
+      keywords:
+        items:
+          $ref: '#/definitions/pipe.TitleKeyword'
+        type: array
+    type: object
   pipe.Trivia:
     properties:
       items:
@@ -683,6 +699,30 @@ paths:
           schema:
             $ref: '#/definitions/server.httpError'
       summary: Get an IMDb title by ID
+      tags:
+      - Title
+  /title/{id}/keywords:
+    get:
+      parameters:
+      - description: Title ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pipe.TitleKeywordsTransform'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.httpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.httpError'
+      summary: Get titles keywords
       tags:
       - Title
 produces:

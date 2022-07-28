@@ -15,7 +15,7 @@ import (
 
 func Index(id string) (*pipe.IndexTransform, error) {
 	url := fmt.Sprintf(constants.URL_TITLE_INDEX, id)
-	res, err := client.Get(url)
+	res, err := client.Get(url, &client.GetOptions{})
 	if err != nil {
 		return nil, err
 	}

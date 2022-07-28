@@ -22,7 +22,7 @@ const (
 
 func Common(t CommonChartType) (*pipe.ChartCommonTransform, error) {
 	url := fmt.Sprintf(constants.URL_CHART_COMMON, t)
-	res, err := client.Get(url)
+	res, err := client.Get(url, &client.GetOptions{})
 	if err != nil {
 		return nil, err
 	}

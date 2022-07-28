@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	u "net/url"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -30,7 +31,30 @@ var client = httpclient.NewClient(
 	httpclient.WithRetryCount(4),
 )
 
-func Get(url string) (*[]byte, error) {
+type GetOptions struct {
+	// Language string
+	Params *Map
+}
+
+type Map map[string]string
+
+func Get(url string, options *GetOptions) (*[]byte, error) {
+	if options.Params != nil && len(*options.Params) > 0 {
+		base, err := u.Parse(url)
+		if err != nil {
+			return nil, err
+		}
+
+		// Query params
+		params := u.Values{}
+		for k, v := range *options.Params {
+			params.Add(k, v)
+		}
+		base.RawQuery = params.Encode()
+
+		url = base.String()
+	}
+
 	res, err := client.Get(url, http.Header{
 		// TODO: dynamic language
 		"accept-language": {"en-US,en;q=0.9"},

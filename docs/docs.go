@@ -185,6 +185,52 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/title/{id}/photos": {
+            "get": {
+                "tags": [
+                    "Title"
+                ],
+                "summary": "Titles photos",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Title ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "format": "integer",
+                        "default": "1",
+                        "description": "Page Number",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pipe.TitlePhotosTransform"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.httpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.httpError"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -916,6 +962,71 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/pipe.TitleKeyword"
                     }
+                }
+            }
+        },
+        "pipe.TitlePhotoItem": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "x-order": "001"
+                },
+                "height": {
+                    "type": "integer",
+                    "x-order": "002"
+                },
+                "width": {
+                    "type": "integer",
+                    "x-order": "003"
+                },
+                "alt": {
+                    "type": "string",
+                    "x-order": "004"
+                },
+                "caption": {
+                    "type": "string",
+                    "x-order": "005"
+                },
+                "thumbnail": {
+                    "type": "string",
+                    "x-order": "006"
+                }
+            }
+        },
+        "pipe.TitlePhotosMeta": {
+            "type": "object",
+            "properties": {
+                "currentPage": {
+                    "type": "integer"
+                },
+                "hasNextPage": {
+                    "type": "boolean"
+                },
+                "itemsPerPage": {
+                    "type": "integer"
+                },
+                "totalItems": {
+                    "type": "integer"
+                },
+                "totalPages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "pipe.TitlePhotosTransform": {
+            "type": "object",
+            "properties": {
+                "photos": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pipe.TitlePhotoItem"
+                    },
+                    "x-order": "001"
+                },
+                "meta": {
+                    "x-order": "002",
+                    "$ref": "#/definitions/pipe.TitlePhotosMeta"
                 }
             }
         },

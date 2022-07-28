@@ -11,7 +11,7 @@ import (
 )
 
 func BoxOffice() (*pipe.BoxOfficeTransform, error) {
-	res, err := client.Get(constants.URL_CHART_BOX_OFFICE)
+	res, err := client.Get(constants.URL_CHART_BOX_OFFICE, &client.GetOptions{})
 	if err != nil {
 		return nil, err
 	}

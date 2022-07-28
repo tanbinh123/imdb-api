@@ -67,7 +67,7 @@ Feel free to come back and check it in the future!
 | URL _(prefix: `imdb.com`)_          | Scope       | Page Title                        | Module           | Status | Tests |
 | ----------------------------------- | ----------- | --------------------------------- | ---------------- | :----: | :---: |
 | `/title/:id`                        | [Title][23] | Index                             | [index][18]      |   ✅   |  ✅   |
-| `/title/:id/mediaindex`             | Title       | Photo Gallery                     | -                |   💭   |   -   |
+| `/title/:id/mediaindex`             | [Title][23] | Photo Gallery                     | [photos][25]     |   ✅   |  ✅   |
 | `/title/:id/videogallery`           | Title       | Video Gallery                     | -                |   💭   |   -   |
 | `/title/:id/news`                   | Title       | News                              | -                |   💭   |   -   |
 | `/title/:id/fullcredits`            | Title       | Full Cast & Crew                  | -                |   💭   |   -   |
@@ -187,3 +187,4 @@ See the [`LICENSE`][5] file for more information.
 [22]: https://github.com/Scrip7/imdb-api/tree/main/pkg/chart
 [23]: https://github.com/Scrip7/imdb-api/tree/main/pkg/title
 [24]: https://github.com/Scrip7/imdb-api/tree/main/pkg/title/keywords
+[25]: https://github.com/Scrip7/imdb-api/tree/main/pkg/title/photos

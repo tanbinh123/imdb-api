@@ -11,7 +11,7 @@ import (
 )
 
 func MovieMeter() (*pipe.ChartMovieMeterTransform, error) {
-	res, err := client.Get(constants.URL_CHART_MOVIE_METER)
+	res, err := client.Get(constants.URL_CHART_MOVIE_METER, &client.GetOptions{})
 	if err != nil {
 		return nil, err
 	}

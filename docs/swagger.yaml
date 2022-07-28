@@ -491,6 +491,51 @@ definitions:
           $ref: '#/definitions/pipe.TitleKeyword'
         type: array
     type: object
+  pipe.TitlePhotoItem:
+    properties:
+      alt:
+        type: string
+        x-order: "004"
+      caption:
+        type: string
+        x-order: "005"
+      height:
+        type: integer
+        x-order: "002"
+      id:
+        type: string
+        x-order: "001"
+      thumbnail:
+        type: string
+        x-order: "006"
+      width:
+        type: integer
+        x-order: "003"
+    type: object
+  pipe.TitlePhotosMeta:
+    properties:
+      currentPage:
+        type: integer
+      hasNextPage:
+        type: boolean
+      itemsPerPage:
+        type: integer
+      totalItems:
+        type: integer
+      totalPages:
+        type: integer
+    type: object
+  pipe.TitlePhotosTransform:
+    properties:
+      meta:
+        $ref: '#/definitions/pipe.TitlePhotosMeta'
+        x-order: "002"
+      photos:
+        items:
+          $ref: '#/definitions/pipe.TitlePhotoItem'
+        type: array
+        x-order: "001"
+    type: object
   pipe.Trivia:
     properties:
       items:
@@ -723,6 +768,37 @@ paths:
           schema:
             $ref: '#/definitions/server.httpError'
       summary: Get titles keywords
+      tags:
+      - Title
+  /title/{id}/photos:
+    get:
+      parameters:
+      - description: Title ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - default: "1"
+        description: Page Number
+        format: integer
+        in: query
+        name: page
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pipe.TitlePhotosTransform'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.httpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.httpError'
+      summary: Titles photos
       tags:
       - Title
 produces:

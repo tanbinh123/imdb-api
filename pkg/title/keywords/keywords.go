@@ -13,7 +13,7 @@ import (
 
 func Keywords(id string) (*pipe.TitleKeywordsTransform, error) {
 	url := fmt.Sprintf(constants.URL_TITLE_KEYWORDS, id)
-	res, err := client.Get(url)
+	res, err := client.Get(url, &client.GetOptions{})
 	if err != nil {
 		return nil, err
 	}

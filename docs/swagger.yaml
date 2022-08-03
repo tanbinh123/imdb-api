@@ -839,6 +839,32 @@ paths:
       summary: Titles photos
       tags:
       - Title
+  /title/{id}/taglines:
+    get:
+      parameters:
+      - description: Title ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.httpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.httpError'
+      summary: Get titles taglines
+      tags:
+      - Title
 produces:
 - application/json
 swagger: "2.0"

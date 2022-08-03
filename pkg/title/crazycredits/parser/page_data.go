@@ -11,7 +11,6 @@ func GetItems(doc *goquery.Document) []*pipe.CrazyCreditItem {
 	items := []*pipe.CrazyCreditItem{}
 
 	doc.Find("div.container div.list div.row").Each(func(i int, row *goquery.Selection) {
-		// Extract title ID (starts with "tt")
 		ID, exists := row.Attr("data-cz-item")
 		if !exists {
 			return

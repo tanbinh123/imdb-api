@@ -258,6 +258,46 @@
                     }
                 }
             }
+        },
+        "/title/{id}/taglines": {
+            "get": {
+                "tags": [
+                    "Title"
+                ],
+                "summary": "Get titles taglines",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Title ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.httpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.httpError"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {

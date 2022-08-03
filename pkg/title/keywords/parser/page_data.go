@@ -10,7 +10,6 @@ func GetKeywords(doc *goquery.Document) []*pipe.TitleKeyword {
 	var items []*pipe.TitleKeyword
 
 	doc.Find("div#main table tbody tr td").Each(func(i int, td *goquery.Selection) {
-		// Extract title ID (starts with "tt")
 		keyword, exists := td.Attr("data-item-keyword")
 		if !exists {
 			return

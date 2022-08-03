@@ -76,7 +76,7 @@ Feel free to come back and check it in the future!
 | `/title/:id/companycredits`         | Title       | Company Credits                   | -                  |   💭   |   -   |
 | `/title/:id/locations`              | Title       | Filming & Production              | -                  |   💭   |   -   |
 | `/title/:id/technical`              | Title       | Technical Specifications          | -                  |   💭   |   -   |
-| `/title/:id/taglines`               | Title       | Taglines                          | -                  |   💭   |   -   |
+| `/title/:id/taglines`               | [Title][23] | Taglines                          | [taglines][28]     |   ✅   |  ✅   |
 | `/title/:id/plotsummary`            | Title       | Plot Summary                      | -                  |   💭   |   -   |
 | `/title/:id/keywords`               | [Title][23] | Plot Keywords                     | [keywords][24]     |   ✅   |  ✅   |
 | `/title/:id/parentalguide`          | Title       | Parents Guide                     | -                  |   💭   |   -   |
@@ -192,3 +192,4 @@ See the [`LICENSE`][5] file for more information.
 [25]: https://github.com/Scrip7/imdb-api/tree/main/pkg/title/photos
 [26]: https://help.imdb.com/article/imdb/general-information/can-i-use-imdb-data-in-my-software/G5JTRESSHJBBHTGX#
 [27]: https://github.com/Scrip7/imdb-api/tree/main/pkg/title/crazycredits
+[28]: https://github.com/Scrip7/imdb-api/tree/main/pkg/title/taglines

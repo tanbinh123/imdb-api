@@ -53,6 +53,7 @@ func GetFiberApp() *fiber.App {
 	t.Get("/keywords", handler.TitleKeywords)
 	t.Get("/photos", handler.TitlePhotos)
 	t.Get("/crazycredits", handler.TitleCrazyCredits)
+	t.Get("/taglines", handler.TitleTaglines)
 
 	c := app.Group("/chart/")
 	c.Get("box-office", handler.ChartBoxOffice)

@@ -12,5 +12,5 @@ func TestCrazyCredits(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
 
-	assert.GreaterOrEqual(t, len(res.Items), 2) // Items should be an empty array
+	assert.GreaterOrEqual(t, len(res.Items), 2) // Items should not be an empty array
 }

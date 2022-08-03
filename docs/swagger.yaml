@@ -139,6 +139,13 @@ definitions:
         type: array
         x-order: "001"
     type: object
+  pipe.CrazyCreditItem:
+    properties:
+      id:
+        type: string
+      text:
+        type: string
+    type: object
   pipe.ExternalReviews:
     properties:
       total:
@@ -475,6 +482,13 @@ definitions:
       text:
         type: string
     type: object
+  pipe.TitleCrazyCreditsTransform:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/pipe.CrazyCreditItem'
+        type: array
+    type: object
   pipe.TitleKeyword:
     properties:
       id:
@@ -744,6 +758,30 @@ paths:
           schema:
             $ref: '#/definitions/server.httpError'
       summary: Get an IMDb title by ID
+      tags:
+      - Title
+  /title/{id}/crazycredits:
+    get:
+      parameters:
+      - description: Title ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pipe.TitleCrazyCreditsTransform'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.httpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.httpError'
+      summary: Get titles crazy credits
       tags:
       - Title
   /title/{id}/keywords:

@@ -149,6 +149,43 @@ const docTemplate = `{
                 }
             }
         },
+        "/title/{id}/crazycredits": {
+            "get": {
+                "tags": [
+                    "Title"
+                ],
+                "summary": "Get titles crazy credits",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Title ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pipe.TitleCrazyCreditsTransform"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.httpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.httpError"
+                        }
+                    }
+                }
+            }
+        },
         "/title/{id}/keywords": {
             "get": {
                 "tags": [
@@ -434,6 +471,17 @@ const docTemplate = `{
                         "$ref": "#/definitions/pipe.ChartMovieMeterItem"
                     },
                     "x-order": "001"
+                }
+            }
+        },
+        "pipe.CrazyCreditItem": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
                 }
             }
         },
@@ -937,6 +985,17 @@ const docTemplate = `{
                 },
                 "text": {
                     "type": "string"
+                }
+            }
+        },
+        "pipe.TitleCrazyCreditsTransform": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pipe.CrazyCreditItem"
+                    }
                 }
             }
         },

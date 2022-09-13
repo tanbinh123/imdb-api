@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/gofiber/fiber/v2 v2.37.1
-	github.com/gofiber/swagger v0.1.1
+	github.com/gofiber/swagger v0.1.2
 	github.com/gojek/heimdall/v7 v7.0.2
 	github.com/iancoleman/strcase v0.2.0
 	github.com/rs/zerolog v1.28.0

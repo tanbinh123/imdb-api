@@ -55,7 +55,7 @@ require (
 require (
 	github.com/PuerkitoBio/goquery v1.8.0
 	github.com/andybalholm/brotli v1.0.4 // indirect
-	github.com/goccy/go-json v0.9.11
+	github.com/goccy/go-json v0.10.0
 	github.com/gosimple/slug v1.13.1
 	github.com/klauspost/compress v1.15.9 // indirect
 	github.com/lukasbob/srcset v0.0.0-20190730101422-86b742e617f3

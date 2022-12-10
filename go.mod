@@ -3,7 +3,7 @@ module github.com/Scrip7/imdb-api
 go 1.18
 
 require (
-	github.com/gofiber/fiber/v2 v2.39.0
+	github.com/gofiber/fiber/v2 v2.40.1
 	github.com/gofiber/swagger v0.1.7
 	github.com/gojek/heimdall/v7 v7.0.2
 	github.com/iancoleman/strcase v0.2.0
@@ -60,7 +60,7 @@ require (
 	github.com/klauspost/compress v1.15.9 // indirect
 	github.com/lukasbob/srcset v0.0.0-20190730101422-86b742e617f3
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.40.0 // indirect
+	github.com/valyala/fasthttp v1.41.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/sys v0.0.0-20220908164124-27713097b956 // indirect
 )
